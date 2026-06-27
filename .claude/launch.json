@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "color-palette",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3333", "/Users/evanchen/Desktop/网站"],
+      "port": 3333
+    }
+  ]
+}
