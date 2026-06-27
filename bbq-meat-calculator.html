@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BBQ Meat Calculator — How Much Meat Per Person for a BBQ</title>
+  <meta name="description" content="Free BBQ meat calculator. Enter your guest count and meat types to get exact amounts to buy. Accounts for cooking shrinkage. Perfect for brisket, ribs, pulled pork, chicken, and more.">
+  <meta name="keywords" content="bbq meat calculator, how much meat per person bbq, brisket calculator, pulled pork calculator, how much food for a bbq, bbq food calculator">
+  <link rel="canonical" href="https://toolchive.com/bbq-meat-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/bbq-meat-calculator">
+  <meta property="og:title" content="BBQ Meat Calculator — How Much Meat Per Person">
+  <meta property="og:description" content="Calculate exactly how much BBQ meat to buy for your cookout. Accounts for cooking shrinkage automatically.">
+  <meta property="og:image" content="https://toolchive.com/og-bbq.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BBQ Meat Calculator">
+  <meta name="twitter:description" content="Calculate exactly how much BBQ meat to buy for your cookout.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BBQ Meat Calculator",
+    "description": "Calculate how much meat to buy for a BBQ based on number of guests and meat types.",
+    "url": "https://toolchive.com/bbq-meat-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf8f5;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #d4521a;
+      --accent-bg: #fff4ef;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a18;
+        --surface: #242422;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #e8693a;
+        --accent-bg: #2a1e18;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .site-nav {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .site-nav a { color: var(--text-muted); }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .field-row label {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 120px;
+    }
+
+    .field-row input[type="number"] {
+      width: 90px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .appetite-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .appetite-btn {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .appetite-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .unit-toggle {
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .unit-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .meats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .meat-card {
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .meat-card:hover { border-color: var(--accent); }
+
+    .meat-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .meat-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .meat-emoji { font-size: 18px; }
+
+    .meat-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .meat-note {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .checkmark {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: transparent;
+      transition: all 0.15s;
+    }
+
+    .meat-card.selected .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--border);
+      gap: 12px;
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-emoji { font-size: 22px; width: 32px; text-align: center; }
+
+    .result-name {
+      font-size: 14px;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .result-detail {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .result-amount {
+      text-align: right;
+    }
+
+    .result-weight {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-unit {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 0;
+      margin-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .total-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+
+    .support-row {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 24px;
+    }
+
+    .about {
+      width: 100%;
+      max-width: 640px;
+      margin-top: 32px;
+    }
+
+    .about h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .about h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .meat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .meat-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .meat-table td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .meat-table tr:last-child td { border-bottom: none; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🔥 BBQ Meat Calculator</h1>
+    <p>Enter your guest count, select your meats, and get exact amounts to buy — including cooking shrinkage.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Guests & appetite</div>
+
+    <div class="field-row">
+      <label>Number of guests</label>
+      <input type="number" id="guests" value="10" min="1" max="500">
+    </div>
+
+    <div class="field-row">
+      <label>Appetite</label>
+      <div class="appetite-btns">
+        <button class="appetite-btn" data-v="light" onclick="setAppetite('light')">Light</button>
+        <button class="appetite-btn active" data-v="normal" onclick="setAppetite('normal')">Normal</button>
+        <button class="appetite-btn" data-v="big" onclick="setAppetite('big')">Big eaters</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Unit</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-lbs" onclick="setUnit('lbs')">lbs</button>
+        <button class="unit-btn" id="btn-kg" onclick="setUnit('kg')">kg</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Select meats</div>
+    <div class="meats-grid" id="meatsGrid"></div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div class="card-title">How much to buy (raw weight)</div>
+    <div id="resultsList"><div class="empty-state">Select at least one meat above to see results.</div></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">
+      ☕ Support this free tool
+    </a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate BBQ meat per person</h2>
+    <p>
+      A common rule of thumb is <strong>1/3 lb (150g) of cooked meat per person</strong> for a mixed BBQ with sides.
+      If meat is the main event with fewer sides, go up to <strong>1/2 lb (225g) per person</strong>.
+      This calculator uses those baselines and adjusts for cooking shrinkage — so you buy the right amount of <em>raw</em> meat.
+    </p>
+
+    <h3>Why raw weight matters</h3>
+    <p>
+      Meat loses 25–40% of its weight during cooking due to moisture and fat loss.
+      Brisket and pulled pork shrink the most (around 40%), while burgers and sausages shrink less.
+      If you buy based on cooked weight targets without accounting for this, you'll run short.
+    </p>
+
+    <h3>Raw weight reference table</h3>
+    <table class="meat-table">
+      <thead>
+        <tr>
+          <th>Meat</th>
+          <th>Cooked per person</th>
+          <th>Shrinkage</th>
+          <th>Raw per person</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🥩 Brisket</td><td>0.33 lb</td><td>~40%</td><td>~0.55 lb</td></tr>
+        <tr><td>🍖 Ribs (spare)</td><td>0.5 lb</td><td>~35%</td><td>~0.75 lb</td></tr>
+        <tr><td>🐷 Pulled Pork</td><td>0.33 lb</td><td>~40%</td><td>~0.55 lb</td></tr>
+        <tr><td>🍗 Chicken</td><td>0.33 lb</td><td>~30%</td><td>~0.47 lb</td></tr>
+        <tr><td>🍔 Burgers</td><td>0.33 lb</td><td>~25%</td><td>~0.44 lb</td></tr>
+        <tr><td>🌭 Sausages</td><td>0.25 lb</td><td>~20%</td><td>~0.31 lb</td></tr>
+        <tr><td>🦐 Shrimp</td><td>0.25 lb</td><td>~15%</td><td>~0.29 lb</td></tr>
+        <tr><td>🥩 Steak</td><td>0.5 lb</td><td>~30%</td><td>~0.71 lb</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Tips for a successful BBQ</h3>
+    <p>
+      Always buy 10–15% extra as a buffer — it's better to have leftovers than run out.
+      For large groups (20+ people), choose low-maintenance meats like pulled pork or brisket that can cook unattended.
+      Ribs are crowd-pleasers but require more cooking space per pound.
+    </p>
+    <p>
+      If you have a mix of adults and kids, count two children as one adult for meat planning purposes.
+      Heavy sides (potato salad, coleslaw, corn) reduce how much meat people eat by about 20%.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free BBQ calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    const MEATS = [
+      { id: 'brisket',    emoji: '🥩', name: 'Brisket',      note: 'Low & slow',     cookedPerPerson: 0.33, shrink: 0.40 },
+      { id: 'ribs',       emoji: '🍖', name: 'Spare Ribs',   note: 'Per person',     cookedPerPerson: 0.50, shrink: 0.35 },
+      { id: 'pulled',     emoji: '🐷', name: 'Pulled Pork',  note: 'Crowd favorite', cookedPerPerson: 0.33, shrink: 0.40 },
+      { id: 'chicken',    emoji: '🍗', name: 'Chicken',      note: 'Pieces',         cookedPerPerson: 0.33, shrink: 0.30 },
+      { id: 'burgers',    emoji: '🍔', name: 'Burgers',      note: '1–2 patties',    cookedPerPerson: 0.33, shrink: 0.25 },
+      { id: 'sausages',   emoji: '🌭', name: 'Sausages',     note: '1–2 links',      cookedPerPerson: 0.25, shrink: 0.20 },
+      { id: 'shrimp',     emoji: '🦐', name: 'Shrimp',       note: 'Skewers',        cookedPerPerson: 0.25, shrink: 0.15 },
+      { id: 'steak',      emoji: '🥩', name: 'Steak',        note: 'Per person',     cookedPerPerson: 0.50, shrink: 0.30 },
+    ];
+
+    const APPETITE = { light: 0.75, normal: 1.0, big: 1.35 };
+
+    let selected = new Set(['brisket', 'burgers', 'sausages']);
+    let appetite = 'normal';
+    let unit = 'lbs';
+
+    function setAppetite(v) {
+      appetite = v;
+      document.querySelectorAll('.appetite-btn').forEach(b => b.classList.toggle('active', b.dataset.v === v));
+      calculate();
+    }
+
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('btn-lbs').classList.toggle('active', u === 'lbs');
+      document.getElementById('btn-kg').classList.toggle('active', u === 'kg');
+      calculate();
+    }
+
+    function fmt(lbs) {
+      if (unit === 'lbs') return { val: lbs.toFixed(1), unit: 'lbs' };
+      return { val: (lbs * 0.453592).toFixed(1), unit: 'kg' };
+    }
+
+    function renderMeats() {
+      document.getElementById('meatsGrid').innerHTML = MEATS.map(m => `
+        <div class="meat-card ${selected.has(m.id) ? 'selected' : ''}" onclick="toggleMeat('${m.id}')">
+          <div class="meat-card-header">
+            <span class="meat-emoji">${m.emoji}</span>
+            <span class="meat-name">${m.name}</span>
+            <span class="checkmark">✓</span>
+          </div>
+          <div class="meat-note">${m.note}</div>
+        </div>
+      `).join('');
+    }
+
+    function toggleMeat(id) {
+      selected.has(id) ? selected.delete(id) : selected.add(id);
+      renderMeats();
+      calculate();
+    }
+
+    function calculate() {
+      const guests = Math.max(1, parseInt(document.getElementById('guests').value) || 10);
+      const mult = APPETITE[appetite];
+      const items = MEATS.filter(m => selected.has(m.id));
+
+      if (items.length === 0) {
+        document.getElementById('resultsList').innerHTML = '<div class="empty-state">Select at least one meat above to see results.</div>';
+        return;
+      }
+
+      let totalLbs = 0;
+      const rows = items.map(m => {
+        const rawLbs = (m.cookedPerPerson * mult * guests) / (1 - m.shrink);
+        totalLbs += rawLbs;
+        const f = fmt(rawLbs);
+        return `
+          <div class="result-row">
+            <span class="result-emoji">${m.emoji}</span>
+            <div style="flex:1">
+              <div class="result-name">${m.name}</div>
+              <div class="result-detail">${(m.cookedPerPerson * mult).toFixed(2)} lb cooked/person · ${Math.round(m.shrink * 100)}% shrinkage</div>
+            </div>
+            <div class="result-amount">
+              <div class="result-weight">${f.val}</div>
+              <div class="result-unit">${f.unit} raw</div>
+            </div>
+          </div>
+        `;
+      });
+
+      const tot = fmt(totalLbs);
+      const buffer = fmt(totalLbs * 1.1);
+
+      document.getElementById('resultsList').innerHTML = rows.join('') + `
+        <div class="total-row">
+          <div>
+            <div class="total-label">Total raw meat</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">+10% buffer: ${buffer.val} ${buffer.unit}</div>
+          </div>
+          <div class="total-value">${tot.val} ${tot.unit}</div>
+        </div>
+      `;
+    }
+
+    document.getElementById('guests').addEventListener('input', calculate);
+
+    renderMeats();
+    calculate();
+  </script>
+</body>
+</html>
