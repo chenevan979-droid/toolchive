@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Gravel Calculator — How Much Gravel Do I Need?</title>
+  <meta name="description" content="Free gravel calculator. Enter your area and depth to find out how much gravel, crushed stone, sand, or topsoil you need — in cubic yards, tons, bags, and cost. Works for driveways, paths, and patios.">
+  <meta name="keywords" content="gravel calculator, how much gravel do i need, crushed stone calculator, pea gravel calculator, gravel coverage calculator, gravel cost calculator, gravel tonnage calculator, how many yards of gravel">
+  <link rel="canonical" href="https://toolchive.com/gravel-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/gravel-calculator">
+  <meta property="og:title" content="Gravel Calculator — How Much Gravel Do I Need?">
+  <meta property="og:description" content="Calculate exactly how much gravel, stone, or sand to buy — in cubic yards, tons, bags, and total cost.">
+  <meta property="og:image" content="https://toolchive.com/og-gravel.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gravel Calculator">
+  <meta name="twitter:description" content="Calculate exactly how much gravel, stone, or sand to buy.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Gravel Calculator",
+    "description": "Calculate how much gravel, crushed stone, sand, or topsoil you need based on area and depth.",
+    "url": "https://toolchive.com/gravel-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f6f7f5;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #5a7d4f;
+      --accent-bg: #eef3ec;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #181a17;
+        --surface: #222421;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #7da06f;
+        --accent-bg: #1e261b;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .site-nav {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .site-nav a { color: var(--text-muted); }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 120px;
+    }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: -8px;
+    }
+
+    .unit-toggle {
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .unit-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .shape-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .shape-btn {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .shape-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .material-card {
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .material-card:hover { border-color: var(--accent); }
+
+    .material-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .material-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .material-emoji { font-size: 18px; }
+
+    .material-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .material-note {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .checkmark {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: transparent;
+      transition: all 0.15s;
+    }
+
+    .material-card.selected .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-hero-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .result-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .cost-value { color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+
+    .support-row {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 24px;
+    }
+
+    .about {
+      width: 100%;
+      max-width: 640px;
+      margin-top: 32px;
+    }
+
+    .about h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .about h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .ref-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🪨 Gravel Calculator</h1>
+    <p>Enter your area and depth to find out exactly how much gravel, stone, sand, or topsoil you need — in cubic yards, tons, bags, and total cost.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Area & depth</div>
+
+    <div class="field-row">
+      <label>Units</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet / inches</button>
+        <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters / cm</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Shape</label>
+      <div class="shape-btns">
+        <button class="shape-btn active" data-s="rect" onclick="setShape('rect')">Rectangle</button>
+        <button class="shape-btn" data-s="circle" onclick="setShape('circle')">Circle</button>
+      </div>
+    </div>
+
+    <div id="rectFields">
+      <div class="field-row">
+        <label>Length</label>
+        <input type="number" id="length" value="20" min="0" step="0.1">
+        <span class="input-suffix lenUnit">ft</span>
+      </div>
+      <div class="field-row">
+        <label>Width</label>
+        <input type="number" id="width" value="10" min="0" step="0.1">
+        <span class="input-suffix lenUnit">ft</span>
+      </div>
+    </div>
+
+    <div id="circleFields" style="display:none">
+      <div class="field-row">
+        <label>Diameter</label>
+        <input type="number" id="diameter" value="12" min="0" step="0.1">
+        <span class="input-suffix lenUnit">ft</span>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Depth</label>
+      <input type="number" id="depth" value="3" min="0" step="0.1">
+      <span class="input-suffix depthUnit">in</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Material</div>
+    <div class="materials-grid" id="materialsGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Price (optional)</div>
+    <div class="field-row">
+      <label>Price per <span id="priceUnitLabel">ton</span></label>
+      <input type="number" id="price" value="" min="0" step="1" placeholder="0">
+      <span class="input-suffix">$</span>
+    </div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">
+      ☕ Support this free tool
+    </a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate how much gravel you need</h2>
+    <p>
+      The math is simple: <strong>volume = area × depth</strong>. Measure the length and width of your
+      area, pick a depth, and multiply. This calculator does it for you and converts the result into
+      the units suppliers actually use — <strong>cubic yards, tons, and 0.5 cubic foot bags</strong> —
+      plus an estimated cost so you don't overspend at the yard.
+    </p>
+
+    <h3>The formula, step by step</h3>
+    <p>
+      1. <strong>Area</strong> = length × width (in feet) for a rectangle, or π × radius² for a circle.<br>
+      2. <strong>Volume in cubic feet</strong> = area × (depth in inches ÷ 12).<br>
+      3. <strong>Cubic yards</strong> = cubic feet ÷ 27 (suppliers sell bulk gravel by the yard).<br>
+      4. <strong>Tons</strong> = cubic yards × material density (gravel is roughly 1.4 tons per yard).
+    </p>
+
+    <h3>How deep should gravel be?</h3>
+    <p>
+      For a walkable path, 2 inches is usually enough. For a <strong>driveway</strong>, aim for
+      4 inches over a compacted base — more if heavy vehicles use it. Decorative ground cover and
+      drainage beds typically use 2–3 inches. Going deeper than you need is the most common way
+      people waste money on gravel.
+    </p>
+
+    <h3>Material density reference</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Approx. weight</th>
+          <th>Common use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🪨 Pea Gravel</td><td>~1.3 tons/yd³</td><td>Paths, patios</td></tr>
+        <tr><td>🧱 Crushed Stone</td><td>~1.4 tons/yd³</td><td>Driveways, base</td></tr>
+        <tr><td>⚪ River Rock</td><td>~1.4 tons/yd³</td><td>Drainage, decor</td></tr>
+        <tr><td>🏖️ Sand</td><td>~1.35 tons/yd³</td><td>Paver base, fill</td></tr>
+        <tr><td>🟤 Topsoil</td><td>~1.1 tons/yd³</td><td>Gardens, lawns</td></tr>
+        <tr><td>🍂 Mulch</td><td>~0.5 tons/yd³</td><td>Garden beds</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Bagged vs. bulk gravel</h3>
+    <p>
+      Bagged gravel (sold in 0.5 cubic foot bags) is convenient for small jobs but costs much more
+      per cubic yard. As a rough rule, once you need more than about 10–15 bags, ordering bulk
+      delivery by the cubic yard or ton is cheaper. Always add about <strong>5–10% extra</strong>
+      to cover compaction and uneven ground.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free gravel calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    // density in US tons per cubic yard
+    const MATERIALS = [
+      { id: 'pea',     emoji: '🪨', name: 'Pea Gravel',    note: 'Paths, patios',    density: 1.3 },
+      { id: 'crushed', emoji: '🧱', name: 'Crushed Stone', note: 'Driveways, base',  density: 1.4 },
+      { id: 'river',   emoji: '⚪', name: 'River Rock',    note: 'Drainage, decor',  density: 1.4 },
+      { id: 'sand',    emoji: '🏖️', name: 'Sand',          note: 'Paver base, fill', density: 1.35 },
+      { id: 'topsoil', emoji: '🟤', name: 'Topsoil',       note: 'Gardens, lawns',   density: 1.1 },
+      { id: 'mulch',   emoji: '🍂', name: 'Mulch',         note: 'Garden beds',      density: 0.5 },
+    ];
+
+    let unit = 'imperial';   // imperial | metric
+    let shape = 'rect';      // rect | circle
+    let material = 'crushed';
+
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      const len = u === 'imperial' ? 'ft' : 'm';
+      const dep = u === 'imperial' ? 'in' : 'cm';
+      document.querySelectorAll('.lenUnit').forEach(e => e.textContent = len);
+      document.querySelectorAll('.depthUnit').forEach(e => e.textContent = dep);
+      document.getElementById('priceUnitLabel').textContent = u === 'imperial' ? 'ton' : 'tonne';
+      calculate();
+    }
+
+    function setShape(s) {
+      shape = s;
+      document.querySelectorAll('.shape-btn').forEach(b => b.classList.toggle('active', b.dataset.s === s));
+      document.getElementById('rectFields').style.display = s === 'rect' ? '' : 'none';
+      document.getElementById('circleFields').style.display = s === 'circle' ? '' : 'none';
+      calculate();
+    }
+
+    function renderMaterials() {
+      document.getElementById('materialsGrid').innerHTML = MATERIALS.map(m => `
+        <div class="material-card ${material === m.id ? 'selected' : ''}" onclick="selectMaterial('${m.id}')">
+          <div class="material-card-header">
+            <span class="material-emoji">${m.emoji}</span>
+            <span class="material-name">${m.name}</span>
+            <span class="checkmark">✓</span>
+          </div>
+          <div class="material-note">${m.note}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectMaterial(id) {
+      material = id;
+      renderMaterials();
+      calculate();
+    }
+
+    function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
+
+    function calculate() {
+      // get area in square feet and depth in feet (convert metric inputs first)
+      const toFt = unit === 'imperial' ? 1 : 3.28084;      // m -> ft
+      const depthVal = num('depth');
+      const depthFt = unit === 'imperial' ? depthVal / 12 : (depthVal / 100) * 3.28084; // in->ft or cm->m->ft
+
+      let areaSqFt;
+      if (shape === 'rect') {
+        areaSqFt = num('length') * toFt * num('width') * toFt;
+      } else {
+        const r = (num('diameter') * toFt) / 2;
+        areaSqFt = Math.PI * r * r;
+      }
+
+      const cubicFeet = areaSqFt * depthFt;
+      const cubicYards = cubicFeet / 27;
+      const mat = MATERIALS.find(m => m.id === material);
+      const usTons = cubicYards * mat.density;
+      const bags = Math.ceil(cubicFeet / 0.5);
+
+      // metric conversions
+      const cubicMeters = cubicFeet * 0.0283168;
+      const tonnes = usTons * 0.907185;
+
+      let volLine, weightLine, weightForCost, costUnitWord;
+      if (unit === 'imperial') {
+        volLine = `${cubicYards.toFixed(2)} yd³`;
+        weightLine = `${usTons.toFixed(2)} tons`;
+        weightForCost = usTons;
+        costUnitWord = 'ton';
+      } else {
+        volLine = `${cubicMeters.toFixed(2)} m³`;
+        weightLine = `${tonnes.toFixed(2)} tonnes`;
+        weightForCost = tonnes;
+        costUnitWord = 'tonne';
+      }
+
+      const price = num('price');
+      let costRow = '';
+      if (price > 0) {
+        const cost = price * weightForCost;
+        costRow = `
+          <div class="result-row">
+            <span class="result-label">Estimated cost</span>
+            <span class="result-value cost-value">$${cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+          </div>`;
+      }
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${volLine}</div>
+          <div class="result-hero-label">${mat.emoji} ${mat.name} needed</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Weight</span>
+          <span class="result-value">${weightLine}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Volume (cubic feet)</span>
+          <span class="result-value">${cubicFeet.toFixed(1)} ft³</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Bags (0.5 ft³ each)</span>
+          <span class="result-value">${bags.toLocaleString()}</span>
+        </div>
+        ${costRow}
+      `;
+    }
+
+    ['length','width','diameter','depth','price'].forEach(id =>
+      document.getElementById(id).addEventListener('input', calculate)
+    );
+
+    renderMaterials();
+    calculate();
+  </script>
+</body>
+</html>
