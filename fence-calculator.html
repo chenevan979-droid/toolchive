@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fence Calculator — Fence Cost Estimator 2026</title>
+  <meta name="description" content="Free fence cost calculator. Enter your fence length and material to get an instant cost estimate for wood, vinyl, chain link, aluminum, and split rail fences. Includes posts, rails, and labor.">
+  <meta name="keywords" content="fence calculator, fence cost estimator, how much does a fence cost, wood fence cost calculator, vinyl fence cost, chain link fence calculator, fence cost per foot, fence installation cost">
+  <link rel="canonical" href="https://toolchive.com/fence-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/fence-calculator">
+  <meta property="og:title" content="Fence Calculator — Fence Cost Estimator 2026">
+  <meta property="og:description" content="Estimate your fence cost by material and length — wood, vinyl, chain link, aluminum, and more.">
+  <meta property="og:image" content="https://toolchive.com/og-fence.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fence Calculator">
+  <meta name="twitter:description" content="Estimate your fence cost by material and length.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Fence Cost Calculator",
+    "description": "Estimate fence installation cost by material type and total length.",
+    "url": "https://toolchive.com/fence-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f6f5;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #3d6b45;
+      --accent-bg: #eaf2eb;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171a17;
+        --surface: #212421;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #6a9e72;
+        --accent-bg: #192119;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+    .site-nav a { color: var(--text-muted); }
+
+    header { text-align: center; margin-bottom: 40px; max-width: 600px; }
+    header h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+    header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label { font-size: 14px; font-weight: 500; min-width: 140px; }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix { font-size: 13px; color: var(--text-muted); margin-left: -8px; }
+
+    .toggle-group {
+      display: flex;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .toggle-btn {
+      font-size: 13px;
+      padding: 6px 14px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn.active { background: var(--accent); color: #fff; }
+
+    /* Material cards */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 10px;
+    }
+
+    .mat-card {
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .mat-card:hover { border-color: var(--accent); }
+
+    .mat-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .mat-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .mat-emoji { font-size: 20px; }
+    .mat-name { font-size: 14px; font-weight: 600; }
+    .mat-range { font-size: 11px; color: var(--text-muted); }
+
+    .checkmark {
+      margin-left: auto;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: transparent;
+      transition: all 0.15s;
+    }
+
+    .mat-card.selected .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Results */
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-range {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-hero-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+    .result-label { font-size: 14px; color: var(--text-muted); }
+    .result-value { font-size: 17px; font-weight: 600; }
+
+    .disclaimer {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+    .support-row { display: flex; justify-content: center; margin: 8px 0 24px; }
+
+    .about { width: 100%; max-width: 640px; margin-top: 32px; }
+    .about h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .about h3 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+    .about p { font-size: 14px; line-height: 1.75; color: var(--text-muted); margin-bottom: 12px; }
+
+    .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .ref-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--text-muted); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+    .ref-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🪵 Fence Calculator</h1>
+    <p>Enter your fence length and choose a material to get an instant cost estimate — materials and labor combined, based on 2026 US averages.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Fence dimensions</div>
+
+    <div class="field-row">
+      <label>Total fence length</label>
+      <input type="number" id="length" value="150" min="1" step="1" oninput="calculate()">
+      <span class="input-suffix">linear ft</span>
+    </div>
+
+    <div class="field-row">
+      <label>Fence height</label>
+      <div class="toggle-group" id="heightGroup">
+        <button class="toggle-btn active" data-h="4" onclick="setHeight(4)">4 ft</button>
+        <button class="toggle-btn" data-h="6" onclick="setHeight(6)">6 ft</button>
+        <button class="toggle-btn" data-h="8" onclick="setHeight(8)">8 ft</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Gates</label>
+      <input type="number" id="gates" value="1" min="0" step="1" oninput="calculate()">
+      <span class="input-suffix">× ~$200–400 ea</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Fence material</div>
+    <div class="materials-grid" id="materialsGrid"></div>
+  </div>
+
+  <div class="results-card">
+    <div id="resultsBody"></div>
+    <p class="disclaimer">Estimates based on 2026 US national averages including materials and labor. Actual costs vary by region, terrain, and contractor. Always get 2–3 quotes.</p>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>How much does a fence cost?</h2>
+    <p>
+      Fence costs vary widely by material, height, and region. The total includes
+      <strong>materials</strong> (boards, posts, rails, hardware) and <strong>labor</strong>
+      (post-setting, assembly, cleanup). On average, homeowners pay between
+      <strong>$15 and $60 per linear foot</strong> installed, with wood and chain link on the
+      lower end and vinyl or aluminum on the higher end.
+    </p>
+
+    <h3>Cost by fence material (2026 US averages)</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Material</th><th>Cost per linear ft</th><th>Lifespan</th><th>Maintenance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>🪵 Wood (pine)</td><td>$17–$45</td><td>15–20 yrs</td><td>Stain every 2–3 yrs</td></tr>
+        <tr><td>🤍 Vinyl / PVC</td><td>$25–$55</td><td>20–30 yrs</td><td>Low — hose off</td></tr>
+        <tr><td>⛓️ Chain Link</td><td>$12–$28</td><td>20–30 yrs</td><td>Very low</td></tr>
+        <tr><td>🔘 Aluminum</td><td>$25–$45</td><td>20–30 yrs</td><td>Very low</td></tr>
+        <tr><td>🪨 Split Rail</td><td>$10–$22</td><td>10–20 yrs</td><td>Low</td></tr>
+        <tr><td>🔩 Wrought Iron</td><td>$24–$55</td><td>50+ yrs</td><td>Paint every 5 yrs</td></tr>
+      </tbody>
+    </table>
+
+    <h3>How many posts and rails do you need?</h3>
+    <p>
+      Fence posts are typically spaced <strong>6–8 feet apart</strong>. A 150-foot fence needs
+      roughly 20–25 posts. Each section has 2–3 rails depending on height. This calculator
+      factors post spacing into the material estimate automatically.
+    </p>
+
+    <h3>When to get a permit</h3>
+    <p>
+      Most municipalities require a permit for fences over 6 feet tall, fences in front yards,
+      or fences near property lines. Permits typically cost $50–$200. Always check local zoning
+      rules and mark your property lines before digging post holes.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free fence cost calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    // Cost per linear foot: [low, high] for 6ft height baseline
+    // Height multipliers applied separately
+    const MATERIALS = [
+      { id: 'wood',     emoji: '🪵', name: 'Wood (Pine)',   range: '$17–$45/ft',  low: 17, high: 45, heightMult: { 4: 0.75, 6: 1.0, 8: 1.25 } },
+      { id: 'vinyl',    emoji: '🤍', name: 'Vinyl / PVC',   range: '$25–$55/ft',  low: 25, high: 55, heightMult: { 4: 0.8,  6: 1.0, 8: 1.3  } },
+      { id: 'chainlink',emoji: '⛓️', name: 'Chain Link',    range: '$12–$28/ft',  low: 12, high: 28, heightMult: { 4: 0.8,  6: 1.0, 8: 1.2  } },
+      { id: 'aluminum', emoji: '🔘', name: 'Aluminum',      range: '$25–$45/ft',  low: 25, high: 45, heightMult: { 4: 0.8,  6: 1.0, 8: 1.2  } },
+      { id: 'splitrail',emoji: '🪨', name: 'Split Rail',    range: '$10–$22/ft',  low: 10, high: 22, heightMult: { 4: 0.9,  6: 1.0, 8: 1.15 } },
+      { id: 'iron',     emoji: '🔩', name: 'Wrought Iron',  range: '$24–$55/ft',  low: 24, high: 55, heightMult: { 4: 0.8,  6: 1.0, 8: 1.3  } },
+    ];
+
+    const GATE_LOW  = 200;
+    const GATE_HIGH = 400;
+
+    let selected = 'wood';
+    let height = 6;
+
+    function setHeight(h) {
+      height = h;
+      document.querySelectorAll('#heightGroup .toggle-btn').forEach(b => b.classList.toggle('active', +b.dataset.h === h));
+      calculate();
+    }
+
+    function renderMaterials() {
+      document.getElementById('materialsGrid').innerHTML = MATERIALS.map(m => `
+        <div class="mat-card ${selected === m.id ? 'selected' : ''}" onclick="selectMat('${m.id}')">
+          <div class="mat-header">
+            <span class="mat-emoji">${m.emoji}</span>
+            <span class="mat-name">${m.name}</span>
+            <span class="checkmark">✓</span>
+          </div>
+          <div class="mat-range">${m.range}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectMat(id) {
+      selected = id;
+      renderMaterials();
+      calculate();
+    }
+
+    function fmt(n) { return '$' + n.toLocaleString(undefined, { maximumFractionDigits: 0 }); }
+
+    function calculate() {
+      const len   = Math.max(1, parseFloat(document.getElementById('length').value) || 150);
+      const gates = Math.max(0, parseInt(document.getElementById('gates').value) || 0);
+      const mat   = MATERIALS.find(m => m.id === selected);
+      const hMult = mat.heightMult[height] || 1;
+
+      const lowPerFt  = mat.low  * hMult;
+      const highPerFt = mat.high * hMult;
+
+      const fenceLow  = len * lowPerFt  + gates * GATE_LOW;
+      const fenceHigh = len * highPerFt + gates * GATE_HIGH;
+
+      // rough post count (8ft spacing)
+      const posts = Math.ceil(len / 8) + 1;
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-range">${fmt(fenceLow)} – ${fmt(fenceHigh)}</div>
+          <div class="result-hero-label">${mat.emoji} ${mat.name} · ${height} ft tall · ${len} linear ft</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Cost per linear foot</span>
+          <span class="result-value">${fmt(lowPerFt)} – ${fmt(highPerFt)}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Fence panels / sections</span>
+          <span class="result-value">~${Math.ceil(len / 8)} sections</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Posts needed (~8 ft spacing)</span>
+          <span class="result-value">~${posts} posts</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Gates (${gates})</span>
+          <span class="result-value">${gates > 0 ? fmt(gates * GATE_LOW) + ' – ' + fmt(gates * GATE_HIGH) : '—'}</span>
+        </div>
+      `;
+    }
+
+    renderMaterials();
+    calculate();
+  </script>
+</body>
+</html>
