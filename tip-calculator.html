@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tip Calculator — How Much to Tip</title>
+  <meta name="description" content="Free tip calculator. Enter your bill and choose a tip percentage to instantly see the tip amount, total, and split per person. Works for restaurants, delivery, hotels, and more.">
+  <meta name="keywords" content="tip calculator, how much to tip, tip calculator split, restaurant tip calculator, tip percentage calculator, bill split calculator, tip and split calculator, gratuity calculator">
+  <link rel="canonical" href="https://toolchive.com/tip-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/tip-calculator">
+  <meta property="og:title" content="Tip Calculator — How Much to Tip">
+  <meta property="og:description" content="Calculate tip and split the bill instantly. Works for restaurants, delivery, hotels, and any service.">
+  <meta property="og:image" content="https://toolchive.com/og-tip.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tip Calculator">
+  <meta name="twitter:description" content="Calculate tip and split the bill instantly.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Tip Calculator",
+    "description": "Calculate tip amount and split the bill between multiple people.",
+    "url": "https://toolchive.com/tip-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f7f5;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #2a7d5a;
+      --accent-bg: #e6f4ed;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161a17;
+        --surface: #202421;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #4aad7a;
+        --accent-bg: #162118;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+    .site-nav a { color: var(--text-muted); }
+
+    header { text-align: center; margin-bottom: 40px; max-width: 600px; }
+    header h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+    header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 560px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Bill input */
+    .bill-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg);
+      width: fit-content;
+    }
+
+    .bill-prefix {
+      font-size: 22px;
+      font-weight: 600;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+
+    #billInput {
+      font-size: 32px;
+      font-weight: 700;
+      width: 180px;
+      border: none;
+      background: var(--bg);
+      color: var(--text);
+      padding: 10px 14px 10px 0;
+      outline: none;
+    }
+
+    /* Tip presets */
+    .tip-presets {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tip-btn {
+      font-size: 15px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tip-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .custom-tip-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .custom-tip-row label { font-size: 13px; color: var(--text-muted); }
+
+    #customTip {
+      width: 80px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    /* People stepper */
+    .people-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .people-row label { font-size: 14px; font-weight: 500; }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .step-btn {
+      width: 38px;
+      height: 38px;
+      font-size: 20px;
+      border: none;
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-btn:hover { background: var(--border); }
+
+    #peopleCount {
+      width: 48px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-left: 0.5px solid var(--border);
+      border-right: 0.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 0;
+    }
+
+    /* Results */
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 560px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .hero-cell {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .hero-cell.accent {
+      background: var(--accent-bg);
+      border: 0.5px solid var(--accent);
+    }
+
+    .hero-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .hero-cell.accent .hero-val { color: var(--accent); }
+
+    .hero-lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .result-label { font-size: 14px; color: var(--text-muted); }
+    .result-value { font-size: 17px; font-weight: 600; }
+
+    /* Per-person breakdown */
+    .per-person-card {
+      background: var(--accent-bg);
+      border: 0.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .per-person-label { font-size: 14px; color: var(--text-muted); }
+    .per-person-value { font-size: 28px; font-weight: 700; color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+    .support-row { display: flex; justify-content: center; margin: 8px 0 24px; }
+
+    .about { width: 100%; max-width: 560px; margin-top: 32px; }
+    .about h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .about h3 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+    .about p { font-size: 14px; line-height: 1.75; color: var(--text-muted); margin-bottom: 12px; }
+
+    .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .ref-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--text-muted); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+    .ref-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>💵 Tip Calculator</h1>
+    <p>Enter your bill, choose a tip percentage, and instantly see how much to tip — and how to split it between your group.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Bill amount</div>
+    <div class="bill-input-wrap">
+      <span class="bill-prefix">$</span>
+      <input type="number" id="billInput" value="50" min="0" step="0.01"
+        inputmode="decimal" placeholder="0.00" oninput="calculate()">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tip percentage</div>
+    <div class="tip-presets" id="tipPresets">
+      <button class="tip-btn" data-t="10" onclick="setTip(10)">10%</button>
+      <button class="tip-btn" data-t="15" onclick="setTip(15)">15%</button>
+      <button class="tip-btn active" data-t="18" onclick="setTip(18)">18%</button>
+      <button class="tip-btn" data-t="20" onclick="setTip(20)">20%</button>
+      <button class="tip-btn" data-t="25" onclick="setTip(25)">25%</button>
+    </div>
+    <div class="custom-tip-row">
+      <label>Custom:</label>
+      <input type="number" id="customTip" value="" min="0" max="100" step="1"
+        placeholder="%" oninput="setCustomTip(+this.value)">
+      <span style="font-size:13px;color:var(--text-muted)">%</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Split between</div>
+    <div class="people-row">
+      <label>Number of people</label>
+      <div class="stepper">
+        <button class="step-btn" onclick="changePeople(-1)">−</button>
+        <input type="number" id="peopleCount" value="1" min="1" max="50" readonly>
+        <button class="step-btn" onclick="changePeople(1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-card">
+    <div class="result-hero">
+      <div class="hero-cell">
+        <div class="hero-val" id="tipAmt">$9.00</div>
+        <div class="hero-lbl">Tip amount</div>
+      </div>
+      <div class="hero-cell accent">
+        <div class="hero-val" id="totalAmt">$59.00</div>
+        <div class="hero-lbl">Total bill</div>
+      </div>
+    </div>
+
+    <div class="result-row">
+      <span class="result-label">Bill</span>
+      <span class="result-value" id="billDisplay">$50.00</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Tip (<span id="tipPctDisplay">18</span>%)</span>
+      <span class="result-value" id="tipDisplay">$9.00</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Total</span>
+      <span class="result-value" id="totalDisplay">$59.00</span>
+    </div>
+
+    <div class="per-person-card" id="perPersonCard" style="display:none">
+      <div>
+        <div class="per-person-label">Each person pays</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">
+          incl. tip
+        </div>
+      </div>
+      <div class="per-person-value" id="perPersonAmt">—</div>
+    </div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>How much should you tip?</h2>
+    <p>
+      Tipping norms vary by country and service type. In the US, <strong>18–20%</strong> is now
+      the standard for restaurant servers, with 15% considered the minimum for acceptable service
+      and 25%+ for exceptional service. Tip percentages should generally be calculated on the
+      <strong>pre-tax total</strong>.
+    </p>
+
+    <h3>Tipping guide by service type</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Service</th><th>Standard tip</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Restaurant (sit-down)</td><td>18–20%</td><td>15% minimum, 25% for great service</td></tr>
+        <tr><td>Food delivery</td><td>15–20%</td><td>Minimum $3–5 for small orders</td></tr>
+        <tr><td>Bartender</td><td>$1–2/drink</td><td>Or 15–20% on tab</td></tr>
+        <tr><td>Coffee / counter service</td><td>10–15%</td><td>Optional; $0.50–1 per item</td></tr>
+        <tr><td>Hair salon / barber</td><td>15–20%</td><td>On service total, not products</td></tr>
+        <tr><td>Taxi / rideshare</td><td>15–20%</td><td>Uber/Lyft default is 15%</td></tr>
+        <tr><td>Hotel housekeeping</td><td>$2–5/night</td><td>Leave daily, not just checkout</td></tr>
+        <tr><td>Movers</td><td>$20–50/mover</td><td>More for long or difficult moves</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Is tip calculated before or after tax?</h3>
+    <p>
+      Tip on the <strong>pre-tax subtotal</strong> — that's the standard. Some restaurants display
+      suggested tip amounts on receipts that are calculated on the post-tax total, which inflates
+      the tip by a few percent. This calculator uses the bill amount you enter, so just enter the
+      pre-tax amount if you want to be precise.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free tip calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    let tipPct = 18;
+    let people = 1;
+
+    function setTip(pct) {
+      tipPct = pct;
+      document.querySelectorAll('.tip-btn').forEach(b => b.classList.toggle('active', +b.dataset.t === pct));
+      document.getElementById('customTip').value = '';
+      calculate();
+    }
+
+    function setCustomTip(pct) {
+      if (isNaN(pct) || pct < 0) return;
+      tipPct = pct;
+      document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+      calculate();
+    }
+
+    function changePeople(delta) {
+      people = Math.max(1, Math.min(50, people + delta));
+      document.getElementById('peopleCount').value = people;
+      calculate();
+    }
+
+    function fmt(n) { return '$' + n.toFixed(2); }
+
+    function calculate() {
+      const bill  = Math.max(0, parseFloat(document.getElementById('billInput').value) || 0);
+      const tip   = bill * (tipPct / 100);
+      const total = bill + tip;
+      const perP  = total / people;
+
+      document.getElementById('tipAmt').textContent      = fmt(tip);
+      document.getElementById('totalAmt').textContent    = fmt(total);
+      document.getElementById('billDisplay').textContent = fmt(bill);
+      document.getElementById('tipDisplay').textContent  = fmt(tip);
+      document.getElementById('totalDisplay').textContent= fmt(total);
+      document.getElementById('tipPctDisplay').textContent = tipPct;
+
+      const ppCard = document.getElementById('perPersonCard');
+      if (people > 1) {
+        ppCard.style.display = 'flex';
+        document.getElementById('perPersonAmt').textContent = fmt(perP);
+      } else {
+        ppCard.style.display = 'none';
+      }
+    }
+
+    calculate();
+  </script>
+</body>
+</html>
