@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sod Calculator — How Much Sod Do I Need?</title>
+  <meta name="description" content="Free sod calculator. Enter your lawn area to find out how many square feet, pallets, or rolls of sod you need — plus grass seed coverage and total cost estimate.">
+  <meta name="keywords" content="sod calculator, how much sod do i need, sod cost calculator, pallets of sod calculator, grass seed calculator, how many pallets of sod, sod coverage calculator, lawn sod estimator">
+  <link rel="canonical" href="https://toolchive.com/sod-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/sod-calculator">
+  <meta property="og:title" content="Sod Calculator — How Much Sod Do I Need?">
+  <meta property="og:description" content="Calculate how many pallets or rolls of sod you need, plus grass seed coverage and total cost.">
+  <meta property="og:image" content="https://toolchive.com/og-sod.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sod Calculator">
+  <meta name="twitter:description" content="Calculate how many pallets or rolls of sod you need.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sod Calculator",
+    "description": "Calculate how much sod or grass seed you need based on lawn area.",
+    "url": "https://toolchive.com/sod-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f7f4;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #3a7d44;
+      --accent-bg: #e8f3ea;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161a16;
+        --surface: #202320;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #5fa869;
+        --accent-bg: #172019;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+    .site-nav a { color: var(--text-muted); }
+
+    header { text-align: center; margin-bottom: 40px; max-width: 600px; }
+    header h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+    header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label { font-size: 14px; font-weight: 500; min-width: 140px; }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix { font-size: 13px; color: var(--text-muted); margin-left: -8px; }
+
+    .shape-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .shape-btn {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .shape-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+      margin-bottom: 24px;
+    }
+
+    .mode-tab {
+      font-size: 13px;
+      padding: 8px 20px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mode-tab.active { background: var(--accent); color: #fff; }
+
+    /* Results */
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .result-hero-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+    .result-label { font-size: 14px; color: var(--text-muted); }
+    .result-value { font-size: 17px; font-weight: 600; }
+    .cost-value { color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+    .support-row { display: flex; justify-content: center; margin: 8px 0 24px; }
+
+    .about { width: 100%; max-width: 640px; margin-top: 32px; }
+    .about h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .about h3 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+    .about p { font-size: 14px; line-height: 1.75; color: var(--text-muted); margin-bottom: 12px; }
+
+    .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .ref-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--text-muted); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+    .ref-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🌿 Sod Calculator</h1>
+    <p>Enter your lawn dimensions to find out how many pallets or rolls of sod you need — or how much grass seed to buy — plus a total cost estimate.</p>
+  </header>
+
+  <!-- Mode: sod vs seed -->
+  <div class="card">
+    <div class="card-title">What are you buying?</div>
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-m="sod" onclick="setMode('sod')">🌿 Sod (rolls / pallets)</button>
+      <button class="mode-tab" data-m="seed" onclick="setMode('seed')">🌱 Grass seed</button>
+    </div>
+
+    <div class="field-row">
+      <label>Shape</label>
+      <div class="shape-btns">
+        <button class="shape-btn active" data-s="rect" onclick="setShape('rect')">Rectangle</button>
+        <button class="shape-btn" data-s="circle" onclick="setShape('circle')">Circle</button>
+      </div>
+    </div>
+
+    <div id="rectFields">
+      <div class="field-row">
+        <label>Length</label>
+        <input type="number" id="length" value="40" min="1" step="1" oninput="calculate()">
+        <span class="input-suffix">ft</span>
+      </div>
+      <div class="field-row">
+        <label>Width</label>
+        <input type="number" id="width" value="30" min="1" step="1" oninput="calculate()">
+        <span class="input-suffix">ft</span>
+      </div>
+    </div>
+
+    <div id="circleFields" style="display:none">
+      <div class="field-row">
+        <label>Diameter</label>
+        <input type="number" id="diameter" value="30" min="1" step="1" oninput="calculate()">
+        <span class="input-suffix">ft</span>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Waste / slopes</label>
+      <input type="number" id="waste" value="10" min="0" max="50" step="5" oninput="calculate()">
+      <span class="input-suffix">% extra</span>
+    </div>
+  </div>
+
+  <!-- Sod options -->
+  <div class="card" id="sodOptions">
+    <div class="card-title">Sod options</div>
+    <div class="field-row">
+      <label>Price per pallet</label>
+      <input type="number" id="pricePallet" value="" min="0" step="10" placeholder="0" oninput="calculate()">
+      <span class="input-suffix">$</span>
+    </div>
+    <div class="field-row">
+      <label>Price per roll</label>
+      <input type="number" id="priceRoll" value="" min="0" step="0.5" placeholder="0" oninput="calculate()">
+      <span class="input-suffix">$</span>
+    </div>
+  </div>
+
+  <!-- Seed options -->
+  <div class="card" id="seedOptions" style="display:none">
+    <div class="card-title">Grass seed options</div>
+    <div class="field-row">
+      <label>Seed rate</label>
+      <input type="number" id="seedRate" value="5" min="1" step="0.5" oninput="calculate()">
+      <span class="input-suffix">lbs / 1000 sq ft</span>
+    </div>
+    <div class="field-row">
+      <label>Price per lb</label>
+      <input type="number" id="priceSeed" value="" min="0" step="0.5" placeholder="0" oninput="calculate()">
+      <span class="input-suffix">$</span>
+    </div>
+  </div>
+
+  <div class="results-card">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>How much sod do I need?</h2>
+    <p>
+      Sod is sold by the <strong>square foot, roll, or pallet</strong>. A standard sod roll covers
+      about <strong>9 square feet</strong> (1.5 ft × 6 ft). A pallet holds approximately
+      <strong>450–504 square feet</strong> depending on the supplier. This calculator tells you
+      how many of each you need, plus an optional cost estimate.
+    </p>
+
+    <h3>Sod vs. grass seed — which is better?</h3>
+    <p>
+      Sod gives you <strong>instant results</strong> — a usable lawn in 2–3 weeks — but costs
+      5–10× more than seed. Grass seed is far cheaper and has more variety, but takes
+      <strong>2–4 months</strong> to establish and needs careful watering. Sod is worth it for
+      high-traffic areas, erosion control, or when you need results fast. Seed is better for
+      large areas on a budget.
+    </p>
+
+    <h3>Sod coverage reference</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Unit</th><th>Covers</th><th>Typical cost (installed)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 roll (standard)</td><td>~9 sq ft</td><td>$0.30–$0.80/sq ft</td></tr>
+        <tr><td>1 pallet</td><td>~450 sq ft</td><td>$150–$450/pallet</td></tr>
+        <tr><td>Sod installed</td><td>—</td><td>$1.00–$2.00/sq ft</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Grass seed rates by type</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Grass type</th><th>New lawn (lbs/1000 sq ft)</th><th>Overseeding</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Kentucky Bluegrass</td><td>2–3 lbs</td><td>1–2 lbs</td></tr>
+        <tr><td>Tall Fescue</td><td>6–8 lbs</td><td>3–4 lbs</td></tr>
+        <tr><td>Bermuda Grass</td><td>1–2 lbs</td><td>0.5–1 lb</td></tr>
+        <tr><td>Zoysia</td><td>1–2 lbs</td><td>0.5–1 lb</td></tr>
+        <tr><td>Perennial Ryegrass</td><td>5–9 lbs</td><td>3–5 lbs</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Tips for laying sod</h3>
+    <p>
+      Prepare the soil by tilling 4–6 inches and adding topsoil or compost if needed. Lay sod
+      in a brick-pattern (staggered joints), press firmly, and water deeply immediately after.
+      Add <strong>5–10% extra</strong> for cuts around edges and obstacles — this calculator
+      applies that buffer automatically.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free sod calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    // Constants
+    const SOD_ROLL_SQFT   = 9;     // sq ft per roll
+    const SOD_PALLET_SQFT = 450;   // sq ft per pallet
+
+    let mode  = 'sod';   // sod | seed
+    let shape = 'rect';  // rect | circle
+
+    function setMode(m) {
+      mode = m;
+      document.querySelectorAll('.mode-tab').forEach(b => b.classList.toggle('active', b.dataset.m === m));
+      document.getElementById('sodOptions').style.display  = m === 'sod'  ? '' : 'none';
+      document.getElementById('seedOptions').style.display = m === 'seed' ? '' : 'none';
+      calculate();
+    }
+
+    function setShape(s) {
+      shape = s;
+      document.querySelectorAll('.shape-btn').forEach(b => b.classList.toggle('active', b.dataset.s === s));
+      document.getElementById('rectFields').style.display   = s === 'rect'   ? '' : 'none';
+      document.getElementById('circleFields').style.display = s === 'circle' ? '' : 'none';
+      calculate();
+    }
+
+    function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
+
+    function calculate() {
+      let areaSqFt;
+      if (shape === 'rect') {
+        areaSqFt = num('length') * num('width');
+      } else {
+        const r = num('diameter') / 2;
+        areaSqFt = Math.PI * r * r;
+      }
+
+      const wastePct  = num('waste') / 100;
+      const totalSqFt = areaSqFt * (1 + wastePct);
+
+      if (mode === 'sod') {
+        const rolls   = Math.ceil(totalSqFt / SOD_ROLL_SQFT);
+        const pallets = Math.ceil(totalSqFt / SOD_PALLET_SQFT);
+
+        const pricePallet = num('pricePallet');
+        const priceRoll   = num('priceRoll');
+
+        let costRows = '';
+        if (pricePallet > 0) {
+          costRows += `<div class="result-row"><span class="result-label">Cost by the pallet</span><span class="result-value cost-value">$${(pallets * pricePallet).toLocaleString(undefined,{maximumFractionDigits:0})}</span></div>`;
+        }
+        if (priceRoll > 0) {
+          costRows += `<div class="result-row"><span class="result-label">Cost by the roll</span><span class="result-value cost-value">$${(rolls * priceRoll).toLocaleString(undefined,{maximumFractionDigits:0})}</span></div>`;
+        }
+
+        document.getElementById('resultsBody').innerHTML = `
+          <div class="result-hero">
+            <div class="result-hero-value">${pallets} pallets</div>
+            <div class="result-hero-label">🌿 Sod needed · ${totalSqFt.toFixed(0)} sq ft (incl. ${num('waste')}% waste)</div>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Area to cover</span>
+            <span class="result-value">${areaSqFt.toFixed(0)} sq ft</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Rolls needed (9 sq ft each)</span>
+            <span class="result-value">${rolls.toLocaleString()} rolls</span>
+          </div>
+          ${costRows}
+        `;
+      } else {
+        // Seed mode
+        const seedRate  = Math.max(0.1, num('seedRate')); // lbs per 1000 sq ft
+        const totalLbs  = (totalSqFt / 1000) * seedRate;
+        const priceSeed = num('priceSeed');
+
+        const costRow = priceSeed > 0 ? `<div class="result-row"><span class="result-label">Estimated cost</span><span class="result-value cost-value">$${(totalLbs * priceSeed).toFixed(0)}</span></div>` : '';
+
+        document.getElementById('resultsBody').innerHTML = `
+          <div class="result-hero">
+            <div class="result-hero-value">${totalLbs.toFixed(1)} lbs</div>
+            <div class="result-hero-label">🌱 Grass seed needed · ${totalSqFt.toFixed(0)} sq ft</div>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Area to seed</span>
+            <span class="result-value">${areaSqFt.toFixed(0)} sq ft</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Seed rate</span>
+            <span class="result-value">${seedRate} lbs / 1,000 sq ft</span>
+          </div>
+          ${costRow}
+        `;
+      }
+    }
+
+    calculate();
+  </script>
+</body>
+</html>
