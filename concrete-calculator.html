@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Concrete Calculator — How Much Concrete Do I Need?</title>
+  <meta name="description" content="Free concrete calculator. Enter your dimensions to find out how many cubic yards or bags of concrete you need for slabs, footings, columns, and steps. Includes cost estimate.">
+  <meta name="keywords" content="concrete calculator, how much concrete do i need, concrete slab calculator, cubic yards of concrete, bags of concrete calculator, concrete footing calculator, concrete cost calculator, how many bags of concrete">
+  <link rel="canonical" href="https://toolchive.com/concrete-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/concrete-calculator">
+  <meta property="og:title" content="Concrete Calculator — How Much Concrete Do I Need?">
+  <meta property="og:description" content="Calculate exactly how much concrete you need for slabs, footings, and columns — in cubic yards and bags.">
+  <meta property="og:image" content="https://toolchive.com/og-concrete.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Concrete Calculator">
+  <meta name="twitter:description" content="Calculate exactly how much concrete you need for slabs, footings, and columns.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Concrete Calculator",
+    "description": "Calculate how much concrete you need for slabs, footings, columns, and steps.",
+    "url": "https://toolchive.com/concrete-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f6f6f5;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #5a6472;
+      --accent-bg: #eef0f2;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #181818;
+        --surface: #222222;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #8a96a4;
+        --accent-bg: #1e2024;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+    .site-nav a { color: var(--text-muted); }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .shape-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .shape-tab {
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .shape-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 130px;
+    }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: -8px;
+    }
+
+    .unit-toggle {
+      display: flex;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .unit-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active { background: var(--accent); color: #fff; }
+
+    .add-btn {
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: var(--radius);
+      border: 0.5px dashed var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 4px;
+    }
+
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .section-group {
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .section-group-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 16px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px 6px;
+    }
+
+    .remove-btn:hover { color: #e05;  }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-hero-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-label { font-size: 14px; color: var(--text-muted); }
+    .result-value { font-size: 18px; font-weight: 600; }
+    .cost-value { color: var(--accent); }
+
+    .bag-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+      margin: 8px 0 4px;
+    }
+
+    .bag-cell {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .bag-cell-val { font-size: 18px; font-weight: 600; }
+    .bag-cell-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+
+    .support-row { display: flex; justify-content: center; margin: 8px 0 24px; }
+
+    .about { width: 100%; max-width: 640px; margin-top: 32px; }
+    .about h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .about h3 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+    .about p { font-size: 14px; line-height: 1.75; color: var(--text-muted); margin-bottom: 12px; }
+
+    .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .ref-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--text-muted); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+    .ref-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🏗️ Concrete Calculator</h1>
+    <p>Enter your dimensions to find out how many cubic yards or bags of concrete you need — for slabs, footings, columns, and steps.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Units</div>
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet / inches</button>
+      <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters / cm</button>
+    </div>
+  </div>
+
+  <!-- Slab -->
+  <div class="card" id="slabCard">
+    <div class="card-title">Slabs / Pads</div>
+    <div id="slabList"></div>
+    <button class="add-btn" onclick="addSection('slab')">+ Add another slab</button>
+  </div>
+
+  <!-- Footing -->
+  <div class="card" id="footingCard">
+    <div class="card-title">Footings / Walls</div>
+    <div id="footingList"></div>
+    <button class="add-btn" onclick="addSection('footing')">+ Add another footing</button>
+  </div>
+
+  <!-- Column -->
+  <div class="card" id="columnCard">
+    <div class="card-title">Columns / Round Piers</div>
+    <div id="columnList"></div>
+    <button class="add-btn" onclick="addSection('column')">+ Add another column</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Price (optional)</div>
+    <div class="field-row">
+      <label>Price per yd³</label>
+      <input type="number" id="priceYard" value="" min="0" step="5" placeholder="0">
+      <span class="input-suffix">$ (ready-mix)</span>
+    </div>
+  </div>
+
+  <div class="results-card">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate how much concrete you need</h2>
+    <p>
+      All concrete is measured by <strong>volume</strong>. The formula for a slab is:
+      <strong>length × width × thickness</strong>. Divide by 27 to get cubic yards
+      (the unit ready-mix trucks use). This calculator handles slabs, footings (rectangular),
+      and round columns, then adds everything up so you can order or buy bags in one go.
+    </p>
+
+    <h3>Bags vs. ready-mix concrete</h3>
+    <p>
+      For small jobs under about <strong>1 cubic yard</strong>, bagged concrete is usually easiest —
+      available at any hardware store. For larger pours, ordering ready-mix by the truck is cheaper
+      and much faster. Most ready-mix trucks carry 8–10 cubic yards. Add <strong>5–10% extra</strong>
+      to account for spillage, uneven sub-base, and waste.
+    </p>
+
+    <h3>Bag coverage reference</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Bag size</th><th>Yields</th><th>Bags per yd³</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>40 lb</td><td>0.011 yd³ (0.30 ft³)</td><td>~90</td></tr>
+        <tr><td>60 lb</td><td>0.017 yd³ (0.45 ft³)</td><td>~60</td></tr>
+        <tr><td>80 lb</td><td>0.022 yd³ (0.60 ft³)</td><td>~45</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Common slab thicknesses</h3>
+    <p>
+      Sidewalks and patios: <strong>4 inches</strong>. Driveways: <strong>4–6 inches</strong> (6 for
+      heavy vehicles). Garage floors: <strong>4–6 inches</strong>. Structural slabs: consult an
+      engineer. Always pour on compacted gravel sub-base for best results.
+    </p>
+
+    <h3>Tips for a good pour</h3>
+    <p>
+      Dampen the sub-base before pouring so it doesn't pull water from the concrete too fast.
+      Work in sections for large slabs, and never add extra water to the mix — it weakens the
+      finished concrete significantly. Control joints every 8–12 feet prevent cracking.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free concrete calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    // -- Data --
+    // bag yields in cubic feet
+    const BAGS = { 40: 0.30, 60: 0.45, 80: 0.60 };
+
+    let unit = 'imperial';
+
+    const slabs    = [{ id: 1, len: 10, wid: 10, dep: 4 }];
+    const footings = [{ id: 1, len: 8,  wid: 1,  dep: 18 }];
+    const columns  = [{ id: 1, dia: 10, ht: 36, qty: 4 }];
+
+    let nextId = 10;
+
+    // -- Unit switch --
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      renderAll();
+    }
+
+    function lenLabel() { return unit === 'imperial' ? 'ft' : 'm'; }
+    function depLabel() { return unit === 'imperial' ? 'in' : 'cm'; }
+
+    // Convert stored values (always imperial: ft/in) to display
+    function dispLen(v)  { return unit === 'imperial' ? v : +(v * 0.3048).toFixed(2); }
+    function dispDep(v)  { return unit === 'imperial' ? v : +(v * 2.54).toFixed(1); }
+    function storeLen(v) { return unit === 'imperial' ? v : v / 0.3048; }
+    function storeDep(v) { return unit === 'imperial' ? v : v / 2.54; }
+
+    // -- Add / Remove --
+    function addSection(type) {
+      const id = nextId++;
+      if (type === 'slab')    slabs.push({ id, len:10, wid:10, dep:4 });
+      if (type === 'footing') footings.push({ id, len:8, wid:1, dep:18 });
+      if (type === 'column')  columns.push({ id, dia:10, ht:36, qty:1 });
+      renderAll();
+    }
+
+    function removeSection(type, id) {
+      const arr = type==='slab' ? slabs : type==='footing' ? footings : columns;
+      const idx = arr.findIndex(s=>s.id===id);
+      if (idx > -1 && arr.length > 1) arr.splice(idx, 1);
+      renderAll();
+    }
+
+    // -- Render inputs --
+    function renderSlabs() {
+      document.getElementById('slabList').innerHTML = slabs.map((s, i) => `
+        <div class="section-group">
+          <div class="section-group-title">Slab ${i+1}</div>
+          ${slabs.length > 1 ? `<button class="remove-btn" onclick="removeSection('slab',${s.id})">×</button>` : ''}
+          <div class="field-row">
+            <label>Length</label>
+            <input type="number" value="${dispLen(s.len)}" min="0" step="0.1"
+              oninput="slabs[${i}].len=storeLen(+this.value);calculate()">
+            <span class="input-suffix">${lenLabel()}</span>
+          </div>
+          <div class="field-row">
+            <label>Width</label>
+            <input type="number" value="${dispLen(s.wid)}" min="0" step="0.1"
+              oninput="slabs[${i}].wid=storeLen(+this.value);calculate()">
+            <span class="input-suffix">${lenLabel()}</span>
+          </div>
+          <div class="field-row" style="margin-bottom:0">
+            <label>Thickness</label>
+            <input type="number" value="${dispDep(s.dep)}" min="0" step="0.5"
+              oninput="slabs[${i}].dep=storeDep(+this.value);calculate()">
+            <span class="input-suffix">${depLabel()}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFootings() {
+      document.getElementById('footingList').innerHTML = footings.map((f, i) => `
+        <div class="section-group">
+          <div class="section-group-title">Footing ${i+1}</div>
+          ${footings.length > 1 ? `<button class="remove-btn" onclick="removeSection('footing',${f.id})">×</button>` : ''}
+          <div class="field-row">
+            <label>Length</label>
+            <input type="number" value="${dispLen(f.len)}" min="0" step="0.1"
+              oninput="footings[${i}].len=storeLen(+this.value);calculate()">
+            <span class="input-suffix">${lenLabel()}</span>
+          </div>
+          <div class="field-row">
+            <label>Width</label>
+            <input type="number" value="${dispLen(f.wid)}" min="0" step="0.1"
+              oninput="footings[${i}].wid=storeLen(+this.value);calculate()">
+            <span class="input-suffix">${lenLabel()}</span>
+          </div>
+          <div class="field-row" style="margin-bottom:0">
+            <label>Depth</label>
+            <input type="number" value="${dispDep(f.dep)}" min="0" step="0.5"
+              oninput="footings[${i}].dep=storeDep(+this.value);calculate()">
+            <span class="input-suffix">${depLabel()}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderColumns() {
+      document.getElementById('columnList').innerHTML = columns.map((c, i) => `
+        <div class="section-group">
+          <div class="section-group-title">Column ${i+1}</div>
+          ${columns.length > 1 ? `<button class="remove-btn" onclick="removeSection('column',${c.id})">×</button>` : ''}
+          <div class="field-row">
+            <label>Diameter</label>
+            <input type="number" value="${dispDep(c.dia)}" min="0" step="0.5"
+              oninput="columns[${i}].dia=storeDep(+this.value);calculate()">
+            <span class="input-suffix">${depLabel()}</span>
+          </div>
+          <div class="field-row">
+            <label>Height / Depth</label>
+            <input type="number" value="${dispDep(c.ht)}" min="0" step="1"
+              oninput="columns[${i}].ht=storeDep(+this.value);calculate()">
+            <span class="input-suffix">${depLabel()}</span>
+          </div>
+          <div class="field-row" style="margin-bottom:0">
+            <label>Quantity</label>
+            <input type="number" value="${c.qty}" min="1" step="1"
+              oninput="columns[${i}].qty=Math.max(1,+this.value);calculate()">
+            <span class="input-suffix">pcs</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAll() {
+      renderSlabs();
+      renderFootings();
+      renderColumns();
+      calculate();
+    }
+
+    // -- Calculate --
+    function calculate() {
+      // All stored in ft/in
+      let totalCuFt = 0;
+
+      slabs.forEach(s => {
+        totalCuFt += s.len * s.wid * (s.dep / 12);
+      });
+
+      footings.forEach(f => {
+        totalCuFt += f.len * f.wid * (f.dep / 12);
+      });
+
+      columns.forEach(c => {
+        const r = (c.dia / 12) / 2;
+        totalCuFt += Math.PI * r * r * (c.ht / 12) * c.qty;
+      });
+
+      const cuYd = totalCuFt / 27;
+      const cuYdPlus10 = cuYd * 1.1;
+
+      // bags
+      const bags40 = Math.ceil(totalCuFt / BAGS[40]);
+      const bags60 = Math.ceil(totalCuFt / BAGS[60]);
+      const bags80 = Math.ceil(totalCuFt / BAGS[80]);
+
+      const priceYard = Math.max(0, parseFloat(document.getElementById('priceYard').value) || 0);
+      const costRow = priceYard > 0 ? `
+        <div class="result-row">
+          <span class="result-label">Estimated cost (ready-mix)</span>
+          <span class="result-value cost-value">$${(priceYard * cuYdPlus10).toLocaleString(undefined,{maximumFractionDigits:0})}</span>
+        </div>` : '';
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${cuYd.toFixed(2)} yd³</div>
+          <div class="result-hero-label">Concrete needed (+10%: ${cuYdPlus10.toFixed(2)} yd³)</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Volume (cubic feet)</span>
+          <span class="result-value">${totalCuFt.toFixed(1)} ft³</span>
+        </div>
+        <div class="result-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+          <span class="result-label">Bags needed</span>
+          <div class="bag-grid" style="width:100%">
+            <div class="bag-cell">
+              <div class="bag-cell-val">${bags40.toLocaleString()}</div>
+              <div class="bag-cell-lbl">40 lb bags</div>
+            </div>
+            <div class="bag-cell">
+              <div class="bag-cell-val">${bags60.toLocaleString()}</div>
+              <div class="bag-cell-lbl">60 lb bags</div>
+            </div>
+            <div class="bag-cell">
+              <div class="bag-cell-val">${bags80.toLocaleString()}</div>
+              <div class="bag-cell-lbl">80 lb bags</div>
+            </div>
+          </div>
+        </div>
+        ${costRow}
+      `;
+    }
+
+    document.getElementById('priceYard').addEventListener('input', calculate);
+
+    renderAll();
+  </script>
+</body>
+</html>
