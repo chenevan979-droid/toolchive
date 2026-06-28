@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Paint Calculator — How Much Paint Do I Need?</title>
+  <meta name="description" content="Free paint calculator. Enter your room dimensions and find out exactly how many gallons of paint you need for walls, ceiling, and trim. Accounts for doors, windows, and number of coats.">
+  <meta name="keywords" content="paint calculator, how much paint do i need, paint coverage calculator, how many gallons of paint, room paint calculator, wall paint calculator, paint estimator, how much paint for a room">
+  <link rel="canonical" href="https://toolchive.com/paint-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/paint-calculator">
+  <meta property="og:title" content="Paint Calculator — How Much Paint Do I Need?">
+  <meta property="og:description" content="Calculate exactly how many gallons of paint you need for any room — walls, ceiling, trim, and doors included.">
+  <meta property="og:image" content="https://toolchive.com/og-paint.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paint Calculator">
+  <meta name="twitter:description" content="Calculate exactly how many gallons of paint you need for any room.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Paint Calculator",
+    "description": "Calculate how much paint you need for walls, ceiling, and trim based on room dimensions.",
+    "url": "https://toolchive.com/paint-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f6f5f7;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #6b4fa0;
+      --accent-bg: #f0ecf8;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #19171e;
+        --surface: #231f2c;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #9b7fd4;
+        --accent-bg: #1e1a28;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+    .site-nav a { color: var(--text-muted); }
+
+    header { text-align: center; margin-bottom: 40px; max-width: 600px; }
+    header h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+    header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label { font-size: 14px; font-weight: 500; min-width: 150px; }
+
+    .field-row input[type="number"] {
+      width: 100px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix { font-size: 13px; color: var(--text-muted); margin-left: -8px; }
+
+    .toggle-group {
+      display: flex;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .toggle-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn.active { background: var(--accent); color: #fff; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .checkbox-row:last-child { margin-bottom: 0; }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .checkbox-row label { font-size: 14px; cursor: pointer; }
+
+    .room-list { margin-bottom: 12px; }
+
+    .room-item {
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .room-item-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 16px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .remove-btn:hover { color: #e05; }
+
+    .add-btn {
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: var(--radius);
+      border: 0.5px dashed var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin: 20px 0 8px;
+    }
+
+    .result-section-title:first-child { margin-top: 0; }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .result-hero-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+    .result-label { font-size: 14px; color: var(--text-muted); }
+    .result-value { font-size: 17px; font-weight: 600; }
+    .cost-value { color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+    .support-row { display: flex; justify-content: center; margin: 8px 0 24px; }
+
+    .about { width: 100%; max-width: 640px; margin-top: 32px; }
+    .about h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .about h3 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+    .about p { font-size: 14px; line-height: 1.75; color: var(--text-muted); margin-bottom: 12px; }
+
+    .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .ref-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--text-muted); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+    .ref-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🎨 Paint Calculator</h1>
+    <p>Enter your room size to find out exactly how many gallons of paint you need — walls, ceiling, trim, doors, and multiple coats all accounted for.</p>
+  </header>
+
+  <!-- Rooms -->
+  <div class="card">
+    <div class="card-title">Rooms</div>
+    <div class="room-list" id="roomList"></div>
+    <button class="add-btn" onclick="addRoom()">+ Add another room</button>
+  </div>
+
+  <!-- Options -->
+  <div class="card">
+    <div class="card-title">Paint options</div>
+
+    <div class="field-row">
+      <label>Coats of paint</label>
+      <div class="toggle-group">
+        <button class="toggle-btn active" data-c="1" onclick="setCoats(1)">1 coat</button>
+        <button class="toggle-btn" data-c="2" onclick="setCoats(2)">2 coats</button>
+        <button class="toggle-btn" data-c="3" onclick="setCoats(3)">3 coats</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Paint coverage</label>
+      <input type="number" id="coverage" value="400" min="100" step="10">
+      <span class="input-suffix">sq ft / gal</span>
+    </div>
+
+    <div class="field-row" style="align-items:flex-start">
+      <label>Include</label>
+      <div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="inclCeiling" checked onchange="calculate()">
+          <label for="inclCeiling">Ceiling</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="inclTrim" onchange="calculate()">
+          <label for="inclTrim">Trim / baseboards (~50 sq ft per room)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Price per gallon</label>
+      <input type="number" id="priceGal" value="" min="0" step="1" placeholder="0">
+      <span class="input-suffix">$</span>
+    </div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate how much paint you need</h2>
+    <p>
+      The formula is: <strong>paintable area ÷ coverage per gallon × number of coats</strong>.
+      One gallon of paint typically covers <strong>350–400 square feet</strong> per coat.
+      This calculator measures all four walls plus the ceiling, then subtracts space for
+      doors and windows so you don't overbuy.
+    </p>
+
+    <h3>How many coats do you need?</h3>
+    <p>
+      For most repaints over a similar color: <strong>1–2 coats</strong>.
+      Going from dark to light, or painting new drywall: <strong>2–3 coats</strong>.
+      Using a primer first reduces the number of finish coats needed and improves color accuracy.
+    </p>
+
+    <h3>Paint coverage by finish</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Finish</th><th>Coverage per gallon</th><th>Best for</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Flat / Matte</td><td>350–400 sq ft</td><td>Ceilings, low-traffic walls</td></tr>
+        <tr><td>Eggshell</td><td>350–400 sq ft</td><td>Living rooms, bedrooms</td></tr>
+        <tr><td>Satin</td><td>300–350 sq ft</td><td>Kitchens, bathrooms</td></tr>
+        <tr><td>Semi-gloss</td><td>300–350 sq ft</td><td>Trim, doors, cabinets</td></tr>
+        <tr><td>Gloss</td><td>250–300 sq ft</td><td>Furniture, accent pieces</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Tips for less waste</h3>
+    <p>
+      Always buy a little more than the minimum — a quart (0.25 gal) extra is usually enough for
+      touch-ups. Paint leftover in a sealed can keeps for 2–5 years if stored at room temperature.
+      Label the can with the room and color code for easy future touch-ups.
+    </p>
+  </div>
+
+  <footer>
+    <p>Free paint calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    // Standard door = 20 sq ft, standard window = 15 sq ft
+    const DOOR_SQFT = 20;
+    const WIN_SQFT  = 15;
+    const TRIM_SQFT = 50; // per room
+
+    let rooms = [{ id: 1, len: 12, wid: 10, ht: 9, doors: 1, windows: 2 }];
+    let coats = 2;
+    let nextId = 10;
+
+    function setCoats(c) {
+      coats = c;
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', +b.dataset.c === c));
+      calculate();
+    }
+
+    function addRoom() {
+      rooms.push({ id: nextId++, len: 12, wid: 10, ht: 9, doors: 1, windows: 2 });
+      renderRooms();
+    }
+
+    function removeRoom(id) {
+      if (rooms.length <= 1) return;
+      rooms = rooms.filter(r => r.id !== id);
+      renderRooms();
+    }
+
+    function renderRooms() {
+      document.getElementById('roomList').innerHTML = rooms.map((r, i) => `
+        <div class="room-item">
+          <div class="room-item-title">Room ${i + 1}</div>
+          ${rooms.length > 1 ? `<button class="remove-btn" onclick="removeRoom(${r.id})">×</button>` : ''}
+          <div class="field-row">
+            <label>Length</label>
+            <input type="number" value="${r.len}" min="1" step="0.5"
+              oninput="rooms[${i}].len=+this.value;calculate()">
+            <span class="input-suffix">ft</span>
+          </div>
+          <div class="field-row">
+            <label>Width</label>
+            <input type="number" value="${r.wid}" min="1" step="0.5"
+              oninput="rooms[${i}].wid=+this.value;calculate()">
+            <span class="input-suffix">ft</span>
+          </div>
+          <div class="field-row">
+            <label>Ceiling height</label>
+            <input type="number" value="${r.ht}" min="1" step="0.5"
+              oninput="rooms[${i}].ht=+this.value;calculate()">
+            <span class="input-suffix">ft</span>
+          </div>
+          <div class="field-row">
+            <label>Doors</label>
+            <input type="number" value="${r.doors}" min="0" step="1"
+              oninput="rooms[${i}].doors=Math.max(0,+this.value);calculate()">
+          </div>
+          <div class="field-row" style="margin-bottom:0">
+            <label>Windows</label>
+            <input type="number" value="${r.windows}" min="0" step="1"
+              oninput="rooms[${i}].windows=Math.max(0,+this.value);calculate()">
+          </div>
+        </div>
+      `).join('');
+      calculate();
+    }
+
+    function gal(sqft, cov) { return sqft / cov; }
+    function fmtGal(g) {
+      if (g <= 0) return '0 gal';
+      if (g < 1) return `${(g * 4).toFixed(1)} qt`;
+      return `${g.toFixed(2)} gal`;
+    }
+    function ceilGal(g) { return Math.ceil(g * 4) / 4; } // round up to nearest quart
+
+    function calculate() {
+      const coverage  = Math.max(100, parseFloat(document.getElementById('coverage').value) || 400);
+      const inclCeil  = document.getElementById('inclCeiling').checked;
+      const inclTrim  = document.getElementById('inclTrim').checked;
+      const priceGal  = Math.max(0, parseFloat(document.getElementById('priceGal').value) || 0);
+
+      let totalWallSqft = 0;
+      let totalCeilSqft = 0;
+      let totalTrimSqft = 0;
+
+      rooms.forEach(r => {
+        const perimeter = 2 * (r.len + r.wid);
+        const wallArea  = perimeter * r.ht - r.doors * DOOR_SQFT - r.windows * WIN_SQFT;
+        totalWallSqft  += Math.max(0, wallArea);
+        totalCeilSqft  += r.len * r.wid;
+        if (inclTrim) totalTrimSqft += TRIM_SQFT;
+      });
+
+      const wallGal  = gal(totalWallSqft, coverage) * coats;
+      const ceilGalN = inclCeil ? gal(totalCeilSqft, coverage) * coats : 0;
+      const trimGalN = inclTrim ? gal(totalTrimSqft, coverage) * coats : 0;
+      const totalGal = wallGal + ceilGalN + trimGalN;
+      const totalGalBuy = ceilGal(totalGal); // round up
+
+      const costRow = priceGal > 0 ? `
+        <div class="result-row">
+          <span class="result-label">Estimated cost</span>
+          <span class="result-value cost-value">$${(priceGal * totalGalBuy).toFixed(0)}</span>
+        </div>` : '';
+
+      const ceilRow = inclCeil ? `
+        <div class="result-row">
+          <span class="result-label">Ceiling paint</span>
+          <span class="result-value">${fmtGal(ceilGalN)}</span>
+        </div>` : '';
+
+      const trimRow = inclTrim ? `
+        <div class="result-row">
+          <span class="result-label">Trim / baseboard paint</span>
+          <span class="result-value">${fmtGal(trimGalN)}</span>
+        </div>` : '';
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${totalGalBuy} gal</div>
+          <div class="result-hero-label">Total paint to buy · ${coats} coat${coats>1?'s':''} · ${totalWallSqft.toFixed(0)} sq ft walls</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Wall paint</span>
+          <span class="result-value">${fmtGal(wallGal)}</span>
+        </div>
+        ${ceilRow}
+        ${trimRow}
+        ${costRow}
+      `;
+    }
+
+    document.getElementById('coverage').addEventListener('input', calculate);
+    document.getElementById('priceGal').addEventListener('input', calculate);
+
+    renderRooms();
+  </script>
+</body>
+</html>
