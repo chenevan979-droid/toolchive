@@ -4,32 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Color Palette Generator — Free Online Color Scheme Tool</title>
-  <meta name="description" content="Generate beautiful color palettes instantly. Choose from analogous, complementary, triadic, and more harmony modes. Copy hex codes with one click. Free, no signup.">
-  <meta name="keywords" content="color palette generator, color scheme generator, color harmony tool, hex color picker, complementary colors, analogous colors">
+  <title>Toolchive — Free Niche Calculator Tools</title>
+  <meta name="description" content="Free, fast, and focused calculator tools. BBQ meat calculator, color palette generator, and more. No signup, no ads, just useful tools.">
+  <meta name="keywords" content="free calculator tools, bbq meat calculator, color palette generator, online calculators">
   <link rel="canonical" href="https://toolchive.com/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolchive.com/">
-  <meta property="og:title" content="Color Palette Generator — Free Online Color Scheme Tool">
-  <meta property="og:description" content="Generate beautiful color palettes instantly. Choose harmony mode, lock colors you love, copy hex codes. Free and no signup required.">
+  <meta property="og:title" content="Toolchive — Free Niche Calculator Tools">
+  <meta property="og:description" content="Free, fast, and focused calculator tools. No signup, no ads.">
   <meta property="og:image" content="https://toolchive.com/og.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Color Palette Generator">
-  <meta name="twitter:description" content="Generate beautiful color palettes instantly. Free, no signup.">
-  <meta name="twitter:image" content="https://toolchive.com/og.png">
+  <meta name="twitter:title" content="Toolchive — Free Niche Calculator Tools">
+  <meta name="twitter:description" content="Free, fast, and focused calculator tools. No signup, no ads.">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Color Palette Generator",
-    "description": "Generate beautiful color palettes instantly with multiple harmony modes.",
-    "url": "https://toolchive.com/",
-    "applicationCategory": "DesignApplication",
-    "operatingSystem": "Any",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    "@type": "WebSite",
+    "name": "Toolchive",
+    "url": "https://toolchive.com",
+    "description": "Free niche calculator tools — BBQ, design, cooking, and more."
   }
   </script>
 
@@ -39,7 +35,7 @@
     :root {
       --bg: #f5f5f3;
       --surface: #ffffff;
-      --border: rgba(0,0,0,0.1);
+      --border: rgba(0,0,0,0.09);
       --text: #1a1a18;
       --text-muted: #888780;
       --radius: 8px;
@@ -63,274 +59,145 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 48px 24px 80px;
+      padding: 64px 24px 80px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 56px;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
     }
 
     header h1 {
-      font-size: 28px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      line-height: 1.15;
     }
 
     header p {
-      font-size: 14px;
+      font-size: 16px;
       color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 420px;
+      margin: 0 auto;
     }
 
-    .card {
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .tool-card {
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: 16px;
-      padding: 28px;
-      width: 100%;
-      max-width: 780px;
-    }
-
-    .controls {
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, transform 0.15s;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
     }
 
-    .controls label {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    select {
-      font-size: 13px;
-      padding: 7px 10px;
-      border-radius: var(--radius);
-      border: 0.5px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .btn {
-      font-size: 13px;
-      padding: 7px 14px;
-      border-radius: var(--radius);
-      border: 0.5px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.15s;
+    .tool-card:hover {
+      border-color: rgba(0,0,0,0.2);
+      transform: translateY(-2px);
       text-decoration: none;
     }
 
-    .btn:hover { filter: brightness(0.95); }
-    .btn:active { transform: scale(0.98); }
-
-    .btn-primary {
-      background: var(--text);
-      color: var(--surface);
-      border-color: transparent;
+    @media (prefers-color-scheme: dark) {
+      .tool-card:hover { border-color: rgba(255,255,255,0.2); }
     }
 
-    .btn-primary:hover { filter: brightness(1.15); }
-
-    .btn-kofi {
-      background: #FF5E5B;
-      color: #fff;
-      border-color: transparent;
-      font-weight: 500;
+    .tool-emoji {
+      font-size: 32px;
+      line-height: 1;
     }
 
-    .btn-kofi:hover { filter: brightness(1.1); }
-
-    .swatches {
-      display: flex;
-      border-radius: 12px;
-      overflow: hidden;
-      height: 220px;
+    .tool-name {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
-    .swatch {
-      flex: 1;
-      position: relative;
-      cursor: pointer;
-      transition: flex 0.25s ease;
-    }
-
-    .swatch:hover { flex: 1.5; }
-
-    .swatch-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 12px 10px 10px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.28));
-    }
-
-    .swatch-hex {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: #fff;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    }
-
-    .swatch-name {
-      display: block;
-      font-size: 11px;
-      color: rgba(255,255,255,0.75);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-      margin-top: 2px;
-    }
-
-    .lock-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      transition: background 0.15s;
-    }
-
-    .lock-btn:hover { background: rgba(255,255,255,0.35); }
-    .lock-btn.locked { background: rgba(255,255,255,0.9); color: #333; }
-
-    .section-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-top: 24px;
-      margin-bottom: 10px;
-    }
-
-    .history-row {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .history-group {
-      display: flex;
-      border-radius: 6px;
-      overflow: hidden;
-      cursor: pointer;
-      opacity: 0.75;
-      transition: opacity 0.15s;
-    }
-
-    .history-group:hover { opacity: 1; }
-
-    .history-chip { width: 20px; height: 28px; }
-    .divider { width: 8px; }
-
-    .export-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--text);
-      color: var(--surface);
-      padding: 9px 18px;
-      border-radius: var(--radius);
+    .tool-desc {
       font-size: 13px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-      z-index: 999;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex: 1;
     }
 
-    .toast.show { opacity: 1; }
-
-    kbd {
+    .tool-tag {
+      display: inline-block;
       font-size: 11px;
       color: var(--text-muted);
       background: var(--bg);
       border: 0.5px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-family: inherit;
+      border-radius: 20px;
+      padding: 3px 10px;
+      width: fit-content;
     }
 
-    .about {
+    .tool-arrow {
+      font-size: 18px;
+      color: var(--text-muted);
+      align-self: flex-end;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
       width: 100%;
-      max-width: 780px;
+      max-width: 900px;
+      margin-bottom: 12px;
       margin-top: 48px;
     }
 
-    .about h2 {
-      font-size: 20px;
-      font-weight: 500;
-      margin-bottom: 12px;
+    .section-label:first-of-type { margin-top: 0; }
+
+    .kofi-bar {
+      margin-top: 64px;
+      text-align: center;
     }
 
-    .about h3 {
-      font-size: 15px;
-      font-weight: 500;
-      margin-top: 24px;
-      margin-bottom: 8px;
-    }
-
-    .about p {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .harmony-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .harmony-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .harmony-card h4 {
+    .kofi-bar p {
       font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 6px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
     }
 
-    .harmony-card p {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 20px;
+      border-radius: var(--radius);
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      text-decoration: none;
+      transition: filter 0.15s;
     }
+
+    .btn-kofi:hover { filter: brightness(1.1); }
 
     footer {
       margin-top: 64px;
@@ -338,266 +205,46 @@
       font-size: 12px;
       color: var(--text-muted);
     }
-
-    footer a { color: var(--text-muted); }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Color Palette Generator</h1>
-    <p>Generate beautiful color harmonies — press <kbd>Space</kbd> to generate, click a color to copy</p>
+    <div class="logo">Toolchive</div>
+    <h1>Free tools for<br>everyday calculations</h1>
+    <p>Simple, focused calculators. No signup, no ads, no clutter.</p>
   </header>
 
-  <div class="card">
-    <div class="controls">
-      <label>Harmony</label>
-      <select id="mode">
-        <option value="analogous">Analogous</option>
-        <option value="complementary">Complementary</option>
-        <option value="triadic">Triadic</option>
-        <option value="split">Split complementary</option>
-        <option value="tetradic">Tetradic</option>
-        <option value="monochromatic">Monochromatic</option>
-        <option value="random">Random</option>
-      </select>
-      <label>Colors</label>
-      <select id="count">
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5" selected>5</option>
-        <option value="6">6</option>
-      </select>
-      <button class="btn btn-primary" id="genBtn">↺ Generate</button>
-    </div>
-
-    <div class="swatches" id="swatches"></div>
-
-    <div class="export-row">
-      <button class="btn" id="copyCss">Copy CSS variables</button>
-      <button class="btn" id="copyHexList">Copy hex list</button>
-      <a class="btn btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">
-        ☕ Support this tool
-      </a>
-    </div>
-
-    <div class="section-label">History</div>
-    <div class="history-row" id="history"></div>
+  <div class="section-label">🍖 Food & Cooking</div>
+  <div class="tools-grid">
+    <a class="tool-card" href="/bbq-meat-calculator">
+      <div class="tool-emoji">🔥</div>
+      <div class="tool-name">BBQ Meat Calculator</div>
+      <div class="tool-desc">Calculate exactly how much meat to buy for your cookout. Enter guest count, pick your meats, get raw weight including shrinkage.</div>
+      <div class="tool-tag">Cooking</div>
+      <div class="tool-arrow">→</div>
+    </a>
   </div>
 
-  <div class="about">
-    <h2>How to use this color palette generator</h2>
-    <p>
-      Select a harmony mode and number of colors, then hit <strong>Generate</strong> (or press Space).
-      Click any color swatch to copy its hex code. Lock colors you want to keep with the 🔓 button,
-      then generate again — only the unlocked colors will change.
-    </p>
+  <div class="section-label">🎨 Design</div>
+  <div class="tools-grid">
+    <a class="tool-card" href="/color-palette-generator">
+      <div class="tool-emoji">🎨</div>
+      <div class="tool-name">Color Palette Generator</div>
+      <div class="tool-desc">Generate beautiful color harmonies instantly. Choose from analogous, complementary, triadic, and more. Copy hex codes with one click.</div>
+      <div class="tool-tag">Design</div>
+      <div class="tool-arrow">→</div>
+    </a>
+  </div>
 
-    <h3>Color harmony modes explained</h3>
-    <div class="harmony-grid">
-      <div class="harmony-card">
-        <h4>Analogous</h4>
-        <p>Colors that sit next to each other on the color wheel. Creates a calm, cohesive look. Great for backgrounds and UI.</p>
-      </div>
-      <div class="harmony-card">
-        <h4>Complementary</h4>
-        <p>Two colors directly opposite on the color wheel. High contrast, vibrant — perfect for call-to-action designs.</p>
-      </div>
-      <div class="harmony-card">
-        <h4>Triadic</h4>
-        <p>Three colors evenly spaced at 120° apart. Balanced yet colorful — popular in illustration and branding.</p>
-      </div>
-      <div class="harmony-card">
-        <h4>Split complementary</h4>
-        <p>One base color plus two colors adjacent to its complement. High contrast with more variety than complementary.</p>
-      </div>
-      <div class="harmony-card">
-        <h4>Tetradic</h4>
-        <p>Four colors in two complementary pairs. Rich and complex — works best when one color dominates.</p>
-      </div>
-      <div class="harmony-card">
-        <h4>Monochromatic</h4>
-        <p>Different shades of the same hue. Elegant and professional — easy to build cohesive designs with.</p>
-      </div>
-    </div>
-
-    <h3>Tips for choosing a color palette</h3>
-    <p>
-      Start with your brand's primary color, lock it, then generate complementary colors around it.
-      For web design, aim for one dominant color, one secondary, and one or two accent colors.
-      Monochromatic schemes are safest for first-time designers — they're almost impossible to get wrong.
-    </p>
-    <p>
-      Use the <strong>Copy CSS variables</strong> button to paste palette colors directly into your stylesheet.
-      The exported format (<code>--color-1</code>, <code>--color-2</code>…) is ready to use with any modern CSS framework.
-    </p>
+  <div class="kofi-bar">
+    <p>These tools are free. If they saved you time, consider buying me a coffee.</p>
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support on Ko-fi</a>
   </div>
 
   <footer>
-    <p>Free color palette generator · No signup required · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+    <p>© 2026 Toolchive · Free calculator tools · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener" style="color:var(--text-muted)">Ko-fi</a></p>
   </footer>
 
-  <div class="toast" id="toast"></div>
-
-  <script>
-    const COLOR_NAMES = [
-      ['red',    [0,15]],   ['orange',  [16,40]],  ['yellow', [41,65]],
-      ['lime',   [66,80]],  ['green',   [81,150]],  ['teal',   [151,185]],
-      ['cyan',   [186,200]],['blue',    [201,255]],  ['indigo', [256,280]],
-      ['violet', [281,310]],['pink',    [311,345]],  ['rose',   [346,360]]
-    ];
-
-    function getColorName(h) {
-      h = ((h % 360) + 360) % 360;
-      for (const [name, [lo, hi]] of COLOR_NAMES) if (h >= lo && h <= hi) return name;
-      return 'color';
-    }
-
-    function hslToHex(h, s, l) {
-      h = ((h % 360) + 360) % 360;
-      s /= 100; l /= 100;
-      const a = s * Math.min(l, 1 - l);
-      const f = n => {
-        const k = (n + h / 30) % 12;
-        const c = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * c).toString(16).padStart(2, '0');
-      };
-      return '#' + f(0) + f(8) + f(4);
-    }
-
-    function generateHues(mode, count) {
-      const h = Math.random() * 360;
-      switch (mode) {
-        case 'analogous':
-          return Array.from({length: count}, (_, i) => h + (i - Math.floor(count / 2)) * 30);
-        case 'complementary': {
-          const base = [h, h + 180];
-          return Array.from({length: count}, (_, i) => base[i % 2] + Math.floor(i / 2) * 18 * (i % 2 === 0 ? 1 : -1));
-        }
-        case 'triadic': {
-          const base = [h, h + 120, h + 240];
-          return Array.from({length: count}, (_, i) => base[i % 3] + Math.floor(i / 3) * 20);
-        }
-        case 'split': {
-          const base = [h, h + 150, h + 210];
-          return Array.from({length: count}, (_, i) => base[i % 3] + Math.floor(i / 3) * 15);
-        }
-        case 'tetradic': {
-          const base = [h, h + 90, h + 180, h + 270];
-          return Array.from({length: count}, (_, i) => base[i % 4] + Math.floor(i / 4) * 15);
-        }
-        case 'monochromatic':
-          return Array.from({length: count}, () => h);
-        case 'random':
-          return Array.from({length: count}, () => Math.random() * 360);
-        default:
-          return Array.from({length: count}, (_, i) => h + i * (360 / count));
-      }
-    }
-
-    let palette = [];
-    let locked = [];
-    let history = [];
-
-    function generate() {
-      const mode = document.getElementById('mode').value;
-      const count = parseInt(document.getElementById('count').value);
-
-      if (palette.length !== count) {
-        palette = Array(count).fill(null);
-        locked = Array(count).fill(false);
-      } else if (locked.length !== count) {
-        locked = Array(count).fill(false);
-      }
-
-      const unlockedIdx = palette.map((_, i) => locked[i] ? null : i).filter(x => x !== null);
-      const newHues = generateHues(mode, unlockedIdx.length);
-
-      unlockedIdx.forEach((idx, i) => {
-        const rawH = newHues[i] ?? Math.random() * 360;
-        const h = ((rawH % 360) + 360) % 360;
-        const s = mode === 'monochromatic' ? 55 + Math.random() * 20 : 50 + Math.random() * 30;
-        const l = mode === 'monochromatic' ? 25 + (idx / (count - 1 || 1)) * 45 : 40 + Math.random() * 22;
-        palette[idx] = { h, s, l, hex: hslToHex(h, s, l) };
-      });
-
-      renderSwatches();
-      saveHistory();
-    }
-
-    function renderSwatches() {
-      document.getElementById('swatches').innerHTML = palette.map((c, i) => `
-        <div class="swatch" style="background:${c.hex}" onclick="copyColor('${c.hex}')">
-          <button class="lock-btn ${locked[i] ? 'locked' : ''}"
-            onclick="event.stopPropagation();toggleLock(${i})"
-            title="${locked[i] ? 'Unlock' : 'Lock'} color">
-            ${locked[i] ? '🔒' : '🔓'}
-          </button>
-          <div class="swatch-footer">
-            <span class="swatch-hex">${c.hex.toUpperCase()}</span>
-            <span class="swatch-name">${getColorName(c.h)}</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function toggleLock(i) {
-      locked[i] = !locked[i];
-      renderSwatches();
-    }
-
-    function copyColor(hex) {
-      navigator.clipboard.writeText(hex.toUpperCase()).then(() => toast(hex.toUpperCase() + ' copied'));
-    }
-
-    function toast(msg) {
-      const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.classList.add('show');
-      setTimeout(() => el.classList.remove('show'), 1800);
-    }
-
-    function saveHistory() {
-      history.unshift(palette.map(c => ({...c})));
-      if (history.length > 10) history.pop();
-      renderHistory();
-    }
-
-    function renderHistory() {
-      document.getElementById('history').innerHTML = history.slice(1).map((pal, pi) =>
-        `<div class="history-group" onclick="loadPalette(${pi + 1})" title="Load palette">` +
-        pal.map(c => `<div class="history-chip" style="background:${c.hex}"></div>`).join('') +
-        `</div>`
-      ).join('<div class="divider"></div>');
-    }
-
-    function loadPalette(idx) {
-      palette = history[idx].map(c => ({...c}));
-      locked = Array(palette.length).fill(false);
-      document.getElementById('count').value = palette.length;
-      renderSwatches();
-      toast('Palette loaded');
-    }
-
-    document.getElementById('genBtn').onclick = generate;
-    document.getElementById('mode').onchange = generate;
-    document.getElementById('count').onchange = generate;
-
-    document.getElementById('copyCss').onclick = () => {
-      const css = ':root {\n' + palette.map((c, i) => `  --color-${i + 1}: ${c.hex.toUpperCase()};`).join('\n') + '\n}';
-      navigator.clipboard.writeText(css).then(() => toast('CSS variables copied'));
-    };
-
-    document.getElementById('copyHexList').onclick = () => {
-      const list = palette.map(c => c.hex.toUpperCase()).join(', ');
-      navigator.clipboard.writeText(list).then(() => toast('Hex list copied'));
-    };
-
-    document.addEventListener('keydown', e => {
-      if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); generate(); }
-    });
-
-    generate();
-  </script>
 </body>
 </html>
