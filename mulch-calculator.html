@@ -350,6 +350,28 @@
       font-size: 12px;
       color: var(--text-muted);
     }
+  
+    /* --- unified polish (Toolchive) --- */
+    .card { box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    @media (prefers-color-scheme: dark) { .card { box-shadow: 0 1px 2px rgba(0,0,0,0.25); } }
+    header h1 { display: flex; align-items: center; justify-content: center; gap: 13px; flex-wrap: wrap; }
+    .h1-emoji {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px; font-size: 30px; line-height: 1;
+      background: var(--accent-bg); border-radius: 14px; flex: none;
+    }
+    .rel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 8px; }
+    .rel-card {
+      display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 10px; text-decoration: none;
+      color: var(--text); font-size: 14px; background: var(--surface);
+      transition: border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover {
+      border-color: var(--accent); background: var(--accent-bg);
+      transform: translateY(-2px); box-shadow: 0 6px 16px -6px rgba(0,0,0,0.18);
+    }
+    .rel-emoji { font-size: 18px; }
   </style>
   <script type="application/ld+json">
   {
@@ -391,7 +413,7 @@
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
 
   <header>
-    <h1>🍂 Mulch Calculator</h1>
+    <h1><span class="h1-emoji">🍂</span> Mulch Calculator</h1>
     <p>Enter your bed size and depth to find out exactly how much mulch you need — in cubic yards, bags, and total cost.</p>
   </header>
 
@@ -524,26 +546,26 @@
 
   <nav style="width:100%;max-width:640px;margin-top:56px">
     <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
-      <a href="/tile-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🔲</span> Tile</a>
-      <a href="/flooring-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Flooring</a>
-      <a href="/wallpaper-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧻</span> Wallpaper</a>
-      <a href="/roofing-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏠</span> Roofing</a>
-      <a href="/drywall-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧱</span> Drywall</a>
-      <a href="/deck-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Deck</a>
-      <a href="/insulation-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧣</span> Insulation</a>
-      <a href="/siding-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏡</span> Siding</a>
-      <a href="/retaining-wall-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧱</span> Retaining Wall</a>
-      <a href="/stair-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪜</span> Stairs</a>
-      <a href="/paint-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🖌️</span> Paint</a>
-      <a href="/concrete-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏗️</span> Concrete</a>
-      <a href="/gravel-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪨</span> Gravel</a>
-      <a href="/fence-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Fence Cost</a>
-      <a href="/sod-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🌿</span> Sod</a>
-      <a href="/bbq-meat-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🔥</span> BBQ Meat</a>
-      <a href="/tip-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">💵</span> Tip</a>
-      <a href="/sleep-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">😴</span> Sleep</a>
-      <a href="/color-palette-generator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🎨</span> Color Palette</a>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
     </div>
   </nav>
 
