@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <title>Roofing Calculator — Roof Area, Squares & Shingle Bundles</title>
+  <meta name="description" content="Free roofing calculator. Enter your roof footprint and pitch to find the true roof area in squares, the number of shingle bundles, and estimated cost. Includes a waste allowance.">
+  <meta name="keywords" content="roofing calculator, roof area calculator, roofing squares calculator, shingle calculator, how many bundles of shingles, roof pitch calculator, roof shingle cost calculator, how many squares is my roof">
+  <link rel="canonical" href="https://toolchive.com/roofing-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/roofing-calculator">
+  <meta property="og:title" content="Roofing Calculator — Roof Area, Squares & Bundles">
+  <meta property="og:description" content="Calculate your true roof area, roofing squares, shingle bundles, and cost — with pitch and waste factored in.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Roofing Calculator">
+  <meta name="twitter:description" content="Calculate roof area, squares, shingle bundles, and cost.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Roofing Calculator",
+    "description": "Calculate roof area in squares, the number of shingle bundles, and estimated cost based on building footprint and roof pitch.",
+    "url": "https://toolchive.com/roofing-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f6f7;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #607089;
+      --accent-bg: #eceef2;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16181a;
+        --surface: #202224;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #8595ad;
+        --accent-bg: #1a1e24;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .site-nav {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .site-nav a { color: var(--text-muted); }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 140px;
+    }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: -8px;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-basis: 100%;
+      margin-top: -10px;
+    }
+
+    .unit-toggle {
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .unit-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .preset-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .preset-btn {
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .preset-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-hero-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .result-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .cost-value { color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+
+    .support-row {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 24px;
+    }
+
+    .about {
+      width: 100%;
+      max-width: 640px;
+      margin-top: 32px;
+    }
+
+    .about h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .about h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .ref-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate roof area from the ground?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Measure the footprint your roof covers (length × width, including overhangs), then multiply by a pitch factor that accounts for the slope. A steeper roof has more surface area than its footprint. This calculator applies the pitch factor for you."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a roofing square?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A roofing square is 100 square feet of roof surface. Roofers and suppliers price materials and labor by the square, and asphalt shingles come three bundles to the square."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many bundles of shingles do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard asphalt shingles come three bundles per square (100 sq ft). Multiply your roof area in squares by three, then add a waste allowance of about 10 to 15 percent for cuts, hips, valleys, and ridge caps."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🏠 Roofing Calculator</h1>
+    <p>Enter your roof footprint and pitch to find the true roof area in squares, the number of shingle bundles you need, and estimated cost — with a waste allowance.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Roof footprint</div>
+
+    <div class="field-row">
+      <label>Units</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet</button>
+        <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Footprint length</label>
+      <input type="number" id="length" value="40" min="0" step="0.1">
+      <span class="input-suffix lenUnit">ft</span>
+    </div>
+    <div class="field-row">
+      <label>Footprint width</label>
+      <input type="number" id="width" value="30" min="0" step="0.1">
+      <span class="input-suffix lenUnit">ft</span>
+      <span class="field-hint">Measure the area the roof covers from above, including eave overhangs — not the slope length.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Roof pitch</div>
+    <div class="field-row">
+      <label>Pitch (rise in 12)</label>
+      <div class="preset-btns" id="pitchPresets"></div>
+    </div>
+    <div class="field-row">
+      <label>Custom rise</label>
+      <input type="number" id="pitch" value="6" min="0" step="0.5">
+      <span class="input-suffix">in 12</span>
+      <span class="field-hint">A "6 in 12" roof rises 6 inches for every 12 inches across. Higher = steeper = more surface area.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Waste &amp; price</div>
+    <div class="field-row">
+      <label>Waste allowance</label>
+      <div class="preset-btns" id="wastePresets"></div>
+    </div>
+    <div class="field-row">
+      <label>Custom waste</label>
+      <input type="number" id="waste" value="10" min="0" step="1">
+      <span class="input-suffix">%</span>
+    </div>
+    <div class="field-row">
+      <label>Price per square</label>
+      <input type="number" id="pricePerSquare" value="" min="0" step="1" placeholder="0">
+      <span class="input-suffix">$</span>
+      <span class="field-hint">Materials only run roughly $100–$200 per square for asphalt; installed cost is higher.</span>
+    </div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">
+      ☕ Support this free tool
+    </a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate roof area and shingles</h2>
+    <p>
+      You can't just use your house's footprint — a sloped roof has more surface than the ground it covers.
+      The trick is the <strong>pitch factor (or roof multiplier)</strong>: measure the footprint, multiply
+      by a factor based on the slope, and you get the true roof area. Then convert to
+      <strong>squares</strong> (100 sq ft each), the unit roofers actually buy and price by.
+    </p>
+
+    <h3>The method, step by step</h3>
+    <p>
+      1. <strong>Footprint area</strong> = length × width (include overhangs).<br>
+      2. <strong>Roof area</strong> = footprint × pitch factor, where pitch factor = √(rise² + 12²) ÷ 12.<br>
+      3. <strong>With waste</strong> = roof area × (1 + waste % ÷ 100).<br>
+      4. <strong>Squares</strong> = area ÷ 100. <strong>Bundles</strong> = squares × 3 (asphalt shingles).
+    </p>
+
+    <h3>Roof pitch multipliers</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Pitch</th>
+          <th>Multiplier</th>
+          <th>Slope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>3 in 12</td><td>×1.031</td><td>Low slope</td></tr>
+        <tr><td>4 in 12</td><td>×1.054</td><td>Common, walkable</td></tr>
+        <tr><td>6 in 12</td><td>×1.118</td><td>Standard pitch</td></tr>
+        <tr><td>8 in 12</td><td>×1.202</td><td>Steep</td></tr>
+        <tr><td>12 in 12</td><td>×1.414</td><td>Very steep (45°)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Why buy extra (waste)</h3>
+    <p>
+      Add about <strong>10%</strong> for a simple gable roof and <strong>15%</strong> or more for roofs
+      with several hips, valleys, dormers, or skylights — each of those means more cuts and offcuts. You
+      also need extra shingles for <strong>starter rows and ridge caps</strong>, which this allowance helps
+      cover. When in doubt, round bundles up.
+    </p>
+
+    <h3>A quick reality check</h3>
+    <p>
+      This gives a solid material estimate for a straightforward roof, but complex rooflines are hard to
+      measure from the ground. For a real quote — and before climbing up there — have a roofer confirm the
+      measurements and condition of the decking underneath.
+    </p>
+  </div>
+
+  <nav style="width:100%;max-width:640px;margin-top:56px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+      <a href="/paint-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🖌️</span> Paint</a>
+      <a href="/tile-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🔲</span> Tile</a>
+      <a href="/flooring-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Flooring</a>
+      <a href="/wallpaper-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧻</span> Wallpaper</a>
+      <a href="/concrete-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏗️</span> Concrete</a>
+      <a href="/gravel-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪨</span> Gravel</a>
+      <a href="/fence-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Fence Cost</a>
+      <a href="/sod-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🌿</span> Sod</a>
+      <a href="/color-palette-generator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🎨</span> Color Palette</a>
+    </div>
+  </nav>
+
+  <footer>
+    <p>Free roofing calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    const PITCH_PRESETS = [3, 4, 6, 8, 12];
+    const WASTE_PRESETS = [10, 15, 20];
+    let unit = 'imperial';
+
+    function renderPresets() {
+      document.getElementById('pitchPresets').innerHTML = PITCH_PRESETS.map(p =>
+        `<button class="preset-btn ${p===6?'active':''}" onclick="setPitch(${p},this)">${p}/12</button>`
+      ).join('');
+      document.getElementById('wastePresets').innerHTML = WASTE_PRESETS.map(w =>
+        `<button class="preset-btn ${w===10?'active':''}" onclick="setWaste(${w},this)">${w}%</button>`
+      ).join('');
+    }
+
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      document.querySelectorAll('.lenUnit').forEach(e => e.textContent = u === 'imperial' ? 'ft' : 'm');
+      calculate();
+    }
+
+    function setPitch(p, btn) {
+      document.getElementById('pitch').value = p;
+      document.querySelectorAll('#pitchPresets .preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      calculate();
+    }
+
+    function setWaste(w, btn) {
+      document.getElementById('waste').value = w;
+      document.querySelectorAll('#wastePresets .preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      calculate();
+    }
+
+    function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
+
+    function calculate() {
+      const footprint = num('length') * num('width');   // sq ft or sq m
+      const rise = num('pitch');
+      const pitchFactor = Math.sqrt(rise * rise + 144) / 12;  // 12² = 144
+      const roofArea = footprint * pitchFactor;
+      const wastePct = num('waste');
+      const areaWithWaste = roofArea * (1 + wastePct / 100);
+
+      // squares are a US imperial unit (100 sq ft). For metric, convert area to sq ft first.
+      const areaSqFt = unit === 'imperial' ? areaWithWaste : areaWithWaste * 10.7639;
+      const squares = areaSqFt / 100;
+      const bundles = Math.ceil(squares * 3);
+
+      const unitLabel = unit === 'imperial' ? 'sq ft' : 'm²';
+      const pricePerSquare = num('pricePerSquare');
+
+      let costRow = '';
+      if (pricePerSquare > 0) {
+        const cost = squares * pricePerSquare;
+        costRow = `
+          <div class="result-row">
+            <span class="result-label">Estimated material cost</span>
+            <span class="result-value cost-value">$${cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+          </div>`;
+      }
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${squares.toFixed(1)}</div>
+          <div class="result-hero-label">🏠 roofing squares (incl. ${wastePct}% waste)</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">True roof area</span>
+          <span class="result-value">${areaWithWaste.toFixed(0)} ${unitLabel}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Pitch multiplier</span>
+          <span class="result-value">×${pitchFactor.toFixed(3)}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Shingle bundles (3 / square)</span>
+          <span class="result-value">${bundles.toLocaleString()}</span>
+        </div>
+        ${costRow}
+      `;
+    }
+
+    ['length','width','pitch','waste','pricePerSquare'].forEach(id =>
+      document.getElementById(id).addEventListener('input', calculate)
+    );
+
+    renderPresets();
+    calculate();
+  </script>
+</body>
+</html>
