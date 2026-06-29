@@ -27,7 +27,7 @@
     "@type": "WebSite",
     "name": "Toolchive",
     "url": "https://toolchive.com",
-    "description": "Free niche calculator tools — BBQ, design, cooking, and more."
+    "description": "Free niche calculator tools for home improvement, gardening, cooking, and everyday life."
   }
   </script>
 
@@ -40,6 +40,10 @@
       --border: rgba(0,0,0,0.09);
       --text: #1a1a18;
       --text-muted: #888780;
+      --accent: #5a7d4f;
+      --accent-soft: rgba(90,125,79,0.10);
+      --shadow: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-hover: 0 12px 28px -8px rgba(0,0,0,0.16);
       --radius: 8px;
     }
 
@@ -49,7 +53,11 @@
         --surface: #242422;
         --border: rgba(255,255,255,0.1);
         --text: #f0ede8;
-        --text-muted: #888780;
+        --text-muted: #8f8e87;
+        --accent: #8bb47c;
+        --accent-soft: rgba(139,180,124,0.12);
+        --shadow: 0 1px 2px rgba(0,0,0,0.2);
+        --shadow-hover: 0 12px 30px -8px rgba(0,0,0,0.55);
       }
     }
 
@@ -62,41 +70,124 @@
       flex-direction: column;
       align-items: center;
       padding: 64px 24px 80px;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* radial brand glow behind the hero */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 760px;
+      height: 480px;
+      background: radial-gradient(closest-side, var(--accent-soft), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header, .toolbar, .tool-section, .kofi-bar, footer { position: relative; z-index: 1; }
 
     header {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 36px;
     }
 
     .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
+    .logo svg { width: 17px; height: 17px; }
 
     header h1 {
-      font-size: 36px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-      line-height: 1.15;
+      font-size: 40px;
+      font-weight: 650;
+      letter-spacing: -0.035em;
+      margin-bottom: 14px;
+      line-height: 1.12;
     }
+    header h1 .hl { color: var(--accent); }
 
     header p {
       font-size: 16px;
       color: var(--text-muted);
       line-height: 1.6;
-      max-width: 420px;
+      max-width: 440px;
       margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 20px;
+      padding: 5px 14px;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* search */
+    .toolbar {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 8px;
+    }
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      width: 17px; height: 17px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    #search {
+      width: 100%;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px 13px 44px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    #search::placeholder { color: var(--text-muted); }
+    #search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .no-results {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 15px;
+      padding: 48px 0;
     }
 
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
       gap: 16px;
       width: 100%;
       max-width: 900px;
@@ -104,35 +195,40 @@
 
     .tool-card {
       background: var(--surface);
-      border: 0.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 22px;
       text-decoration: none;
       color: var(--text);
-      transition: border-color 0.15s, transform 0.15s;
+      box-shadow: var(--shadow);
+      transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
     .tool-card:hover {
-      border-color: rgba(0,0,0,0.2);
-      transform: translateY(-2px);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
       text-decoration: none;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .tool-card:hover { border-color: rgba(255,255,255,0.2); }
-    }
-
     .tool-emoji {
-      font-size: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      font-size: 26px;
       line-height: 1;
+      background: var(--accent-soft);
+      border-radius: 12px;
     }
 
     .tool-name {
       font-size: 17px;
-      font-weight: 600;
+      font-weight: 650;
       letter-spacing: -0.01em;
     }
 
@@ -143,36 +239,57 @@
       flex: 1;
     }
 
+    .tool-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
     .tool-tag {
       display: inline-block;
       font-size: 11px;
       color: var(--text-muted);
       background: var(--bg);
-      border: 0.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 3px 10px;
-      width: fit-content;
     }
 
     .tool-arrow {
-      font-size: 18px;
+      font-size: 17px;
       color: var(--text-muted);
-      align-self: flex-end;
+      transition: transform 0.18s, color 0.18s;
+    }
+    .tool-card:hover .tool-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
     }
 
     .section-label {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
       width: 100%;
       max-width: 900px;
-      margin-bottom: 12px;
-      margin-top: 48px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label .count {
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 20px;
+      padding: 1px 9px;
+      font-size: 10px;
     }
 
-    .section-label:first-of-type { margin-top: 0; }
+    .tool-section { width: 100%; max-width: 900px; margin-top: 44px; }
+    .tool-section:first-of-type { margin-top: 24px; }
 
     .kofi-bar {
       margin-top: 64px;
@@ -196,16 +313,23 @@
       color: #fff;
       font-weight: 500;
       text-decoration: none;
-      transition: filter 0.15s;
+      transition: filter 0.15s, transform 0.15s;
     }
 
-    .btn-kofi:hover { filter: brightness(1.1); }
+    .btn-kofi:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
     footer {
       margin-top: 64px;
       text-align: center;
       font-size: 12px;
       color: var(--text-muted);
+    }
+    footer a { color: var(--text-muted); }
+
+    @media (max-width: 600px) {
+      body { padding: 44px 18px 64px; }
+      header h1 { font-size: 31px; }
+      .tools-grid { grid-template-columns: 1fr; }
     }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655"
@@ -214,166 +338,167 @@
 <body>
 
   <header>
-    <div class="logo">Toolchive</div>
-    <h1>Free calculators for<br>home &amp; everyday projects</h1>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+      Toolchive
+    </div>
+    <h1>Free calculators for<br><span class="hl">home &amp; everyday</span> projects</h1>
     <p>Simple, focused tools for renovations, your yard, and daily life. Free to use, no signup, no clutter.</p>
+    <div class="hero-badge"><span class="dot"></span>20 free calculators · no signup</div>
   </header>
 
-  <div class="section-label">🏡 Home &amp; Garden</div>
-  <div class="tools-grid">
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Search calculators…  (tile, paint, concrete…)" autocomplete="off" aria-label="Search calculators">
+    </div>
+  </div>
+
+  <section class="tool-section">
+    <div class="section-label">🏡 Home &amp; Garden <span class="count">16</span></div>
+    <div class="tools-grid">
     <a class="tool-card" href="/tile-calculator">
       <div class="tool-emoji">🔲</div>
       <div class="tool-name">Tile Calculator</div>
       <div class="tool-desc">Find out how many tiles and boxes you need for a floor, wall, or backsplash — with a waste factor and total cost. Pick a common tile size or enter your own.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/flooring-calculator">
       <div class="tool-emoji">🪵</div>
       <div class="tool-name">Flooring Calculator</div>
       <div class="tool-desc">Add your rooms to find out how many boxes of laminate, vinyl plank, or hardwood flooring you need — with a waste factor and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/wallpaper-calculator">
       <div class="tool-emoji">🧻</div>
       <div class="tool-name">Wallpaper Calculator</div>
       <div class="tool-desc">Find out how many rolls of wallpaper you need for a room — accounting for pattern repeat, waste, and total cost. Works with US and Euro roll sizes.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/roofing-calculator">
       <div class="tool-emoji">🏠</div>
       <div class="tool-name">Roofing Calculator</div>
       <div class="tool-desc">Find your true roof area in squares, the number of shingle bundles, and material cost — with roof pitch and a waste allowance factored in.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/drywall-calculator">
       <div class="tool-emoji">🧱</div>
       <div class="tool-name">Drywall Calculator</div>
       <div class="tool-desc">Find out how many sheets of drywall you need — plus screws, joint compound, and tape — from your room size or total area, with waste and cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/deck-calculator">
       <div class="tool-emoji">🪵</div>
       <div class="tool-name">Deck Calculator</div>
       <div class="tool-desc">Find out how many deck boards and screws you need for your deck — accounting for board width, the gap between boards, waste, and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/insulation-calculator">
       <div class="tool-emoji">🧣</div>
       <div class="tool-name">Insulation Calculator</div>
       <div class="tool-desc">Find out how many bags, rolls, or batts of insulation you need for your attic, walls, or floors — with R-value guidance, waste, and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/siding-calculator">
       <div class="tool-emoji">🏡</div>
       <div class="tool-name">Siding Calculator</div>
       <div class="tool-desc">Add your walls to find out how many squares and boxes of siding you need — for vinyl, fiber cement, and more — with a waste factor and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/retaining-wall-calculator">
       <div class="tool-emoji">🧱</div>
       <div class="tool-name">Retaining Wall Calculator</div>
       <div class="tool-desc">Find out how many blocks and cap blocks you need for a retaining wall — plus base gravel — with a waste factor and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/stair-calculator">
       <div class="tool-emoji">🪜</div>
       <div class="tool-name">Stair Calculator</div>
       <div class="tool-desc">Enter your total rise to get the number of steps, the exact rise and run, and the stringer length — using safe, code-friendly stair proportions.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/gravel-calculator">
       <div class="tool-emoji">🪨</div>
       <div class="tool-name">Gravel Calculator</div>
       <div class="tool-desc">Find out how much gravel, crushed stone, sand, or topsoil you need for a driveway, path, or garden bed — in cubic yards, tons, bags, and total cost.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/sod-calculator">
       <div class="tool-emoji">🌿</div>
       <div class="tool-name">Sod Calculator</div>
       <div class="tool-desc">Find out how many pallets or rolls of sod you need for your lawn — or how much grass seed to buy. Includes cost estimate and waste buffer.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/fence-calculator">
       <div class="tool-emoji">🪵</div>
       <div class="tool-name">Fence Cost Calculator</div>
       <div class="tool-desc">Estimate your fence installation cost by material and length — wood, vinyl, chain link, aluminum, and more. Includes posts, gates, and 2026 US labor rates.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/paint-calculator">
       <div class="tool-emoji">🖌️</div>
       <div class="tool-name">Paint Calculator</div>
       <div class="tool-desc">Find out how many gallons of paint you need for any room. Accounts for walls, ceiling, trim, doors, windows, and number of coats.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/concrete-calculator">
       <div class="tool-emoji">🏗️</div>
       <div class="tool-name">Concrete Calculator</div>
       <div class="tool-desc">Calculate how much concrete you need for slabs, footings, and columns — in cubic yards and bags (40/60/80 lb). Includes cost estimate for ready-mix.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/mulch-calculator">
       <div class="tool-emoji">🍂</div>
       <div class="tool-name">Mulch Calculator</div>
       <div class="tool-desc">Find out how much mulch you need for your garden beds — in cubic yards, bags, and total cost. Compare bagged vs. bulk pricing instantly.</div>
-      <div class="tool-tag">Home & Garden</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Home &amp; Garden</span><span class="tool-arrow">→</span></div>
     </a>
-  </div>
+    </div>
+  </section>
 
-  <div class="section-label">🍖 Food & Cooking</div>
-  <div class="tools-grid">
+  <section class="tool-section">
+    <div class="section-label">🍖 Food &amp; Cooking <span class="count">1</span></div>
+    <div class="tools-grid">
     <a class="tool-card" href="/bbq-meat-calculator">
       <div class="tool-emoji">🔥</div>
       <div class="tool-name">BBQ Meat Calculator</div>
       <div class="tool-desc">Calculate exactly how much meat to buy for your cookout. Enter guest count, pick your meats, get raw weight including shrinkage.</div>
-      <div class="tool-tag">Cooking</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Cooking</span><span class="tool-arrow">→</span></div>
     </a>
-  </div>
+    </div>
+  </section>
 
-  <div class="section-label">💤 Health & Lifestyle</div>
-  <div class="tools-grid">
+  <section class="tool-section">
+    <div class="section-label">💤 Health &amp; Lifestyle <span class="count">2</span></div>
+    <div class="tools-grid">
     <a class="tool-card" href="/tip-calculator">
       <div class="tool-emoji">💵</div>
       <div class="tool-name">Tip Calculator</div>
       <div class="tool-desc">Calculate the tip and split the bill instantly. Works for restaurants, delivery, rideshare, and any service. Choose a preset or enter a custom percentage.</div>
-      <div class="tool-tag">Lifestyle</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Lifestyle</span><span class="tool-arrow">→</span></div>
     </a>
     <a class="tool-card" href="/sleep-calculator">
       <div class="tool-emoji">😴</div>
       <div class="tool-name">Sleep Calculator</div>
       <div class="tool-desc">Find the best time to wake up or go to sleep based on 90-minute sleep cycles. Wake up refreshed by timing your alarm to the end of a cycle.</div>
-      <div class="tool-tag">Health</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Health</span><span class="tool-arrow">→</span></div>
     </a>
-  </div>
+    </div>
+  </section>
 
-  <div class="section-label">🎨 Design</div>
-  <div class="tools-grid">
+  <section class="tool-section">
+    <div class="section-label">🎨 Design <span class="count">1</span></div>
+    <div class="tools-grid">
     <a class="tool-card" href="/color-palette-generator">
       <div class="tool-emoji">🎨</div>
       <div class="tool-name">Color Palette Generator</div>
       <div class="tool-desc">Generate beautiful color harmonies instantly. Choose from analogous, complementary, triadic, and more. Copy hex codes with one click.</div>
-      <div class="tool-tag">Design</div>
-      <div class="tool-arrow">→</div>
+      <div class="tool-foot"><span class="tool-tag">Design</span><span class="tool-arrow">→</span></div>
     </a>
-  </div>
+    </div>
+  </section>
+
+  <div class="no-results" id="noResults">No calculators match “<span id="q"></span>”. Try a different word.</div>
 
   <div class="kofi-bar">
     <p>These tools are free. If they saved you time, consider buying me a coffee.</p>
@@ -381,8 +506,43 @@
   </div>
 
   <footer>
-    <p>© 2026 Toolchive · <a href="/about" style="color:var(--text-muted)">About</a> · <a href="/privacy-policy" style="color:var(--text-muted)">Privacy</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener" style="color:var(--text-muted)">Ko-fi</a></p>
+    <p>© 2026 Toolchive · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Ko-fi</a></p>
   </footer>
+
+  <script>
+    (function () {
+      var input = document.getElementById('search');
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.tool-section'));
+      var noResults = document.getElementById('noResults');
+      var qOut = document.getElementById('q');
+
+      function norm(s) { return s.toLowerCase().trim(); }
+
+      input.addEventListener('input', function () {
+        var q = norm(input.value);
+        var anyVisible = false;
+
+        sections.forEach(function (sec) {
+          var cards = sec.querySelectorAll('.tool-card');
+          var visibleInSec = 0;
+          cards.forEach(function (card) {
+            var hay = norm(card.textContent);
+            var match = q === '' || hay.indexOf(q) !== -1;
+            card.style.display = match ? '' : 'none';
+            if (match) { visibleInSec++; anyVisible = true; }
+          });
+          sec.style.display = visibleInSec ? '' : 'none';
+        });
+
+        if (!anyVisible && q !== '') {
+          qOut.textContent = input.value.trim();
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+      });
+    })();
+  </script>
 
 </body>
 </html>
