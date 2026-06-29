@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Recipe Scaler — Toolchive</title>
+  <meta name="description" content="Free recipe scaler. Scale any recipe up or down by servings. Enter your ingredients and target servings to get the adjusted amounts instantly.">
+  <link rel="canonical" href="https://toolchive.com/recipe-scaler">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/recipe-scaler">
+  <meta property="og:title" content="Recipe Scaler — Toolchive">
+  <meta property="og:description" content="Free recipe scaler. Scale any recipe up or down by servings. Enter your ingredients and target servings to get the adjusted amounts instantly.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Recipe Scaler",
+    "url":"https://toolchive.com/recipe-scaler","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#c05040; --accent-bg:#fdf0ee; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#e07060; --accent-bg:#2a0e0a;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .preset-btn {
+      font-size:13px; padding:5px 14px; border-radius:20px;
+      border:0.5px solid var(--border); background:var(--bg);
+      color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    select {
+      font-size:14px; padding:8px 12px; border-radius:var(--radius);
+      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
+      cursor:pointer;
+    }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .cost-value { color:var(--accent); }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#FF5E5B; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">🍳</div>
+    <h1>Recipe Scaler</h1>
+    <p>Scale any recipe up or down instantly. Enter your ingredients and desired servings to get adjusted amounts.</p>
+  </header>
+  <div class="card">
+    <div class="card-title">Servings</div>
+    <div class="field-row">
+      <label>Original servings</label>
+      <input type="number" id="origServ" min="0.5" step="0.5" value="4">
+    </div>
+    <div class="field-row">
+      <label>Desired servings</label>
+      <input type="number" id="newServ" min="0.5" step="0.5" value="8">
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Ingredients</div>
+    <div id="ingList"></div>
+    <button class="preset-btn" style="margin-top:12px" onclick="addIng()">+ Add ingredient</button>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+  <div class="about">
+    <h2>About This Calculator</h2>
+    <p>To scale a recipe, every ingredient is multiplied by the same factor: <strong>new servings ÷ original servings</strong>. If a recipe feeds 4 and you want 10, everything is multiplied by 2.5.</p>
+    <h3>Watch out for non-linear scaling</h3>
+    <ul>
+      <li><strong>Baking:</strong> Leavening agents (baking soda, baking powder) don't always scale perfectly. When doubling, use about 1.75× the original leavening rather than exactly 2×.</li>
+      <li><strong>Salt and spices:</strong> Start with 75% of the scaled amount and adjust to taste.</li>
+      <li><strong>Cook times:</strong> Doubling a recipe rarely doubles the cook time — check for doneness early.</li>
+    </ul>
+  </div>
+  <nav class="about" style="margin-top:40px">
+        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+    </div></div>
+  </nav>
+  <footer>
+    <p>Free Recipe Scaler · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    const UNITS=['tsp','tbsp','fl oz','cup','pint','quart','oz','lb','g','kg','ml','L','piece','slice','clove','pinch',''];
+    let ings=[
+      {amt:2,unit:'cup',name:'flour'},
+      {amt:1,unit:'tsp',name:'salt'},
+      {amt:0.5,unit:'cup',name:'butter'},
+      {amt:0,unit:'',name:''},
+    ];
+
+    function addIng(){ings.push({amt:0,unit:'',name:''}); renderIngs(); calculate();}
+    function delIng(i){if(ings.length>1){ings.splice(i,1); renderIngs(); calculate();}}
+    function updIng(i,k,v){
+      if(k==='amt') ings[i][k]=Math.max(0,parseFloat(v)||0);
+      else ings[i][k]=v;
+      calculate();
+    }
+
+    function renderIngs(){
+      document.getElementById('ingList').innerHTML=ings.map((g,i)=>`
+        <div class="field-row" style="gap:8px">
+          <input type="number" min="0" step="any" value="${g.amt||''}" placeholder="Amt" style="width:70px;font-size:15px" oninput="updIng(${i},'amt',this.value)">
+          <select onchange="updIng(${i},'unit',this.value)" style="width:90px">
+            ${UNITS.map(u=>`<option ${u===g.unit?'selected':''}>${u}</option>`).join('')}
+          </select>
+          <input type="text" value="${g.name}" placeholder="Ingredient" style="width:160px;font-size:14px;text-align:left" oninput="updIng(${i},'name',this.value)">
+          ${ings.length>1?`<button class="preset-btn" onclick="delIng(${i})" style="padding:4px 10px">✕</button>`:''}
+        </div>`).join('');
+    }
+
+    function frac(n){
+      if(n===0) return '0';
+      const whole=Math.floor(n), rem=n-whole;
+      const fracs=[[1,8],[1,4],[1,3],[3,8],[1,2],[5,8],[2,3],[3,4],[7,8]];
+      let best=null, bestDiff=Infinity;
+      fracs.forEach(([a,b])=>{const d=Math.abs(rem-a/b); if(d<bestDiff){bestDiff=d;best=[a,b];}});
+      if(bestDiff<0.04){
+        const f=best[0]===best[1]?1:best[0]+'/'+best[1];
+        return whole?(whole+' '+(f===1?'':f)):(f===1?'1':f);
+      }
+      return n<1?n.toFixed(2):n.toFixed(1).replace(/\.0$/,'');
+    }
+
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
+
+    function calculate(){
+      const orig=num('origServ')||4, nw=num('newServ')||4;
+      const factor=nw/orig;
+      const rows=ings.filter(g=>g.amt>0||g.name).map(g=>{
+        const scaled=g.amt*factor;
+        const disp=g.amt>0?frac(scaled)+' '+(g.unit||''):'—';
+        return `<div class="result-row"><span class="result-label">${g.name||'(ingredient)'}</span><span class="result-value">${disp.trim()}</span></div>`;
+      }).join('');
+      document.getElementById('resultsBody').innerHTML=`
+        <div class="result-hero">
+          <div class="result-hero-value">×${factor%1===0?factor:factor.toFixed(2)}</div>
+          <div class="result-hero-label">🍳 scale factor (${orig} → ${nw} servings)</div>
+        </div>${rows}`;
+    }
+
+    ['origServ','newServ'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    renderIngs(); calculate();
+  </script>
+</body>
+</html>

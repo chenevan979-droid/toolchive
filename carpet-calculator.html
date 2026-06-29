@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Carpet Calculator — Toolchive</title>
+  <meta name="description" content="Free carpet calculator. Enter your room dimensions to find out how many square yards of carpet you need — with waste allowance and cost estimate.">
+  <link rel="canonical" href="https://toolchive.com/carpet-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/carpet-calculator">
+  <meta property="og:title" content="Carpet Calculator — Toolchive">
+  <meta property="og:description" content="Free carpet calculator. Enter your room dimensions to find out how many square yards of carpet you need — with waste allowance and cost estimate.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Carpet Calculator",
+    "url":"https://toolchive.com/carpet-calculator","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#7a5040; --accent-bg:#f3ece8; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#c08060; --accent-bg:#2a1a10;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .preset-btn {
+      font-size:13px; padding:5px 14px; border-radius:20px;
+      border:0.5px solid var(--border); background:var(--bg);
+      color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    select {
+      font-size:14px; padding:8px 12px; border-radius:var(--radius);
+      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
+      cursor:pointer;
+    }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .cost-value { color:var(--accent); }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#FF5E5B; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">🛋️</div>
+    <h1>Carpet Calculator</h1>
+    <p>Enter your room dimensions to find out how much carpet to buy — in square yards and square feet, with waste and cost.</p>
+  </header>
+  <div class="card">
+    <div class="card-title">Rooms</div>
+    <div id="roomsList"></div>
+    <button class="preset-btn" style="margin-top:8px" onclick="addRoom()">+ Add room</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Options</div>
+    <div class="field-row">
+      <label>Waste allowance</label>
+      <div id="wastePresets" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </div>
+    <div class="field-row">
+      <label>Price per sq yd</label>
+      <input type="number" id="price" min="0" step="0.01" placeholder="0">
+      <span class="input-suffix">$/yd²</span>
+    </div>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+  <div class="about">
+    <h2>About This Calculator</h2>
+    <p>Carpet is priced and sold by the <strong>square yard</strong> (1 yd² = 9 sq ft), unlike hard flooring which is sold by the square foot or box. This calculator converts your room dimensions to square yards and adds a waste allowance for cuts, seams, and pattern matching.</p>
+    <h3>How much waste should I add?</h3>
+    <p>For simple rectangular rooms with no pattern: 5–10%. For rooms with angles, stairs, or a carpet with a pattern repeat: 15–20%. It's better to buy slightly more — carpet dye lots vary and you won't be able to match later.</p>
+    <h3>Carpet installation tips</h3>
+    <ul>
+      <li>Always buy from the same dye lot for consistent color.</li>
+      <li>Carpet is typically sold in 12-foot-wide rolls — if your room is wider, you'll need a seam.</li>
+      <li>Add padding to your budget: expect $0.50–$1.50/sq ft for quality carpet padding.</li>
+    </ul>
+  </div>
+  <nav class="about" style="margin-top:40px">
+        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+    </div></div>
+  </nav>
+  <footer>
+    <p>Free Carpet Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    const WASTE = [5,10,15,20];
+    let rooms = [{l:12,w:10},{l:0,w:0}];
+    let waste = 10;
+
+    function addRoom(){ rooms.push({l:0,w:0}); renderRooms(); calculate(); }
+    function delRoom(i){ if(rooms.length>1){rooms.splice(i,1); renderRooms(); calculate();} }
+    function upd(i,k,v){ rooms[i][k]=Math.max(0,parseFloat(v)||0); calculate(); }
+
+    function renderRooms(){
+      document.getElementById('roomsList').innerHTML = rooms.map((r,i)=>`
+        <div class="field-row">
+          <input type="number" min="0" step="0.1" value="${r.l||''}" placeholder="Length ft" style="width:90px" oninput="upd(${i},'l',this.value)">
+          <span style="color:var(--text-muted)">×</span>
+          <input type="number" min="0" step="0.1" value="${r.w||''}" placeholder="Width ft" style="width:90px" oninput="upd(${i},'w',this.value)">
+          <span class="input-suffix">ft</span>
+          ${rooms.length>1?`<button class="preset-btn" onclick="delRoom(${i})" style="padding:4px 10px">✕</button>`:''}
+        </div>`).join('');
+    }
+
+    document.getElementById('wastePresets').innerHTML = WASTE.map(w=>
+      `<button class="preset-btn ${w===10?'active':''}" onclick="setWaste(${w},this)">${w}%</button>`).join('');
+
+    function setWaste(w,btn){
+      waste=w;
+      document.querySelectorAll('#wastePresets .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      calculate();
+    }
+
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
+
+    function calculate(){
+      let totalSqFt=0;
+      rooms.forEach(r=>{ totalSqFt+=r.l*r.w; });
+      const withWaste = totalSqFt*(1+waste/100);
+      const sqYd = withWaste/9;
+      const price = num('price');
+      let costRow='';
+      if(price>0) costRow=`<div class="result-row"><span class="result-label">Estimated cost</span><span class="result-value cost-value">$${(Math.ceil(sqYd)*price).toLocaleString(undefined,{maximumFractionDigits:0})}</span></div>`;
+      document.getElementById('resultsBody').innerHTML=`
+        <div class="result-hero">
+          <div class="result-hero-value">${sqYd.toFixed(1)} yd²</div>
+          <div class="result-hero-label">🛋️ carpet to buy (incl. ${waste}% waste)</div>
+        </div>
+        <div class="result-row"><span class="result-label">Total floor area</span><span class="result-value">${totalSqFt.toFixed(1)} sq ft</span></div>
+        <div class="result-row"><span class="result-label">With waste (sq ft)</span><span class="result-value">${withWaste.toFixed(1)} sq ft</span></div>
+        <div class="result-row"><span class="result-label">Square yards needed</span><span class="result-value">${sqYd.toFixed(2)} yd²</span></div>
+        ${costRow}`;
+    }
+
+    document.getElementById('price').addEventListener('input', calculate);
+    renderRooms(); calculate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Compound Interest Calculator — Toolchive</title>
+  <meta name="description" content="Free compound interest calculator. See how your investment grows over time with compound interest, compounding frequency, and optional monthly contributions.">
+  <link rel="canonical" href="https://toolchive.com/compound-interest-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/compound-interest-calculator">
+  <meta property="og:title" content="Compound Interest Calculator — Toolchive">
+  <meta property="og:description" content="Free compound interest calculator. See how your investment grows over time with compound interest, compounding frequency, and optional monthly contributions.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Compound Interest Calculator",
+    "url":"https://toolchive.com/compound-interest-calculator","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#1a7a5e; --accent-bg:#e0f5ee; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#40b08a; --accent-bg:#061e14;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .preset-btn {
+      font-size:13px; padding:5px 14px; border-radius:20px;
+      border:0.5px solid var(--border); background:var(--bg);
+      color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    select {
+      font-size:14px; padding:8px 12px; border-radius:var(--radius);
+      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
+      cursor:pointer;
+    }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .cost-value { color:var(--accent); }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#FF5E5B; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">📈</div>
+    <h1>Compound Interest Calculator</h1>
+    <p>See how your money grows with compound interest. Add monthly contributions to model regular saving or investing.</p>
+  </header>
+  <div class="card">
+    <div class="card-title">Investment Details</div>
+    <div class="field-row">
+      <label>Starting amount</label>
+      <span style="color:var(--text-muted);font-size:18px;font-weight:600">$</span>
+      <input type="number" id="principal" min="0" step="100" value="5000" style="width:130px">
+    </div>
+    <div class="field-row">
+      <label>Annual interest rate</label>
+      <input type="number" id="rate" min="0" step="0.01" value="7" style="width:100px">
+      <span class="input-suffix">%</span>
+    </div>
+    <div class="field-row">
+      <label>Time period</label>
+      <input type="number" id="years" min="1" step="1" value="20" style="width:100px">
+      <span class="input-suffix">years</span>
+    </div>
+    <div class="field-row">
+      <label>Compounding</label>
+      <select id="compound">
+        <option value="365">Daily</option>
+        <option value="12" selected>Monthly</option>
+        <option value="4">Quarterly</option>
+        <option value="1">Annually</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <label>Monthly contribution</label>
+      <span style="color:var(--text-muted);font-size:18px;font-weight:600">$</span>
+      <input type="number" id="contrib" min="0" step="10" value="200" style="width:120px">
+    </div>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+  <div class="about">
+    <h2>About Compound Interest</h2>
+    <p>Compound interest means you earn interest on your interest — not just your original principal. Over time, this creates exponential growth. Einstein reportedly called it the "eighth wonder of the world."</p>
+    <h3>The formula</h3>
+    <p>A = P(1 + r/n)^(nt), where P is principal, r is annual rate, n is compounding periods per year, and t is years.</p>
+    <h3>Compounding frequency</h3>
+    <p>More frequent compounding means slightly more growth. The difference between monthly and daily compounding is usually small — what matters most is the rate and time horizon.</p>
+  </div>
+  <nav class="about" style="margin-top:40px">
+        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+    </div></div>
+  </nav>
+  <footer>
+    <p>Free Compound Interest Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
+    function fmt$(n){return '$'+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+    function calculate(){
+      const P=num('principal'), r=num('rate')/100, t=num('years');
+      const n=parseInt(document.getElementById('compound').value)||12;
+      const pmt=num('contrib');
+      if(!t){document.getElementById('resultsBody').innerHTML='';return;}
+      // FV of lump sum
+      const fvPrincipal=P*Math.pow(1+r/n,n*t);
+      // FV of regular contributions (annuity)
+      const fvContrib=pmt>0?pmt*(Math.pow(1+r/n,n*t)-1)/(r/n):0;
+      const finalBalance=fvPrincipal+(r>0?fvContrib:pmt*t*12);
+      const totalContributed=P+pmt*t*12;
+      const totalInterest=finalBalance-totalContributed;
+      document.getElementById('resultsBody').innerHTML=`
+        <div class="result-hero">
+          <div class="result-hero-value">${fmt$(finalBalance)}</div>
+          <div class="result-hero-label">📈 balance after ${t} year${t!==1?'s':''}</div>
+        </div>
+        <div class="result-row"><span class="result-label">Starting amount</span><span class="result-value">${fmt$(P)}</span></div>
+        <div class="result-row"><span class="result-label">Total contributions</span><span class="result-value">${fmt$(totalContributed)}</span></div>
+        <div class="result-row"><span class="result-label">Total interest earned</span><span class="result-value cost-value">${fmt$(totalInterest)}</span></div>
+        <div class="result-row"><span class="result-label">Final balance</span><span class="result-value">${fmt$(finalBalance)}</span></div>
+        <div class="result-row"><span class="result-label">Return on contributions</span><span class="result-value">${totalContributed>0?(totalInterest/totalContributed*100).toFixed(1)+'%':'—'}</span></div>`;
+    }
+    ['principal','rate','years','contrib'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    document.getElementById('compound').addEventListener('change',calculate);
+    calculate();
+  </script>
+</body>
+</html>

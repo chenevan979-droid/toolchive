@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Aspect Ratio Calculator — Toolchive</title>
+  <meta name="description" content="Free aspect ratio calculator. Find the simplified ratio of any two dimensions, scale a ratio to a new size, or find missing width or height.">
+  <link rel="canonical" href="https://toolchive.com/aspect-ratio-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/aspect-ratio-calculator">
+  <meta property="og:title" content="Aspect Ratio Calculator — Toolchive">
+  <meta property="og:description" content="Free aspect ratio calculator. Find the simplified ratio of any two dimensions, scale a ratio to a new size, or find missing width or height.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Aspect Ratio Calculator",
+    "url":"https://toolchive.com/aspect-ratio-calculator","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#a0508a; --accent-bg:#f8e8f5; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#d080b8; --accent-bg:#200818;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .preset-btn {
+      font-size:13px; padding:5px 14px; border-radius:20px;
+      border:0.5px solid var(--border); background:var(--bg);
+      color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    select {
+      font-size:14px; padding:8px 12px; border-radius:var(--radius);
+      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
+      cursor:pointer;
+    }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .cost-value { color:var(--accent); }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#FF5E5B; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">📐</div>
+    <h1>Aspect Ratio Calculator</h1>
+    <p>Simplify any ratio, scale a size while keeping the ratio, or find a missing width or height.</p>
+  </header>
+  <div class="card">
+    <div class="card-title">Mode</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="preset-btn active" id="btn-simplify" onclick="setMode('simplify',this)">Simplify ratio</button>
+      <button class="preset-btn" id="btn-scale" onclick="setMode('scale',this)">Scale to new size</button>
+    </div>
+  </div>
+  <div class="card" id="simplifyCard">
+    <div class="card-title">Width × Height</div>
+    <div class="field-row">
+      <label>Width</label>
+      <input type="number" id="sW" min="1" value="1920" step="1">
+      <span class="input-suffix">px (or any unit)</span>
+    </div>
+    <div class="field-row">
+      <label>Height</label>
+      <input type="number" id="sH" min="1" value="1080" step="1">
+    </div>
+  </div>
+  <div class="card" id="scaleCard" style="display:none">
+    <div class="card-title">Original Size</div>
+    <div class="field-row">
+      <label>Width</label>
+      <input type="number" id="origW" min="1" value="1920" step="1">
+    </div>
+    <div class="field-row">
+      <label>Height</label>
+      <input type="number" id="origH" min="1" value="1080" step="1">
+    </div>
+    <div class="card-title" style="margin-top:20px">Target (leave one blank)</div>
+    <div class="field-row">
+      <label>New width</label>
+      <input type="number" id="newW" min="1" value="1280" step="1" placeholder="Width">
+    </div>
+    <div class="field-row">
+      <label>New height</label>
+      <input type="number" id="newH" min="1" step="1" placeholder="Height (auto)">
+    </div>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+  <div class="about">
+    <h2>About This Calculator</h2>
+    <p>An aspect ratio describes the proportional relationship between width and height. It's expressed as W:H (e.g. 16:9) or as a decimal (1.778).</p>
+    <h3>Common aspect ratios</h3>
+    <ul>
+      <li><strong>16:9</strong> — Widescreen HD/4K TV, YouTube, most monitors</li>
+      <li><strong>4:3</strong> — Older TVs, tablets, many cameras</li>
+      <li><strong>1:1</strong> — Square (Instagram, profile photos)</li>
+      <li><strong>21:9</strong> — Ultra-wide monitors, cinema</li>
+      <li><strong>3:2</strong> — DSLR cameras, 35mm film</li>
+    </ul>
+  </div>
+  <nav class="about" style="margin-top:40px">
+        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+    </div></div>
+  </nav>
+  <footer>
+    <p>Free Aspect Ratio Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    let mode='simplify';
+    function setMode(m,btn){
+      mode=m;
+      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('simplifyCard').style.display=m==='simplify'?'':'none';
+      document.getElementById('scaleCard').style.display=m==='scale'?'':'none';
+      calculate();
+    }
+    function gcd(a,b){return b===0?a:gcd(b,a%b);}
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
+    const COMMON=[{r:'1:1',v:1},{r:'4:3',v:4/3},{r:'16:9',v:16/9},{r:'16:10',v:16/10},{r:'21:9',v:21/9},{r:'2:1',v:2},{r:'3:2',v:3/2},{r:'5:4',v:5/4}];
+    function calculate(){
+      if(mode==='simplify'){
+        const w=num('sW'), h=num('sH');
+        if(!w||!h){document.getElementById('resultsBody').innerHTML='';return;}
+        const g=gcd(Math.round(w),Math.round(h));
+        const rw=Math.round(w)/g, rh=Math.round(h)/g;
+        const dec=(w/h).toFixed(4);
+        const close=COMMON.reduce((best,c)=>Math.abs(c.v-w/h)<Math.abs(best.v-w/h)?c:best);
+        document.getElementById('resultsBody').innerHTML=`
+          <div class="result-hero">
+            <div class="result-hero-value">${rw}:${rh}</div>
+            <div class="result-hero-label">📐 simplified aspect ratio</div>
+          </div>
+          <div class="result-row"><span class="result-label">Simplified ratio</span><span class="result-value">${rw}:${rh}</span></div>
+          <div class="result-row"><span class="result-label">Decimal ratio</span><span class="result-value">${dec}</span></div>
+          <div class="result-row"><span class="result-label">Closest common ratio</span><span class="result-value">${close.r}</span></div>`;
+      } else {
+        const oW=num('origW'), oH=num('origH');
+        const nW=num('newW'), nH=num('newH');
+        if(!oW||!oH){document.getElementById('resultsBody').innerHTML='';return;}
+        const ratio=oW/oH;
+        let finalW=nW, finalH=nH;
+        if(nW&&!nH) finalH=Math.round(nW/ratio);
+        else if(nH&&!nW) finalW=Math.round(nH*ratio);
+        else if(nW&&nH){finalW=nW; finalH=nH;}
+        else{document.getElementById('resultsBody').innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted)">Enter a new width or height.</div>';return;}
+        const g=gcd(Math.round(oW),Math.round(oH));
+        document.getElementById('resultsBody').innerHTML=`
+          <div class="result-hero">
+            <div class="result-hero-value">${finalW} × ${finalH}</div>
+            <div class="result-hero-label">📐 scaled dimensions</div>
+          </div>
+          <div class="result-row"><span class="result-label">Original size</span><span class="result-value">${oW} × ${oH}</span></div>
+          <div class="result-row"><span class="result-label">Aspect ratio</span><span class="result-value">${Math.round(oW)/g}:${Math.round(oH)/g}</span></div>
+          <div class="result-row"><span class="result-label">New size</span><span class="result-value">${finalW} × ${finalH}</span></div>`;
+      }
+    }
+    ['sW','sH','origW','origH','newW','newH'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    calculate();
+  </script>
+</body>
+</html>

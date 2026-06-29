@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Cooking Measurement Converter — Toolchive</title>
+  <meta name="description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
+  <link rel="canonical" href="https://toolchive.com/cooking-conversion">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/cooking-conversion">
+  <meta property="og:title" content="Cooking Measurement Converter — Toolchive">
+  <meta property="og:description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Cooking Measurement Converter",
+    "url":"https://toolchive.com/cooking-conversion","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#b07030; --accent-bg:#fdf0e0; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#d09840; --accent-bg:#201408;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .preset-btn {
+      font-size:13px; padding:5px 14px; border-radius:20px;
+      border:0.5px solid var(--border); background:var(--bg);
+      color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    select {
+      font-size:14px; padding:8px 12px; border-radius:var(--radius);
+      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
+      cursor:pointer;
+    }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .cost-value { color:var(--accent); }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#FF5E5B; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">⚗️</div>
+    <h1>Cooking Measurement Converter</h1>
+    <p>Convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more — instantly.</p>
+  </header>
+  <div class="card">
+    <div class="card-title">Mode</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="preset-btn active" id="btn-vol" onclick="setMode('vol',this)">Volume</button>
+      <button class="preset-btn" id="btn-wt" onclick="setMode('wt',this)">Weight</button>
+      <button class="preset-btn" id="btn-temp" onclick="setMode('temp',this)">Temperature</button>
+    </div>
+  </div>
+  <div class="card" id="inputCard">
+    <div class="card-title" id="inputTitle">Convert Volume</div>
+    <div class="field-row">
+      <label>Amount</label>
+      <input type="number" id="amount" min="0" step="any" value="1">
+    </div>
+    <div class="field-row">
+      <label>From unit</label>
+      <select id="fromUnit"></select>
+    </div>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+  <div class="about">
+    <h2>About This Calculator</h2>
+    <p>US recipes use volume measurements (cups, tablespoons, teaspoons) while most of the world uses weight (grams). Weight measurements are more accurate for baking — 1 cup of flour can weigh anywhere from 120 to 150 grams depending on how it's scooped.</p>
+    <h3>Quick reference</h3>
+    <ul>
+      <li>3 teaspoons = 1 tablespoon</li>
+      <li>16 tablespoons = 1 cup</li>
+      <li>1 cup = 8 fluid ounces = 236 ml</li>
+      <li>1 pound = 16 ounces = 453.6 grams</li>
+    </ul>
+  </div>
+  <nav class="about" style="margin-top:40px">
+        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+    </div></div>
+  </nav>
+  <footer>
+    <p>Free Cooking Measurement Converter · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    let mode='vol';
+    const VOL_UNITS=[
+      {id:'tsp',   label:'Teaspoon (tsp)',   ml:4.92892},
+      {id:'tbsp',  label:'Tablespoon (tbsp)',ml:14.7868},
+      {id:'floz',  label:'Fluid oz (fl oz)', ml:29.5735},
+      {id:'cup',   label:'Cup',              ml:236.588},
+      {id:'pint',  label:'Pint (pt)',        ml:473.176},
+      {id:'quart', label:'Quart (qt)',       ml:946.353},
+      {id:'gallon',label:'Gallon (gal)',     ml:3785.41},
+      {id:'ml',    label:'Milliliter (ml)',  ml:1},
+      {id:'liter', label:'Liter (L)',        ml:1000},
+    ];
+    const WT_UNITS=[
+      {id:'tsp_w',  label:'Teaspoon (water)', g:4.92892},
+      {id:'tbsp_w', label:'Tablespoon (water)',g:14.7868},
+      {id:'oz',    label:'Ounce (oz)',        g:28.3495},
+      {id:'lb',    label:'Pound (lb)',        g:453.592},
+      {id:'g',     label:'Gram (g)',          g:1},
+      {id:'kg',    label:'Kilogram (kg)',     g:1000},
+    ];
+
+    function setMode(m,btn){
+      mode=m;
+      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      populateUnits(); calculate();
+    }
+
+    function populateUnits(){
+      const sel=document.getElementById('fromUnit');
+      const units=mode==='vol'?VOL_UNITS:mode==='wt'?WT_UNITS:[];
+      if(mode==='temp'){sel.innerHTML='<option value="f">°F</option><option value="c">°C</option>'; return;}
+      sel.innerHTML=units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
+      document.getElementById('inputTitle').textContent=mode==='vol'?'Convert Volume':'Convert Weight';
+    }
+
+    function fmt(n){
+      if(n===0) return '0';
+      if(Math.abs(n)<0.01) return n.toExponential(2);
+      if(Math.abs(n)>=10000) return n.toLocaleString(undefined,{maximumFractionDigits:0});
+      if(Math.abs(n)>=100) return n.toFixed(1);
+      if(Math.abs(n)>=10) return n.toFixed(2);
+      return n.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
+    }
+
+    function calculate(){
+      const val=parseFloat(document.getElementById('amount').value)||0;
+      const from=document.getElementById('fromUnit').value;
+      let rows='';
+      if(mode==='temp'){
+        const f=from==='f'?val:val*9/5+32;
+        const c=from==='c'?val:(val-32)*5/9;
+        const k=c+273.15;
+        rows=`<div class="result-row"><span class="result-label">°Fahrenheit</span><span class="result-value">${fmt(f)} °F</span></div>
+              <div class="result-row"><span class="result-label">°Celsius</span><span class="result-value">${fmt(c)} °C</span></div>
+              <div class="result-row"><span class="result-label">Kelvin</span><span class="result-value">${fmt(k)} K</span></div>`;
+        document.getElementById('resultsBody').innerHTML=`<div class="result-hero"><div class="result-hero-value">${fmt(from==='f'?c:f)}°${from==='f'?'C':'F'}</div><div class="result-hero-label">⚗️ temperature conversion</div></div>${rows}`;
+        return;
+      }
+      const units=mode==='vol'?VOL_UNITS:WT_UNITS;
+      const fromU=units.find(u=>u.id===from);
+      if(!fromU) return;
+      const key=mode==='vol'?'ml':'g';
+      const baseVal=val*fromU[key];
+      const hero=units[0];
+      rows=units.filter(u=>u.id!==from).map(u=>`
+        <div class="result-row"><span class="result-label">${u.label}</span><span class="result-value">${fmt(baseVal/u[key])}</span></div>`).join('');
+      document.getElementById('resultsBody').innerHTML=`
+        <div class="result-hero">
+          <div class="result-hero-value">${fmt(baseVal/hero[key])}</div>
+          <div class="result-hero-label">⚗️ ${hero.label.split(' ')[0].toLowerCase()}s</div>
+        </div>${rows}`;
+    }
+
+    document.getElementById('amount').addEventListener('input',calculate);
+    document.getElementById('fromUnit').addEventListener('change',calculate);
+    populateUnits(); calculate();
+  </script>
+</body>
+</html>
