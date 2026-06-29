@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <title>Wallpaper Calculator — How Many Rolls Do I Need?</title>
+  <meta name="description" content="Free wallpaper calculator. Enter your wall dimensions and roll size to find out how many rolls of wallpaper you need — with pattern repeat, waste, and total cost.">
+  <meta name="keywords" content="wallpaper calculator, how many rolls of wallpaper do i need, wallpaper roll calculator, wallpaper coverage calculator, how much wallpaper do i need, wallpaper cost calculator, pattern repeat wallpaper">
+  <link rel="canonical" href="https://toolchive.com/wallpaper-calculator">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/wallpaper-calculator">
+  <meta property="og:title" content="Wallpaper Calculator — How Many Rolls Do I Need?">
+  <meta property="og:description" content="Calculate exactly how many rolls of wallpaper to buy — with pattern repeat, waste, and total cost.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wallpaper Calculator">
+  <meta name="twitter:description" content="Calculate exactly how many rolls of wallpaper to buy.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Wallpaper Calculator",
+    "description": "Calculate how many rolls of wallpaper you need based on wall size, roll dimensions, pattern repeat, and waste.",
+    "url": "https://toolchive.com/wallpaper-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f6f5f7;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --text: #1a1a18;
+      --text-muted: #888780;
+      --accent: #7a5a8c;
+      --accent-bg: #f0eaf3;
+      --radius: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #18171a;
+        --surface: #222124;
+        --border: rgba(255,255,255,0.1);
+        --text: #f0ede8;
+        --text-muted: #888780;
+        --accent: #a487b5;
+        --accent-bg: #211b26;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 80px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .site-nav {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .site-nav a { color: var(--text-muted); }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .field-row:last-child { margin-bottom: 0; }
+
+    .field-row label {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 140px;
+    }
+
+    .field-row input[type="number"] {
+      width: 110px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .input-suffix {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: -8px;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-basis: 100%;
+      margin-top: -10px;
+    }
+
+    .unit-toggle {
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .unit-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .results-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 20px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .result-hero-value {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-hero-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .result-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .cost-value { color: var(--accent); }
+
+    .btn-kofi {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: #FF5E5B;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+
+    .btn-kofi:hover { filter: brightness(1.1); text-decoration: none; }
+
+    .support-row {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 24px;
+    }
+
+    .about {
+      width: 100%;
+      max-width: 640px;
+      margin-top: 32px;
+    }
+
+    .about h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .about h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .ref-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many rolls of wallpaper do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Measure the total width of your walls and the wall height. Work out how many full-height strips you get from one roll, how many strips you need to cover the width, then divide to get the number of rolls — adding extra for pattern repeat and waste."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is pattern repeat and why does it matter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pattern repeat is the vertical distance before the design repeats. With a large repeat you have to trim each strip to line the pattern up, which wastes paper and means you need more rolls. Plain or random-match papers have no repeat and waste the least."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much extra wallpaper should I buy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Always round up to whole rolls and buy at least one spare, ideally from the same batch number so the color matches. A 10 to 15 percent allowance on top of the bare coverage is normal once pattern repeat is included."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+
+  <header>
+    <h1>🧻 Wallpaper Calculator</h1>
+    <p>Enter your wall size and roll dimensions to find out how many rolls of wallpaper you need — accounting for pattern repeat, waste, and total cost.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Walls</div>
+
+    <div class="field-row">
+      <label>Units</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet / inches</button>
+        <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters / cm</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>Total wall width</label>
+      <input type="number" id="wallWidth" value="40" min="0" step="0.1">
+      <span class="input-suffix lenUnit">ft</span>
+      <span class="field-hint">Add up the width of every wall you're covering (the room's perimeter, minus any walls you skip).</span>
+    </div>
+    <div class="field-row">
+      <label>Wall height</label>
+      <input type="number" id="wallHeight" value="8" min="0" step="0.1">
+      <span class="input-suffix lenUnit">ft</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Wallpaper roll</div>
+    <div class="field-row">
+      <label>Roll width</label>
+      <input type="number" id="rollWidth" value="21" min="0" step="0.1">
+      <span class="input-suffix shortUnit">in</span>
+    </div>
+    <div class="field-row">
+      <label>Roll length</label>
+      <input type="number" id="rollLength" value="33" min="0" step="0.1">
+      <span class="input-suffix lenUnit">ft</span>
+    </div>
+    <div class="field-row">
+      <label>Pattern repeat</label>
+      <input type="number" id="repeat" value="0" min="0" step="0.1">
+      <span class="input-suffix shortUnit">in</span>
+      <span class="field-hint">Enter 0 for a plain or random-match paper. Otherwise use the repeat printed on the roll label.</span>
+    </div>
+    <div class="field-row">
+      <label>Price per roll</label>
+      <input type="number" id="priceRoll" value="" min="0" step="0.01" placeholder="0">
+      <span class="input-suffix">$</span>
+    </div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div id="resultsBody"></div>
+  </div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">
+      ☕ Support this free tool
+    </a>
+  </div>
+
+  <div class="about">
+    <h2>How to calculate how much wallpaper you need</h2>
+    <p>
+      Wallpaper is hung in full-height vertical strips, so the math is about <strong>strips, not raw square
+      footage</strong>. You work out how many strips you can cut from one roll, how many strips it takes to
+      go around the room, and divide. Pattern repeat eats into each roll because you have to trim strips to
+      line the design up — this calculator factors that in for you.
+    </p>
+
+    <h3>The method, step by step</h3>
+    <p>
+      1. <strong>Strips needed</strong> = total wall width ÷ roll width (rounded up).<br>
+      2. <strong>Usable strip length</strong> = wall height + pattern repeat allowance (so the pattern lines up).<br>
+      3. <strong>Strips per roll</strong> = roll length ÷ usable strip length (rounded down).<br>
+      4. <strong>Rolls</strong> = strips needed ÷ strips per roll (rounded up).
+    </p>
+
+    <h3>Why pattern repeat costs you rolls</h3>
+    <p>
+      With a plain paper, every inch of the roll is usable. But with a large pattern repeat, each strip has
+      to start at the same point in the design, so you trim and discard up to one repeat's worth of paper
+      per strip. A big repeat can easily push you from 5 rolls up to 6 or 7 — always check the repeat on
+      the label before buying.
+    </p>
+
+    <h3>Standard wallpaper roll sizes</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Roll type</th>
+          <th>Typical size</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🇺🇸 US single roll</td><td>~21 in × 33 ft</td><td>Often sold as double rolls</td></tr>
+        <tr><td>🇬🇧 UK / Euro roll</td><td>~53 cm × 10 m</td><td>The common standard</td></tr>
+        <tr><td>🖼️ Peel & stick</td><td>Varies widely</td><td>Check the specific product</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Buy a spare from the same batch</h3>
+    <p>
+      Always round up to whole rolls and grab at least one extra, ideally with the same <strong>batch
+      (lot) number</strong> — colors shift slightly between print runs, so a later top-up roll may not match
+      the walls you've already hung.
+    </p>
+  </div>
+
+  <nav style="width:100%;max-width:640px;margin-top:56px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+      <a href="/paint-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🖌️</span> Paint</a>
+      <a href="/tile-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🔲</span> Tile</a>
+      <a href="/flooring-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Flooring</a>
+      <a href="/concrete-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏗️</span> Concrete</a>
+      <a href="/gravel-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪨</span> Gravel</a>
+      <a href="/mulch-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🍂</span> Mulch</a>
+      <a href="/fence-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Fence Cost</a>
+      <a href="/sod-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🌿</span> Sod</a>
+      <a href="/color-palette-generator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🎨</span> Color Palette</a>
+    </div>
+  </nav>
+
+  <footer>
+    <p>Free wallpaper calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+  </footer>
+
+  <script>
+    let unit = 'imperial';
+
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      document.querySelectorAll('.lenUnit').forEach(e => e.textContent = u === 'imperial' ? 'ft' : 'm');
+      document.querySelectorAll('.shortUnit').forEach(e => e.textContent = u === 'imperial' ? 'in' : 'cm');
+      calculate();
+    }
+
+    function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
+
+    function calculate() {
+      // normalize everything to feet (imperial) or meters (metric) for big dims,
+      // and roll width / repeat are in inches (imperial) or cm (metric)
+      const big = unit === 'imperial' ? 'ft' : 'm';
+      const shortToBig = unit === 'imperial' ? (1/12) : (1/100); // in->ft or cm->m
+
+      const wallWidth = num('wallWidth');          // big units
+      const wallHeight = num('wallHeight');        // big units
+      const rollWidth = num('rollWidth') * shortToBig;   // -> big units
+      const rollLength = num('rollLength');        // big units
+      const repeat = num('repeat') * shortToBig;   // -> big units
+      const priceRoll = num('priceRoll');
+
+      let rolls = 0, stripsNeeded = 0, stripsPerRoll = 0, usableStrip = 0;
+      if (rollWidth > 0 && wallHeight > 0 && rollLength > 0) {
+        stripsNeeded = Math.ceil(wallWidth / rollWidth);
+        // each strip must be at least wall height; if there is a repeat, round the
+        // cut length up to the next whole repeat so patterns line up
+        usableStrip = wallHeight;
+        if (repeat > 0) usableStrip = Math.ceil(wallHeight / repeat) * repeat;
+        stripsPerRoll = Math.floor(rollLength / usableStrip);
+        if (stripsPerRoll < 1) stripsPerRoll = 0;
+        rolls = stripsPerRoll > 0 ? Math.ceil(stripsNeeded / stripsPerRoll) : 0;
+      }
+
+      let costRow = '';
+      if (rolls > 0 && priceRoll > 0) {
+        const cost = rolls * priceRoll;
+        costRow = `
+          <div class="result-row">
+            <span class="result-label">Estimated cost</span>
+            <span class="result-value cost-value">$${cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+          </div>`;
+      }
+
+      const stripsPerRollText = stripsPerRoll > 0
+        ? `${stripsPerRoll} per roll`
+        : `roll too short for full strip`;
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${rolls.toLocaleString()}</div>
+          <div class="result-hero-label">🧻 rolls needed${repeat>0?' (incl. pattern repeat)':''}</div>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Strips needed</span>
+          <span class="result-value">${stripsNeeded.toLocaleString()}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Strip cut length</span>
+          <span class="result-value">${usableStrip.toFixed(2)} ${big}</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Strips per roll</span>
+          <span class="result-value">${stripsPerRollText}</span>
+        </div>
+        ${costRow}
+      `;
+    }
+
+    ['wallWidth','wallHeight','rollWidth','rollLength','repeat','priceRoll'].forEach(id =>
+      document.getElementById(id).addEventListener('input', calculate)
+    );
+
+    calculate();
+  </script>
+</body>
+</html>
