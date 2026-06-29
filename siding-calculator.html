@@ -5,28 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-  <title>Drywall Calculator — How Many Sheets of Drywall Do I Need?</title>
-  <meta name="description" content="Free drywall calculator. Enter your wall and ceiling area to find out how many sheets of drywall, plus screws, joint compound, and tape you need — with waste and cost.">
-  <meta name="keywords" content="drywall calculator, how many sheets of drywall do i need, sheetrock calculator, drywall sheets calculator, drywall cost calculator, joint compound calculator, drywall mud calculator">
-  <link rel="canonical" href="https://toolchive.com/drywall-calculator">
+  <title>Siding Calculator — How Much Siding Do I Need?</title>
+  <meta name="description" content="Free siding calculator. Enter your wall area to find out how many squares and boxes of siding you need — for vinyl, fiber cement, and more — with waste factor and total cost.">
+  <meta name="keywords" content="siding calculator, how much siding do i need, vinyl siding calculator, siding squares calculator, siding cost calculator, fiber cement siding calculator, how many boxes of siding">
+  <link rel="canonical" href="https://toolchive.com/siding-calculator">
 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/drywall-calculator">
-  <meta property="og:title" content="Drywall Calculator — How Many Sheets Do I Need?">
-  <meta property="og:description" content="Calculate drywall sheets, screws, joint compound, and tape — with waste factor and total cost.">
+  <meta property="og:url" content="https://toolchive.com/siding-calculator">
+  <meta property="og:title" content="Siding Calculator — How Much Siding Do I Need?">
+  <meta property="og:description" content="Calculate siding squares, boxes, and cost from your wall area — with waste factored in.">
   <meta property="og:image" content="https://toolchive.com/og.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Drywall Calculator">
-  <meta name="twitter:description" content="Calculate drywall sheets, screws, mud, and tape.">
+  <meta name="twitter:title" content="Siding Calculator">
+  <meta name="twitter:description" content="Calculate siding squares, boxes, and cost from your wall area.">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Drywall Calculator",
-    "description": "Calculate how many sheets of drywall, plus screws, joint compound, and tape, you need based on the area and sheet size.",
-    "url": "https://toolchive.com/drywall-calculator",
+    "name": "Siding Calculator",
+    "description": "Calculate how many squares and boxes of siding you need based on wall area, waste factor, and coverage per box.",
+    "url": "https://toolchive.com/siding-calculator",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -37,25 +37,25 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f6f6f5;
+      --bg: #f5f6f7;
       --surface: #ffffff;
       --border: rgba(0,0,0,0.09);
       --text: #1a1a18;
       --text-muted: #888780;
-      --accent: #5b7065;
-      --accent-bg: #eaf0ec;
+      --accent: #4a7a82;
+      --accent-bg: #e7f0f1;
       --radius: 8px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #171917;
-        --surface: #212321;
+        --bg: #16191a;
+        --surface: #202324;
         --border: rgba(255,255,255,0.1);
         --text: #f0ede8;
         --text-muted: #888780;
-        --accent: #7d9488;
-        --accent-bg: #1b231e;
+        --accent: #6ba0a8;
+        --accent-bg: #18262a;
       }
     }
 
@@ -183,6 +183,55 @@
       background: var(--accent);
       color: #fff;
     }
+
+    .rooms-list { margin-bottom: 8px; }
+
+    .room-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .room-row input[type="number"] {
+      width: 90px;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+    }
+
+    .room-row .times { color: var(--text-muted); font-size: 14px; }
+
+    .room-del {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    }
+
+    .room-del:hover { color: #d9534f; }
+
+    .add-room {
+      font-size: 13px;
+      padding: 7px 14px;
+      border-radius: var(--radius);
+      border: 0.5px dashed var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .add-room:hover { border-color: var(--accent); color: var(--accent); }
 
     .preset-btns {
       display: flex;
@@ -347,26 +396,26 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How many sheets of drywall do I need?",
+        "name": "How much siding do I need?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Add up the area of every wall and ceiling you're covering, add about 10% for waste, then divide by the area of one sheet. A 4×8 sheet covers 32 square feet and a 4×12 sheet covers 48 square feet."
+          "text": "Measure the area of each wall (length × height), add them up, subtract large openings if you like, then add about 10% for waste. Siding is sold by the square (100 sq ft), so divide the total area by 100 to get squares."
         }
       },
       {
         "@type": "Question",
-        "name": "How much joint compound and tape do I need?",
+        "name": "What is a square of siding?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Plan on roughly 0.05 pounds of joint compound per square foot of drywall for taping and a few coats, and about 0.4 linear feet of tape per square foot. This calculator estimates both for you."
+          "text": "A square is 100 square feet of wall coverage — the standard unit for siding. Vinyl siding is often sold in boxes that cover two squares (200 sq ft), while other products vary, so check the box coverage."
         }
       },
       {
         "@type": "Question",
-        "name": "How many drywall screws do I need?",
+        "name": "How much extra siding should I buy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "About one screw per square foot of drywall is a good rule of thumb when fastening to studs or joists 16 inches on center, which works out to roughly 32 screws per 4×8 sheet."
+          "text": "Add about 10% for a simple rectangular house and 15% for homes with lots of corners, gables, windows, and doors, which create more cut-off waste. Buy trim pieces such as J-channel and corner posts separately."
         }
       }
     ]
@@ -378,86 +427,50 @@
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
 
   <header>
-    <h1>🧱 Drywall Calculator</h1>
-    <p>Enter the area you're covering to find out how many sheets of drywall you need — plus screws, joint compound, and tape, with a waste factor and total cost.</p>
+    <h1>🏡 Siding Calculator</h1>
+    <p>Add your walls to find out how many squares and boxes of siding you need — for vinyl, fiber cement, and more — with a waste factor and total cost.</p>
   </header>
 
   <div class="card">
-    <div class="card-title">Area to cover</div>
+    <div class="card-title">Walls</div>
 
     <div class="field-row">
-      <label>How do you want to enter it?</label>
+      <label>Units</label>
       <div class="unit-toggle">
-        <button class="unit-btn active" id="btn-area" onclick="setMode('area')">Total area</button>
-        <button class="unit-btn" id="btn-room" onclick="setMode('room')">Room size</button>
+        <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet</button>
+        <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters</button>
       </div>
     </div>
 
-    <div id="areaMode">
-      <div class="field-row">
-        <label>Total area</label>
-        <input type="number" id="totalArea" value="800" min="0" step="1">
-        <span class="input-suffix areaUnit">sq ft</span>
-        <span class="field-hint">Add up all wall and ceiling surfaces you're drywalling.</span>
-      </div>
-    </div>
+    <div class="rooms-list" id="wallsList"></div>
+    <button class="add-room" onclick="addWall()">+ Add another wall</button>
+  </div>
 
-    <div id="roomMode" style="display:none">
-      <div class="field-row">
-        <label>Units</label>
-        <div class="unit-toggle">
-          <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial')">Feet</button>
-          <button class="unit-btn" id="btn-metric" onclick="setUnit('metric')">Meters</button>
-        </div>
-      </div>
-      <div class="field-row">
-        <label>Room length</label>
-        <input type="number" id="roomL" value="12" min="0" step="0.1">
-        <span class="input-suffix lenUnit">ft</span>
-      </div>
-      <div class="field-row">
-        <label>Room width</label>
-        <input type="number" id="roomW" value="10" min="0" step="0.1">
-        <span class="input-suffix lenUnit">ft</span>
-      </div>
-      <div class="field-row">
-        <label>Wall height</label>
-        <input type="number" id="roomH" value="8" min="0" step="0.1">
-        <span class="input-suffix lenUnit">ft</span>
-      </div>
-      <div class="field-row">
-        <label>Include ceiling?</label>
-        <div class="preset-btns">
-          <button class="preset-btn active" id="ceil-yes" onclick="setCeiling(true)">Yes</button>
-          <button class="preset-btn" id="ceil-no" onclick="setCeiling(false)">No</button>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-title">Coverage &amp; price</div>
+    <div class="field-row">
+      <label>Coverage per box</label>
+      <input type="number" id="boxCov" value="200" min="0" step="1">
+      <span class="input-suffix">sq ft</span>
+      <span class="field-hint">Vinyl boxes often cover ~200 sq ft (2 squares). Leave at 0 to skip boxes and just get squares.</span>
+    </div>
+    <div class="field-row">
+      <label>Price per box</label>
+      <input type="number" id="priceBox" value="" min="0" step="0.01" placeholder="0">
+      <span class="input-suffix">$</span>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Sheet size</div>
+    <div class="card-title">Waste factor</div>
     <div class="field-row">
-      <label>Drywall sheet</label>
-      <div class="preset-btns" id="sheetPresets"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Waste &amp; price</div>
-    <div class="field-row">
-      <label>Waste allowance</label>
+      <label>Allowance</label>
       <div class="preset-btns" id="wastePresets"></div>
     </div>
     <div class="field-row">
-      <label>Custom waste</label>
+      <label>Custom</label>
       <input type="number" id="waste" value="10" min="0" step="1">
       <span class="input-suffix">%</span>
-    </div>
-    <div class="field-row">
-      <label>Price per sheet</label>
-      <input type="number" id="priceSheet" value="" min="0" step="0.01" placeholder="0">
-      <span class="input-suffix">$</span>
     </div>
   </div>
 
@@ -472,52 +485,52 @@
   </div>
 
   <div class="about">
-    <h2>How to calculate how much drywall you need</h2>
+    <h2>How to calculate how much siding you need</h2>
     <p>
-      Drywall is sold in sheets, so the job is to work out your total surface area and divide by the area
-      of one sheet. The method is: <strong>add up every wall and ceiling, add a waste allowance, then
-      divide by the sheet size</strong> and round up. This calculator also estimates the screws, joint
-      compound, and tape so you can buy everything in one trip.
+      Siding covers your exterior walls, so the job is to add up your total wall area and convert it into
+      the units siding is sold in. The method is: <strong>measure each wall, add a waste allowance, then
+      divide by 100 to get squares</strong> (the standard siding unit). If you know the coverage per box,
+      this calculator also works out the boxes and total cost.
     </p>
 
     <h3>The formula, step by step</h3>
     <p>
-      1. <strong>Total area</strong> = all wall surfaces + ceiling (if drywalling it).<br>
-      2. <strong>With waste</strong> = total area × (1 + waste % ÷ 100).<br>
-      3. <strong>Sheets</strong> = area with waste ÷ sheet area (32 sq ft for 4×8, 48 for 4×12).<br>
-      4. <strong>Screws / mud / tape</strong> scale with the drywall area.
+      1. <strong>Wall area</strong> = height × width, for each wall (add gable triangles as ½ × base × height).<br>
+      2. <strong>Total area</strong> = sum of all walls.<br>
+      3. <strong>With waste</strong> = total × (1 + waste % ÷ 100).<br>
+      4. <strong>Squares</strong> = area ÷ 100. <strong>Boxes</strong> = area ÷ box coverage.
     </p>
 
-    <h3>Standard drywall sheet sizes</h3>
+    <h3>Typical siding coverage</h3>
     <table class="ref-table">
       <thead>
         <tr>
-          <th>Sheet size</th>
-          <th>Area</th>
+          <th>Siding type</th>
+          <th>Sold as</th>
           <th>Notes</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>4 × 8 ft</td><td>32 sq ft</td><td>Easiest to handle</td></tr>
-        <tr><td>4 × 9 ft</td><td>36 sq ft</td><td>9 ft walls</td></tr>
-        <tr><td>4 × 12 ft</td><td>48 sq ft</td><td>Fewer seams, heavy</td></tr>
+        <tr><td>Vinyl</td><td>Box ≈ 2 squares</td><td>~200 sq ft per box</td></tr>
+        <tr><td>Fiber cement</td><td>By the plank/square</td><td>e.g. Hardie board</td></tr>
+        <tr><td>Engineered wood</td><td>By the plank/square</td><td>e.g. LP SmartSide</td></tr>
+        <tr><td>Aluminum / steel</td><td>By the square</td><td>Metal siding</td></tr>
       </tbody>
     </table>
 
-    <h3>Don't forget mud, tape, and screws</h3>
+    <h3>Don't forget trim and accessories</h3>
     <p>
-      For a typical job, plan on about <strong>0.05 lb of joint compound</strong> and
-      <strong>0.4 linear feet of tape</strong> per square foot of drywall, plus roughly
-      <strong>one screw per square foot</strong>. Bigger sheets mean fewer seams, which means less taping
-      and mudding — one reason pros often choose 4×12 sheets despite the extra weight.
+      The squares above cover the flat wall field only. You'll also need <strong>J-channel, corner posts,
+      starter strip, and soffit/fascia</strong>, which are sold separately by the linear foot. For a home
+      with many windows, doors, and gables, lean toward a <strong>15% waste</strong> allowance — every
+      opening and angle creates offcuts you can't reuse.
     </p>
 
-    <h3>A note on openings</h3>
+    <h3>Subtracting openings</h3>
     <p>
-      This calculator uses your gross wall area without subtracting doors and windows. For most rooms that's
-      a feature, not a bug — the offcuts around openings are rarely reusable, so counting the full wall acts
-      as built-in waste. For a room with very large openings, you can subtract those areas manually in
-      "Total area" mode.
+      This calculator uses gross wall area. For large openings like garage doors or picture windows, you can
+      add them as a "negative wall" — just leave one dimension and enter the opening's area mentally, or
+      simply rely on the waste factor to absorb normal-size windows and doors.
     </p>
   </div>
 
@@ -528,9 +541,9 @@
       <a href="/flooring-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Flooring</a>
       <a href="/wallpaper-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧻</span> Wallpaper</a>
       <a href="/roofing-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏠</span> Roofing</a>
+      <a href="/drywall-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧱</span> Drywall</a>
       <a href="/deck-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪵</span> Deck</a>
       <a href="/insulation-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🧣</span> Insulation</a>
-      <a href="/siding-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏡</span> Siding</a>
       <a href="/paint-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🖌️</span> Paint</a>
       <a href="/concrete-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🏗️</span> Concrete</a>
       <a href="/gravel-calculator" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:0.5px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:18px">🪨</span> Gravel</a>
@@ -545,52 +558,44 @@
   </nav>
 
   <footer>
-    <p>Free drywall calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
+    <p>Free siding calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a></p>
   </footer>
 
   <script>
-    const SHEETS = [
-      { label: '4×8', area: 32 },
-      { label: '4×9', area: 36 },
-      { label: '4×12', area: 48 },
-    ];
     const WASTE_PRESETS = [10, 15, 20];
-
-    let mode = 'area';       // area | room
     let unit = 'imperial';
-    let sheetArea = 32;      // sq ft
-    let includeCeiling = true;
+    let walls = [{ h: 9, w: 40 }, { h: 0, w: 0 }];
 
-    function renderPresets() {
-      document.getElementById('sheetPresets').innerHTML = SHEETS.map(s =>
-        `<button class="preset-btn ${s.area===32?'active':''}" onclick="setSheet(${s.area},this)">${s.label} ft</button>`
-      ).join('');
+    function renderWaste() {
       document.getElementById('wastePresets').innerHTML = WASTE_PRESETS.map(w =>
         `<button class="preset-btn ${w===10?'active':''}" onclick="setWaste(${w},this)">${w}%</button>`
       ).join('');
     }
 
-    function setMode(m) {
-      mode = m;
-      document.getElementById('btn-area').classList.toggle('active', m === 'area');
-      document.getElementById('btn-room').classList.toggle('active', m === 'room');
-      document.getElementById('areaMode').style.display = m === 'area' ? '' : 'none';
-      document.getElementById('roomMode').style.display = m === 'room' ? '' : 'none';
-      calculate();
+    function renderWalls() {
+      const u = unit === 'imperial' ? 'ft' : 'm';
+      document.getElementById('wallsList').innerHTML = walls.map((r, i) => `
+        <div class="room-row">
+          <input type="number" min="0" step="0.1" value="${r.h || ''}" placeholder="H"
+            oninput="updateWall(${i},'h',this.value)">
+          <span class="times">×</span>
+          <input type="number" min="0" step="0.1" value="${r.w || ''}" placeholder="W"
+            oninput="updateWall(${i},'w',this.value)">
+          <span class="times">${u}</span>
+          ${walls.length > 1 ? `<button class="room-del" onclick="delWall(${i})" title="Remove">✕</button>` : ''}
+        </div>
+      `).join('');
     }
+
+    function addWall() { walls.push({ h: 0, w: 0 }); renderWalls(); calculate(); }
+    function delWall(i) { walls.splice(i, 1); renderWalls(); calculate(); }
+    function updateWall(i, k, v) { walls[i][k] = Math.max(0, parseFloat(v) || 0); calculate(); }
 
     function setUnit(u) {
       unit = u;
       document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
       document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
-      document.querySelectorAll('.lenUnit').forEach(e => e.textContent = u === 'imperial' ? 'ft' : 'm');
-      calculate();
-    }
-
-    function setSheet(a, btn) {
-      sheetArea = a;
-      document.querySelectorAll('#sheetPresets .preset-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      renderWalls();
       calculate();
     }
 
@@ -601,80 +606,64 @@
       calculate();
     }
 
-    function setCeiling(v) {
-      includeCeiling = v;
-      document.getElementById('ceil-yes').classList.toggle('active', v);
-      document.getElementById('ceil-no').classList.toggle('active', !v);
-      calculate();
-    }
-
     function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
 
     function calculate() {
-      // get total area in square feet
-      let areaSqFt;
-      if (mode === 'area') {
-        areaSqFt = num('totalArea');
-        if (unit === 'metric') { /* area mode is shown in sq ft label by default */ }
-      } else {
-        const toFt = unit === 'imperial' ? 1 : 3.28084;
-        const L = num('roomL') * toFt, W = num('roomW') * toFt, H = num('roomH') * toFt;
-        const walls = 2 * (L + W) * H;
-        const ceiling = includeCeiling ? L * W : 0;
-        areaSqFt = walls + ceiling;
-      }
+      // total wall area in chosen unit's square measure, then convert to sq ft for squares
+      let area = 0;
+      walls.forEach(r => { area += r.h * r.w; });
 
       const wastePct = num('waste');
-      const areaWithWaste = areaSqFt * (1 + wastePct / 100);
-      const sheets = sheetArea > 0 ? Math.ceil(areaWithWaste / sheetArea) : 0;
+      const areaWithWaste = area * (1 + wastePct / 100);
+      const areaSqFt = unit === 'imperial' ? areaWithWaste : areaWithWaste * 10.7639;
 
-      // consumables based on actual drywall area (sheets × sheet area)
-      const drywallArea = sheets * sheetArea;
-      const screws = Math.ceil(drywallArea);                  // ~1 per sq ft
-      const mudLb = Math.ceil(drywallArea * 0.05);            // ~0.05 lb per sq ft
-      const tapeFt = Math.ceil(drywallArea * 0.4);            // ~0.4 lf per sq ft
+      const squares = areaSqFt / 100;
+      const boxCov = num('boxCov');
+      const unitLabel = unit === 'imperial' ? 'sq ft' : 'm²';
 
-      const priceSheet = num('priceSheet');
-      let costRow = '';
-      if (sheets > 0 && priceSheet > 0) {
-        const cost = sheets * priceSheet;
-        costRow = `
+      let boxesRow = '', costRow = '';
+      if (boxCov > 0) {
+        const boxes = Math.ceil(areaSqFt / boxCov);
+        boxesRow = `
           <div class="result-row">
-            <span class="result-label">Estimated sheet cost</span>
-            <span class="result-value cost-value">$${cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+            <span class="result-label">Boxes to buy</span>
+            <span class="result-value">${boxes.toLocaleString()}</span>
           </div>`;
+        const priceBox = num('priceBox');
+        if (priceBox > 0) {
+          const cost = boxes * priceBox;
+          costRow = `
+            <div class="result-row">
+              <span class="result-label">Estimated cost</span>
+              <span class="result-value cost-value">$${cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+            </div>`;
+        }
       }
 
       document.getElementById('resultsBody').innerHTML = `
         <div class="result-hero">
-          <div class="result-hero-value">${sheets.toLocaleString()}</div>
-          <div class="result-hero-label">🧱 sheets needed (incl. ${wastePct}% waste)</div>
+          <div class="result-hero-value">${squares.toFixed(1)}</div>
+          <div class="result-hero-label">🏡 squares of siding (incl. ${wastePct}% waste)</div>
         </div>
         <div class="result-row">
-          <span class="result-label">Total area to cover</span>
-          <span class="result-value">${areaSqFt.toFixed(0)} sq ft</span>
+          <span class="result-label">Total wall area</span>
+          <span class="result-value">${area.toFixed(0)} ${unitLabel}</span>
         </div>
         <div class="result-row">
-          <span class="result-label">Drywall screws (~1/sq ft)</span>
-          <span class="result-value">${screws.toLocaleString()}</span>
+          <span class="result-label">Area incl. waste</span>
+          <span class="result-value">${areaWithWaste.toFixed(0)} ${unitLabel}</span>
         </div>
-        <div class="result-row">
-          <span class="result-label">Joint compound</span>
-          <span class="result-value">~${mudLb.toLocaleString()} lb</span>
-        </div>
-        <div class="result-row">
-          <span class="result-label">Joint tape</span>
-          <span class="result-value">~${tapeFt.toLocaleString()} ft</span>
-        </div>
+        ${boxesRow}
         ${costRow}
       `;
     }
 
-    ['totalArea','roomL','roomW','roomH','waste','priceSheet'].forEach(id =>
+    ['boxCov','priceBox','waste'].forEach(id =>
       document.getElementById(id).addEventListener('input', calculate)
     );
 
-    renderPresets();
+    renderWaste();
+    renderWalls();
     calculate();
   </script>
 </body>
