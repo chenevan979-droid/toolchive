@@ -18,7 +18,10 @@
     "url":"https://toolchive.com/loan-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
-  <style>
+    <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this loan calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "The loan calculator uses the standard amortization formula to turn your loan amount, interest rate, and term into a fixed monthly payment, plus the total interest and total cost over the life of the loan."}}, {"@type": "Question", "name": "How is a monthly loan payment calculated?", "acceptedAnswer": {"@type": "Answer", "text": "It uses M = P·r(1+r)ⁿ ÷ ((1+r)ⁿ − 1), where P is the principal, r is the monthly interest rate, and n is the number of payments. The tool handles the math for you."}}, {"@type": "Question", "name": "Does this work for car, personal, and home loans?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — any fixed-rate, fixed-term amortizing loan. Enter the amount, APR, and term in months or years to see the monthly payment and total interest you will pay."}}]}
+  </script>
+<style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
@@ -167,6 +170,15 @@
     </ul>
     <h3>Reducing interest paid</h3>
     <p>Making extra principal payments early in the loan dramatically reduces total interest, since interest is calculated on the remaining balance.</p>
+  </div>
+    <div class="about">
+    <h2>Frequently asked questions</h2>
+    <h3>How does this loan calculator work?</h3>
+    <p>The loan calculator uses the standard amortization formula to turn your loan amount, interest rate, and term into a fixed monthly payment, plus the total interest and total cost over the life of the loan.</p>
+    <h3>How is a monthly loan payment calculated?</h3>
+    <p>It uses M = P·r(1+r)ⁿ ÷ ((1+r)ⁿ − 1), where P is the principal, r is the monthly interest rate, and n is the number of payments. The tool handles the math for you.</p>
+    <h3>Does this work for car, personal, and home loans?</h3>
+    <p>Yes — any fixed-rate, fixed-term amortizing loan. Enter the amount, APR, and term in months or years to see the monthly payment and total interest you will pay.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>

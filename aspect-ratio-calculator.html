@@ -18,7 +18,10 @@
     "url":"https://toolchive.com/aspect-ratio-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
-  <style>
+    <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this aspect ratio calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "The aspect ratio calculator simplifies a width and height to their lowest ratio (for example 1920×1080 becomes 16:9) and can also scale dimensions to a new size while keeping the same proportions."}}, {"@type": "Question", "name": "How do I calculate an aspect ratio?", "acceptedAnswer": {"@type": "Answer", "text": "Divide the width and height by their greatest common divisor. For example, 1920 and 1080 share a divisor of 120, which gives 16:9. The tool does this for any dimensions."}}, {"@type": "Question", "name": "How do I resize an image without distortion?", "acceptedAnswer": {"@type": "Answer", "text": "Use the scale mode: enter your original size and one new dimension, and the tool calculates the other dimension to preserve the exact aspect ratio."}}]}
+  </script>
+<style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
@@ -185,6 +188,15 @@
       <li><strong>21:9</strong> — Ultra-wide monitors, cinema</li>
       <li><strong>3:2</strong> — DSLR cameras, 35mm film</li>
     </ul>
+  </div>
+    <div class="about">
+    <h2>Frequently asked questions</h2>
+    <h3>How does this aspect ratio calculator work?</h3>
+    <p>The aspect ratio calculator simplifies a width and height to their lowest ratio (for example 1920×1080 becomes 16:9) and can also scale dimensions to a new size while keeping the same proportions.</p>
+    <h3>How do I calculate an aspect ratio?</h3>
+    <p>Divide the width and height by their greatest common divisor. For example, 1920 and 1080 share a divisor of 120, which gives 16:9. The tool does this for any dimensions.</p>
+    <h3>How do I resize an image without distortion?</h3>
+    <p>Use the scale mode: enter your original size and one new dimension, and the tool calculates the other dimension to preserve the exact aspect ratio.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
