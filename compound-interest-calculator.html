@@ -228,9 +228,10 @@
       if(!t){document.getElementById('resultsBody').innerHTML='';return;}
       // FV of lump sum
       const fvPrincipal=P*Math.pow(1+r/n,n*t);
-      // FV of regular contributions (annuity)
-      const fvContrib=pmt>0?pmt*(Math.pow(1+r/n,n*t)-1)/(r/n):0;
-      const finalBalance=fvPrincipal+(r>0?fvContrib:pmt*t*12);
+      // FV of regular contributions (monthly annuity, independent of compounding frequency)
+      const monthlyRate=r/12, numMonths=t*12;
+      const fvContrib=pmt>0?(monthlyRate>0?pmt*(Math.pow(1+monthlyRate,numMonths)-1)/monthlyRate:pmt*numMonths):0;
+      const finalBalance=fvPrincipal+fvContrib;
       const totalContributed=P+pmt*t*12;
       const totalInterest=finalBalance-totalContributed;
       document.getElementById('resultsBody').innerHTML=`

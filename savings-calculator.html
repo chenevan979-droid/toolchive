@@ -230,6 +230,10 @@
         balance=balance*(1+r)+pmt;
         months++;
       }
+      if(balance<goal){
+        document.getElementById('resultsBody').innerHTML=`<div class="result-hero"><div class="result-hero-value">100+ years</div><div class="result-hero-label">⏳ at this rate, your goal won't be reached within 100 years — try a higher monthly contribution</div></div>`;
+        return;
+      }
       const years=Math.floor(months/12), remMonths=months%12;
       const totalContrib=start+pmt*months;
       const interestEarned=balance-totalContrib;

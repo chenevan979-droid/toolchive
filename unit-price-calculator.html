@@ -196,6 +196,16 @@
   </footer>
   <script>
     const UNITS=['oz','lb','fl oz','L','ml','g','kg','count','ft','m','sq ft','sq m'];
+    // dimension + conversion factor to a common base unit, so items priced in different
+    // (but compatible) units rank correctly — e.g. $/oz vs $/lb must be compared on equal footing
+    const UNIT_INFO={
+      'oz':{dim:'weight',toBase:28.3495}, 'lb':{dim:'weight',toBase:453.592},
+      'g':{dim:'weight',toBase:1}, 'kg':{dim:'weight',toBase:1000},
+      'fl oz':{dim:'volume',toBase:29.5735}, 'L':{dim:'volume',toBase:1000}, 'ml':{dim:'volume',toBase:1},
+      'ft':{dim:'length',toBase:0.3048}, 'm':{dim:'length',toBase:1},
+      'sq ft':{dim:'area',toBase:0.092903}, 'sq m':{dim:'area',toBase:1},
+      'count':{dim:'count',toBase:1},
+    };
     let items=[
       {name:'Small pack',price:2.99,qty:16,unit:'oz'},
       {name:'Large pack',price:7.49,qty:48,unit:'oz'},
@@ -234,9 +244,13 @@
     }
 
     function calculate(){
-      const valid=items.map((it,i)=>({...it,i,perUnit:it.price>0&&it.qty>0?it.price/it.qty:null})).filter(it=>it.perUnit!==null);
+      const valid=items.map((it,i)=>({...it,i,
+        perUnit:it.price>0&&it.qty>0?it.price/it.qty:null,
+        perBase:it.price>0&&it.qty>0?it.price/(it.qty*UNIT_INFO[it.unit].toBase):null,
+      })).filter(it=>it.perUnit!==null);
       if(valid.length<1){document.getElementById('resultsBody').innerHTML='';return;}
-      valid.sort((a,b)=>a.perUnit-b.perUnit);
+      // rank by normalized price-per-base-unit so different (but compatible) units compare fairly
+      valid.sort((a,b)=>a.perBase-b.perBase);
       const best=valid[0];
       const rows=valid.map((it,rank)=>`
         <div class="result-row" style="${rank===0?'background:var(--accent-bg);border-radius:8px;margin:0 -4px;padding:14px 4px':''}">
