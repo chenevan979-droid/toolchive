@@ -4,34 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Cooking Measurement Converter — Toolchive</title>
-  <meta name="description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
-  <link rel="canonical" href="https://toolchive.com/cooking-conversion">
+  <title>Party Drink Calculator — Toolchive</title>
+  <meta name="description" content="Free party drink & alcohol calculator. Enter guests and party length to estimate how much beer, wine, liquor, and non-alcoholic drinks to buy.">
+  <link rel="canonical" href="https://toolchive.com/party-drink-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/cooking-conversion">
-  <meta property="og:title" content="Cooking Measurement Converter — Toolchive">
-  <meta property="og:description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
+  <meta property="og:url" content="https://toolchive.com/party-drink-calculator">
+  <meta property="og:title" content="Party Drink Calculator — Toolchive">
+  <meta property="og:description" content="Free party drink & alcohol calculator. Enter guests and party length to estimate how much beer, wine, liquor, and non-alcoholic drinks to buy.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Cooking Measurement Converter",
-    "url":"https://toolchive.com/cooking-conversion","applicationCategory":"UtilitiesApplication",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Party Drink Calculator",
+    "url":"https://toolchive.com/party-drink-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
     <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does this cooking conversion calculator do?", "acceptedAnswer": {"@type": "Answer", "text": "The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes."}}, {"@type": "Question", "name": "Why convert cups to grams for baking?", "acceptedAnswer": {"@type": "Answer", "text": "Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results."}}, {"@type": "Question", "name": "How many teaspoons are in a tablespoon?", "acceptedAnswer": {"@type": "Answer", "text": "There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly."}}]}
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much alcohol do I need for a party?", "acceptedAnswer": {"@type": "Answer", "text": "Plan about one drink per guest per hour, plus one extra in the first hour. The party drink calculator works out the total from your guest count and party length, then splits it into beer, wine, and liquor."}}, {"@type": "Question", "name": "How much beer and wine for a party of 50?", "acceptedAnswer": {"@type": "Answer", "text": "For 50 guests over 4 hours, expect roughly 250 drinks. With a balanced mix that's about 125 beers, 8–9 bottles of wine, and 3–4 bottles of liquor — adjust to your crowd's preference."}}, {"@type": "Question", "name": "How much ice do I need for a party?", "acceptedAnswer": {"@type": "Answer", "text": "Plan about 1 to 1.5 pounds of ice per guest for drinks and chilling. Hot weather or blended cocktails push that higher, so round up."}}]}
   </script>
 <style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
-      --accent:#b07030; --accent-bg:#fdf0e0; --radius:8px;
+      --accent:#1f8a8a; --accent-bg:#e0f5f5; --radius:8px;
     }
     @media (prefers-color-scheme:dark) {
       :root {
         --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
         --text:#f0ede8; --text-muted:#888780;
-        --accent:#d09840; --accent-bg:#201408;
+        --accent:#45c4c4; --accent-bg:#04201e;
       }
     }
 
@@ -123,35 +123,47 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
-
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
   <header>
-    <div class="h1-emoji">⚗️</div>
-    <h1>Cooking Measurement Converter</h1>
-    <p>Convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more — instantly.</p>
+    <div class="h1-emoji">🍹</div>
+    <h1>Party Drink Calculator</h1>
+    <p>Estimate how much beer, wine, liquor, and soft drinks to buy for your party.</p>
   </header>
   <main>
   <div class="card">
-    <div class="card-title">Mode</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="preset-btn active" id="btn-vol" onclick="setMode('vol',this)">Volume</button>
-      <button class="preset-btn" id="btn-wt" onclick="setMode('wt',this)">Weight</button>
-      <button class="preset-btn" id="btn-temp" onclick="setMode('temp',this)">Temperature</button>
-    </div>
-  </div>
-  <div class="card" id="inputCard">
-    <div class="card-title" id="inputTitle">Convert Volume</div>
+    <div class="card-title">Your Party</div>
     <div class="field-row">
-      <label>Amount</label>
-      <input type="number" id="amount" min="0" step="any" value="1">
+      <label>Number of guests</label>
+      <input type="number" id="guests" min="1" value="20" step="1">
     </div>
     <div class="field-row">
-      <label>From unit</label>
-      <select id="fromUnit"></select>
+      <label>Length (hours)</label>
+      <input type="number" id="hours" min="1" value="4" step="1">
+    </div>
+    <div class="field-row">
+      <label>Crowd</label>
+      <div id="levelBtns" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="preset-btn" onclick="setLevel(0.75,this)">Light drinkers</button>
+        <button class="preset-btn active" onclick="setLevel(1,this)">Moderate</button>
+        <button class="preset-btn" onclick="setLevel(1.25,this)">Heavy drinkers</button>
+      </div>
+    </div>
+    <div class="field-row">
+      <label>Non-drinkers</label>
+      <input type="number" id="nonDrinkers" min="0" value="2" step="1">
+    </div>
+    <div class="field-row">
+      <label>Drink mix</label>
+      <select id="mix">
+        <option value="balanced" selected>Balanced (beer, wine, cocktails)</option>
+        <option value="beer">Mostly beer</option>
+        <option value="wine">Mostly wine</option>
+        <option value="cocktail">Cocktail focus</option>
+      </select>
     </div>
   </div>
   <div class="results-card"><div id="resultsBody"></div></div>
@@ -159,24 +171,25 @@
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>US recipes use volume measurements (cups, tablespoons, teaspoons) while most of the world uses weight (grams). Weight measurements are more accurate for baking — 1 cup of flour can weigh anywhere from 120 to 150 grams depending on how it's scooped.</p>
-    <h3>Quick reference</h3>
+    <h2>How much alcohol for a party?</h2>
+    <p>The classic guideline is <strong>one drink per guest per hour</strong>, with an extra drink in the first hour when people arrive thirsty. This party drink calculator applies that rate, subtracts non-drinkers, and splits the total into beer, wine, and liquor based on your chosen mix.</p>
+    <h3>Handy conversions</h3>
     <ul>
-      <li>3 teaspoons = 1 tablespoon</li>
-      <li>16 tablespoons = 1 cup</li>
-      <li>1 cup = 8 fluid ounces = 236 ml</li>
-      <li>1 pound = 16 ounces = 453.6 grams</li>
+      <li><strong>1 case of beer</strong> = 24 cans/bottles</li>
+      <li><strong>1 bottle of wine (750ml)</strong> = about 5 glasses</li>
+      <li><strong>1 bottle of liquor (750ml)</strong> = about 16 cocktails (1.5 oz each)</li>
     </ul>
+    <h3>Don't forget</h3>
+    <p>Plan plenty of non-alcoholic options, about 1–1.5 lb of ice per guest, and enough cups. It's better to have a few extra bottles — unopened alcohol keeps.</p>
   </div>
     <div class="about">
     <h2>Frequently asked questions</h2>
-    <h3>What does this cooking conversion calculator do?</h3>
-    <p>The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes.</p>
-    <h3>Why convert cups to grams for baking?</h3>
-    <p>Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results.</p>
-    <h3>How many teaspoons are in a tablespoon?</h3>
-    <p>There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly.</p>
+    <h3>How much alcohol do I need for a party?</h3>
+    <p>Plan about one drink per guest per hour, plus one extra in the first hour. The party drink calculator works out the total from your guest count and party length, then splits it into beer, wine, and liquor.</p>
+    <h3>How much beer and wine for a party of 50?</h3>
+    <p>For 50 guests over 4 hours, expect roughly 250 drinks. With a balanced mix that's about 125 beers, 8–9 bottles of wine, and 3–4 bottles of liquor — adjust to your crowd's preference.</p>
+    <h3>How much ice do I need for a party?</h3>
+    <p>Plan about 1 to 1.5 pounds of ice per guest for drinks and chilling. Hot weather or blended cocktails push that higher, so round up.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
@@ -202,11 +215,11 @@
       <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
       <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
       <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
-      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
       <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
       <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
       <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
       <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
       <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
       <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
       <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
@@ -225,86 +238,46 @@
   </nav>
   </main>
   <footer>
-    <p>Free Cooking Measurement Converter · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+    <p>Free Party Drink Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
   </footer>
   <script>
-    let mode='vol';
-    const VOL_UNITS=[
-      {id:'tsp',   label:'Teaspoon (tsp)',   ml:4.92892},
-      {id:'tbsp',  label:'Tablespoon (tbsp)',ml:14.7868},
-      {id:'floz',  label:'Fluid oz (fl oz)', ml:29.5735},
-      {id:'cup',   label:'Cup',              ml:236.588},
-      {id:'pint',  label:'Pint (pt)',        ml:473.176},
-      {id:'quart', label:'Quart (qt)',       ml:946.353},
-      {id:'gallon',label:'Gallon (gal)',     ml:3785.41},
-      {id:'ml',    label:'Milliliter (ml)',  ml:1},
-      {id:'liter', label:'Liter (L)',        ml:1000},
-    ];
-    const WT_UNITS=[
-      {id:'tsp_w',  label:'Teaspoon (water)', g:4.92892},
-      {id:'tbsp_w', label:'Tablespoon (water)',g:14.7868},
-      {id:'oz',    label:'Ounce (oz)',        g:28.3495},
-      {id:'lb',    label:'Pound (lb)',        g:453.592},
-      {id:'g',     label:'Gram (g)',          g:1},
-      {id:'kg',    label:'Kilogram (kg)',     g:1000},
-    ];
-
-    function setMode(m,btn){
-      mode=m;
-      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      populateUnits(); calculate();
-    }
-
-    function populateUnits(){
-      const sel=document.getElementById('fromUnit');
-      const units=mode==='vol'?VOL_UNITS:mode==='wt'?WT_UNITS:[];
-      if(mode==='temp'){sel.innerHTML='<option value="f">°F</option><option value="c">°C</option>'; return;}
-      sel.innerHTML=units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
-      document.getElementById('inputTitle').textContent=mode==='vol'?'Convert Volume':'Convert Weight';
-    }
-
-    function fmt(n){
-      if(n===0) return '0';
-      if(Math.abs(n)<0.01) return n.toExponential(2);
-      if(Math.abs(n)>=10000) return n.toLocaleString(undefined,{maximumFractionDigits:0});
-      if(Math.abs(n)>=100) return n.toFixed(1);
-      if(Math.abs(n)>=10) return n.toFixed(2);
-      return n.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
-    }
-
+    let rate=1;
+    function setLevel(r,btn){rate=r;document.querySelectorAll('#levelBtns .preset-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');calculate();}
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
     function calculate(){
-      const val=parseFloat(document.getElementById('amount').value)||0;
-      const from=document.getElementById('fromUnit').value;
-      let rows='';
-      if(mode==='temp'){
-        const f=from==='f'?val:val*9/5+32;
-        const c=from==='c'?val:(val-32)*5/9;
-        const k=c+273.15;
-        rows=`<div class="result-row"><span class="result-label">°Fahrenheit</span><span class="result-value">${fmt(f)} °F</span></div>
-              <div class="result-row"><span class="result-label">°Celsius</span><span class="result-value">${fmt(c)} °C</span></div>
-              <div class="result-row"><span class="result-label">Kelvin</span><span class="result-value">${fmt(k)} K</span></div>`;
-        document.getElementById('resultsBody').innerHTML=`<div class="result-hero"><div class="result-hero-value">${fmt(from==='f'?c:f)}°${from==='f'?'C':'F'}</div><div class="result-hero-label">⚗️ temperature conversion</div></div>${rows}`;
-        return;
-      }
-      const units=mode==='vol'?VOL_UNITS:WT_UNITS;
-      const fromU=units.find(u=>u.id===from);
-      if(!fromU) return;
-      const key=mode==='vol'?'ml':'g';
-      const baseVal=val*fromU[key];
-      const hero=units[0];
-      rows=units.filter(u=>u.id!==from).map(u=>`
-        <div class="result-row"><span class="result-label">${u.label}</span><span class="result-value">${fmt(baseVal/u[key])}</span></div>`).join('');
+      const guests=Math.max(1,num('guests'));
+      const hours=Math.max(1,num('hours'));
+      const nonDrinkers=Math.min(guests,num('nonDrinkers'));
+      const drinkers=Math.max(0,guests-nonDrinkers);
+      const totalDrinks=Math.ceil(drinkers*rate*hours + drinkers*rate);
+      const mix=document.getElementById('mix').value;
+      let bShare,wShare,lShare;
+      if(mix==='beer'){bShare=0.7;wShare=0.2;lShare=0.1;}
+      else if(mix==='wine'){bShare=0.2;wShare=0.6;lShare=0.2;}
+      else if(mix==='cocktail'){bShare=0.2;wShare=0.2;lShare=0.6;}
+      else {bShare=0.5;wShare=0.3;lShare=0.2;}
+      const beer=Math.ceil(totalDrinks*bShare);
+      const wineBottles=Math.ceil(totalDrinks*wShare/5);
+      const liquorBottles=Math.ceil(totalDrinks*lShare/16);
+      const softDrinks=Math.ceil(nonDrinkers*hours*1.5 + drinkers*hours*0.3);
+      const ice=Math.ceil(guests*1.5);
+      const cups=Math.ceil(guests*hours*0.7 + guests);
       document.getElementById('resultsBody').innerHTML=`
         <div class="result-hero">
-          <div class="result-hero-value">${fmt(baseVal/hero[key])}</div>
-          <div class="result-hero-label">⚗️ ${hero.label.split(' ')[0].toLowerCase()}s</div>
-        </div>${rows}`;
+          <div class="result-hero-value">${totalDrinks}</div>
+          <div class="result-hero-label">🍹 total alcoholic drinks to plan for</div>
+        </div>
+        <div class="result-row"><span class="result-label">Beer (cans/bottles)</span><span class="result-value">${beer}</span></div>
+        <div class="result-row"><span class="result-label">Wine (750ml bottles)</span><span class="result-value">${wineBottles}</span></div>
+        <div class="result-row"><span class="result-label">Liquor (750ml bottles)</span><span class="result-value">${liquorBottles}</span></div>
+        <div class="result-row"><span class="result-label">Non-alcoholic drinks</span><span class="result-value">${softDrinks}</span></div>
+        <div class="result-row"><span class="result-label">Ice</span><span class="result-value">~${ice} lb</span></div>
+        <div class="result-row"><span class="result-label">Cups</span><span class="result-value">~${cups}</span></div>
+        <div class="notice">Based on roughly one drink per guest per hour, plus an extra in the first hour. Adjust for your crowd, and always plan non-alcoholic options and safe rides home.</div>`;
     }
-
-    document.getElementById('amount').addEventListener('input',calculate);
-    document.getElementById('fromUnit').addEventListener('change',calculate);
-    populateUnits(); calculate();
+    ['guests','hours','nonDrinkers'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    document.getElementById('mix').addEventListener('change',calculate);
+    calculate();
   </script>
 </body>
 </html>

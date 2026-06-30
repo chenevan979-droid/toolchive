@@ -4,34 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Cooking Measurement Converter — Toolchive</title>
-  <meta name="description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
-  <link rel="canonical" href="https://toolchive.com/cooking-conversion">
+  <title>Taco Bar Calculator — Toolchive</title>
+  <meta name="description" content="Free taco bar calculator. Enter your guest count to find out how much meat, tortillas, beans, rice, cheese, and toppings you need for a taco party.">
+  <link rel="canonical" href="https://toolchive.com/taco-bar-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/cooking-conversion">
-  <meta property="og:title" content="Cooking Measurement Converter — Toolchive">
-  <meta property="og:description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
+  <meta property="og:url" content="https://toolchive.com/taco-bar-calculator">
+  <meta property="og:title" content="Taco Bar Calculator — Toolchive">
+  <meta property="og:description" content="Free taco bar calculator. Enter your guest count to find out how much meat, tortillas, beans, rice, cheese, and toppings you need for a taco party.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Cooking Measurement Converter",
-    "url":"https://toolchive.com/cooking-conversion","applicationCategory":"UtilitiesApplication",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Taco Bar Calculator",
+    "url":"https://toolchive.com/taco-bar-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
     <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does this cooking conversion calculator do?", "acceptedAnswer": {"@type": "Answer", "text": "The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes."}}, {"@type": "Question", "name": "Why convert cups to grams for baking?", "acceptedAnswer": {"@type": "Answer", "text": "Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results."}}, {"@type": "Question", "name": "How many teaspoons are in a tablespoon?", "acceptedAnswer": {"@type": "Answer", "text": "There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly."}}]}
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much meat do I need for a taco bar?", "acceptedAnswer": {"@type": "Answer", "text": "Plan about 2 ounces of cooked meat per taco and roughly 3 tacos per guest — about 6 ounces of cooked meat per person. The taco bar calculator totals it for your headcount and reminds you to add ~25–30% if buying raw."}}, {"@type": "Question", "name": "How many tortillas per person for tacos?", "acceptedAnswer": {"@type": "Answer", "text": "Plan 3 to 4 small (street-taco) tortillas per person, and always buy a few extra since they tear. For 20 guests that's about 70 tortillas."}}, {"@type": "Question", "name": "What toppings do I need for a taco bar?", "acceptedAnswer": {"@type": "Answer", "text": "Standard taco bar toppings are shredded cheese, salsa, lettuce, diced tomato, and onion, plus optional sour cream, guacamole, and jalapeños. This calculator estimates cheese, salsa, and combined toppings by weight."}}]}
   </script>
 <style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
-      --accent:#b07030; --accent-bg:#fdf0e0; --radius:8px;
+      --accent:#5a8a30; --accent-bg:#ecf3e0; --radius:8px;
     }
     @media (prefers-color-scheme:dark) {
       :root {
         --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
         --text:#f0ede8; --text-muted:#888780;
-        --accent:#d09840; --accent-bg:#201408;
+        --accent:#8ac050; --accent-bg:#0e1e06;
       }
     }
 
@@ -123,35 +123,30 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
-
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
   <header>
-    <div class="h1-emoji">⚗️</div>
-    <h1>Cooking Measurement Converter</h1>
-    <p>Convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more — instantly.</p>
+    <div class="h1-emoji">🌮</div>
+    <h1>Taco Bar Calculator</h1>
+    <p>Plan a taco bar for any crowd — get meat, tortillas, beans, rice, and toppings.</p>
   </header>
   <main>
   <div class="card">
-    <div class="card-title">Mode</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="preset-btn active" id="btn-vol" onclick="setMode('vol',this)">Volume</button>
-      <button class="preset-btn" id="btn-wt" onclick="setMode('wt',this)">Weight</button>
-      <button class="preset-btn" id="btn-temp" onclick="setMode('temp',this)">Temperature</button>
-    </div>
-  </div>
-  <div class="card" id="inputCard">
-    <div class="card-title" id="inputTitle">Convert Volume</div>
+    <div class="card-title">Your Taco Bar</div>
     <div class="field-row">
-      <label>Amount</label>
-      <input type="number" id="amount" min="0" step="any" value="1">
+      <label>Number of guests</label>
+      <input type="number" id="guests" min="1" value="20" step="1">
     </div>
     <div class="field-row">
-      <label>From unit</label>
-      <select id="fromUnit"></select>
+      <label>Appetite</label>
+      <div id="appetiteBtns" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="preset-btn" onclick="setAppetite(2,this)">Light (2 tacos)</button>
+        <button class="preset-btn active" onclick="setAppetite(3,this)">Average (3 tacos)</button>
+        <button class="preset-btn" onclick="setAppetite(4,this)">Hearty (4 tacos)</button>
+      </div>
     </div>
   </div>
   <div class="results-card"><div id="resultsBody"></div></div>
@@ -159,24 +154,26 @@
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>US recipes use volume measurements (cups, tablespoons, teaspoons) while most of the world uses weight (grams). Weight measurements are more accurate for baking — 1 cup of flour can weigh anywhere from 120 to 150 grams depending on how it's scooped.</p>
-    <h3>Quick reference</h3>
+    <h2>How to plan a taco bar</h2>
+    <p>A taco bar is one of the easiest ways to feed a crowd. Plan about <strong>3 tacos per person</strong> and roughly 2 ounces of cooked meat per taco. This taco bar calculator scales the meat, tortillas, beans, rice, cheese, and toppings to your guest count.</p>
+    <h3>Per-guest taco bar amounts</h3>
     <ul>
-      <li>3 teaspoons = 1 tablespoon</li>
-      <li>16 tablespoons = 1 cup</li>
-      <li>1 cup = 8 fluid ounces = 236 ml</li>
-      <li>1 pound = 16 ounces = 453.6 grams</li>
+      <li><strong>Meat</strong> — ~6 oz cooked per person (≈ 3 tacos)</li>
+      <li><strong>Tortillas</strong> — 3–4 per person (buy extra; they tear)</li>
+      <li><strong>Beans &amp; rice</strong> — about ⅓ and ½ cup per person</li>
+      <li><strong>Cheese, salsa, toppings</strong> — a generous handful per person</li>
     </ul>
+    <h3>Tips</h3>
+    <p>Offer two proteins so guests can mix, keep meats warm in slow cookers, and set toppings in the order people build a taco. Buying raw meat? Add ~25–30% for cooking shrinkage.</p>
   </div>
     <div class="about">
     <h2>Frequently asked questions</h2>
-    <h3>What does this cooking conversion calculator do?</h3>
-    <p>The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes.</p>
-    <h3>Why convert cups to grams for baking?</h3>
-    <p>Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results.</p>
-    <h3>How many teaspoons are in a tablespoon?</h3>
-    <p>There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly.</p>
+    <h3>How much meat do I need for a taco bar?</h3>
+    <p>Plan about 2 ounces of cooked meat per taco and roughly 3 tacos per guest — about 6 ounces of cooked meat per person. The taco bar calculator totals it for your headcount and reminds you to add ~25–30% if buying raw.</p>
+    <h3>How many tortillas per person for tacos?</h3>
+    <p>Plan 3 to 4 small (street-taco) tortillas per person, and always buy a few extra since they tear. For 20 guests that's about 70 tortillas.</p>
+    <h3>What toppings do I need for a taco bar?</h3>
+    <p>Standard taco bar toppings are shredded cheese, salsa, lettuce, diced tomato, and onion, plus optional sour cream, guacamole, and jalapeños. This calculator estimates cheese, salsa, and combined toppings by weight.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
@@ -204,9 +201,9 @@
       <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
       <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
       <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
-      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
       <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
       <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
       <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
       <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
       <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
@@ -225,86 +222,38 @@
   </nav>
   </main>
   <footer>
-    <p>Free Cooking Measurement Converter · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+    <p>Free Taco Bar Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
   </footer>
   <script>
-    let mode='vol';
-    const VOL_UNITS=[
-      {id:'tsp',   label:'Teaspoon (tsp)',   ml:4.92892},
-      {id:'tbsp',  label:'Tablespoon (tbsp)',ml:14.7868},
-      {id:'floz',  label:'Fluid oz (fl oz)', ml:29.5735},
-      {id:'cup',   label:'Cup',              ml:236.588},
-      {id:'pint',  label:'Pint (pt)',        ml:473.176},
-      {id:'quart', label:'Quart (qt)',       ml:946.353},
-      {id:'gallon',label:'Gallon (gal)',     ml:3785.41},
-      {id:'ml',    label:'Milliliter (ml)',  ml:1},
-      {id:'liter', label:'Liter (L)',        ml:1000},
-    ];
-    const WT_UNITS=[
-      {id:'tsp_w',  label:'Teaspoon (water)', g:4.92892},
-      {id:'tbsp_w', label:'Tablespoon (water)',g:14.7868},
-      {id:'oz',    label:'Ounce (oz)',        g:28.3495},
-      {id:'lb',    label:'Pound (lb)',        g:453.592},
-      {id:'g',     label:'Gram (g)',          g:1},
-      {id:'kg',    label:'Kilogram (kg)',     g:1000},
-    ];
-
-    function setMode(m,btn){
-      mode=m;
-      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      populateUnits(); calculate();
-    }
-
-    function populateUnits(){
-      const sel=document.getElementById('fromUnit');
-      const units=mode==='vol'?VOL_UNITS:mode==='wt'?WT_UNITS:[];
-      if(mode==='temp'){sel.innerHTML='<option value="f">°F</option><option value="c">°C</option>'; return;}
-      sel.innerHTML=units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
-      document.getElementById('inputTitle').textContent=mode==='vol'?'Convert Volume':'Convert Weight';
-    }
-
-    function fmt(n){
-      if(n===0) return '0';
-      if(Math.abs(n)<0.01) return n.toExponential(2);
-      if(Math.abs(n)>=10000) return n.toLocaleString(undefined,{maximumFractionDigits:0});
-      if(Math.abs(n)>=100) return n.toFixed(1);
-      if(Math.abs(n)>=10) return n.toFixed(2);
-      return n.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
-    }
-
+    let tacosPP=3;
+    function setAppetite(n,btn){tacosPP=n;document.querySelectorAll('#appetiteBtns .preset-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');calculate();}
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
     function calculate(){
-      const val=parseFloat(document.getElementById('amount').value)||0;
-      const from=document.getElementById('fromUnit').value;
-      let rows='';
-      if(mode==='temp'){
-        const f=from==='f'?val:val*9/5+32;
-        const c=from==='c'?val:(val-32)*5/9;
-        const k=c+273.15;
-        rows=`<div class="result-row"><span class="result-label">°Fahrenheit</span><span class="result-value">${fmt(f)} °F</span></div>
-              <div class="result-row"><span class="result-label">°Celsius</span><span class="result-value">${fmt(c)} °C</span></div>
-              <div class="result-row"><span class="result-label">Kelvin</span><span class="result-value">${fmt(k)} K</span></div>`;
-        document.getElementById('resultsBody').innerHTML=`<div class="result-hero"><div class="result-hero-value">${fmt(from==='f'?c:f)}°${from==='f'?'C':'F'}</div><div class="result-hero-label">⚗️ temperature conversion</div></div>${rows}`;
-        return;
-      }
-      const units=mode==='vol'?VOL_UNITS:WT_UNITS;
-      const fromU=units.find(u=>u.id===from);
-      if(!fromU) return;
-      const key=mode==='vol'?'ml':'g';
-      const baseVal=val*fromU[key];
-      const hero=units[0];
-      rows=units.filter(u=>u.id!==from).map(u=>`
-        <div class="result-row"><span class="result-label">${u.label}</span><span class="result-value">${fmt(baseVal/u[key])}</span></div>`).join('');
+      const g=Math.max(1,num('guests'));
+      const tacos=Math.ceil(g*tacosPP);
+      const tortillas=Math.ceil(tacos*1.1);
+      const meatLb=(tacos*2)/16;
+      const beansCups=g*0.33;
+      const riceCups=g*0.5;
+      const cheeseLb=(tacos*0.75)/16;
+      const salsaCups=(tacos*0.75)/8;
+      const toppingsLb=(tacos*1.5)/16;
       document.getElementById('resultsBody').innerHTML=`
         <div class="result-hero">
-          <div class="result-hero-value">${fmt(baseVal/hero[key])}</div>
-          <div class="result-hero-label">⚗️ ${hero.label.split(' ')[0].toLowerCase()}s</div>
-        </div>${rows}`;
+          <div class="result-hero-value">${meatLb.toFixed(1)} lb</div>
+          <div class="result-hero-label">🌮 cooked meat for ${g} guests (${tacos} tacos)</div>
+        </div>
+        <div class="result-row"><span class="result-label">Tortillas</span><span class="result-value">${tortillas}</span></div>
+        <div class="result-row"><span class="result-label">Cooked meat (total)</span><span class="result-value">${meatLb.toFixed(1)} lb</span></div>
+        <div class="result-row"><span class="result-label">Beans</span><span class="result-value">${beansCups.toFixed(1)} cups</span></div>
+        <div class="result-row"><span class="result-label">Rice</span><span class="result-value">${riceCups.toFixed(1)} cups</span></div>
+        <div class="result-row"><span class="result-label">Shredded cheese</span><span class="result-value">${cheeseLb.toFixed(1)} lb</span></div>
+        <div class="result-row"><span class="result-label">Salsa</span><span class="result-value">${salsaCups.toFixed(1)} cups</span></div>
+        <div class="result-row"><span class="result-label">Toppings (lettuce, tomato, onion)</span><span class="result-value">${toppingsLb.toFixed(1)} lb</span></div>
+        <div class="notice">Buying raw meat? Add about 25–30% to the cooked weight to account for shrinkage. Offer two proteins (e.g. beef + chicken) to split the total meat amount.</div>`;
     }
-
-    document.getElementById('amount').addEventListener('input',calculate);
-    document.getElementById('fromUnit').addEventListener('change',calculate);
-    populateUnits(); calculate();
+    document.getElementById('guests').addEventListener('input',calculate);
+    calculate();
   </script>
 </body>
 </html>

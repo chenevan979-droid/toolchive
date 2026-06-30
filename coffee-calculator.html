@@ -4,34 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Cooking Measurement Converter — Toolchive</title>
-  <meta name="description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
-  <link rel="canonical" href="https://toolchive.com/cooking-conversion">
+  <title>Coffee Calculator — Toolchive</title>
+  <meta name="description" content="Free coffee calculator. Find out how much ground coffee and water you need — for a single cup, a French press, or a big batch for a crowd.">
+  <link rel="canonical" href="https://toolchive.com/coffee-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/cooking-conversion">
-  <meta property="og:title" content="Cooking Measurement Converter — Toolchive">
-  <meta property="og:description" content="Free cooking measurement converter. Instantly convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more.">
+  <meta property="og:url" content="https://toolchive.com/coffee-calculator">
+  <meta property="og:title" content="Coffee Calculator — Toolchive">
+  <meta property="og:description" content="Free coffee calculator. Find out how much ground coffee and water you need — for a single cup, a French press, or a big batch for a crowd.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Cooking Measurement Converter",
-    "url":"https://toolchive.com/cooking-conversion","applicationCategory":"UtilitiesApplication",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Coffee Calculator",
+    "url":"https://toolchive.com/coffee-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
     <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does this cooking conversion calculator do?", "acceptedAnswer": {"@type": "Answer", "text": "The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes."}}, {"@type": "Question", "name": "Why convert cups to grams for baking?", "acceptedAnswer": {"@type": "Answer", "text": "Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results."}}, {"@type": "Question", "name": "How many teaspoons are in a tablespoon?", "acceptedAnswer": {"@type": "Answer", "text": "There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly."}}]}
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much ground coffee per cup?", "acceptedAnswer": {"@type": "Answer", "text": "Use about 1 to 2 tablespoons of ground coffee per 6 ounces of water — one tablespoon for mild, two for strong. This coffee calculator multiplies that by the number and size of cups you're brewing."}}, {"@type": "Question", "name": "How much coffee do I need for a party of 50?", "acceptedAnswer": {"@type": "Answer", "text": "For 50 people having about 2 cups each, you'll brew around 100 cups, which takes roughly 2 to 3 pounds of ground coffee. The calculator gives the exact amount in cups, tablespoons, and grams."}}, {"@type": "Question", "name": "How many cups does a pound of coffee make?", "acceptedAnswer": {"@type": "Answer", "text": "A pound of ground coffee makes roughly 30 cups at strong strength and up to about 48 cups at mild strength, depending on your ratio."}}]}
   </script>
 <style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
-      --accent:#b07030; --accent-bg:#fdf0e0; --radius:8px;
+      --accent:#6a4a35; --accent-bg:#efe6df; --radius:8px;
     }
     @media (prefers-color-scheme:dark) {
       :root {
         --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
         --text:#f0ede8; --text-muted:#888780;
-        --accent:#d09840; --accent-bg:#201408;
+        --accent:#b08a6a; --accent-bg:#18100a;
       }
     }
 
@@ -123,35 +123,42 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
-
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
   <header>
-    <div class="h1-emoji">⚗️</div>
-    <h1>Cooking Measurement Converter</h1>
-    <p>Convert between cups, tablespoons, teaspoons, ounces, grams, milliliters, and more — instantly.</p>
+    <div class="h1-emoji">☕</div>
+    <h1>Coffee Calculator</h1>
+    <p>Find out how much ground coffee and water you need, from one cup to a whole crowd.</p>
   </header>
   <main>
   <div class="card">
-    <div class="card-title">Mode</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="preset-btn active" id="btn-vol" onclick="setMode('vol',this)">Volume</button>
-      <button class="preset-btn" id="btn-wt" onclick="setMode('wt',this)">Weight</button>
-      <button class="preset-btn" id="btn-temp" onclick="setMode('temp',this)">Temperature</button>
-    </div>
-  </div>
-  <div class="card" id="inputCard">
-    <div class="card-title" id="inputTitle">Convert Volume</div>
+    <div class="card-title">How Much Coffee</div>
     <div class="field-row">
-      <label>Amount</label>
-      <input type="number" id="amount" min="0" step="any" value="1">
+      <label>Number of people</label>
+      <input type="number" id="people" min="1" value="10" step="1">
     </div>
     <div class="field-row">
-      <label>From unit</label>
-      <select id="fromUnit"></select>
+      <label>Cups per person</label>
+      <input type="number" id="cpp" min="1" value="2" step="1">
+    </div>
+    <div class="field-row">
+      <label>Cup size</label>
+      <select id="cupSize">
+        <option value="6">Small (6 oz)</option>
+        <option value="8" selected>Mug (8 oz)</option>
+        <option value="12">Large (12 oz)</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <label>Strength</label>
+      <div id="strengthBtns" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="preset-btn" onclick="setStrength(1,this)">Mild</button>
+        <button class="preset-btn active" onclick="setStrength(1.5,this)">Regular</button>
+        <button class="preset-btn" onclick="setStrength(2,this)">Strong</button>
+      </div>
     </div>
   </div>
   <div class="results-card"><div id="resultsBody"></div></div>
@@ -159,24 +166,25 @@
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>US recipes use volume measurements (cups, tablespoons, teaspoons) while most of the world uses weight (grams). Weight measurements are more accurate for baking — 1 cup of flour can weigh anywhere from 120 to 150 grams depending on how it's scooped.</p>
+    <h2>How much coffee per cup?</h2>
+    <p>The standard "golden ratio" is about <strong>1 to 2 tablespoons of ground coffee per 6 ounces of water</strong> — 1 for mild, 2 for strong. This coffee calculator scales that ratio from a single mug all the way up to a big batch for a party or office.</p>
     <h3>Quick reference</h3>
     <ul>
-      <li>3 teaspoons = 1 tablespoon</li>
-      <li>16 tablespoons = 1 cup</li>
-      <li>1 cup = 8 fluid ounces = 236 ml</li>
-      <li>1 pound = 16 ounces = 453.6 grams</li>
+      <li><strong>1 standard cup</strong> = 6 oz water + 1–2 tbsp grounds</li>
+      <li><strong>1 lb of coffee</strong> brews roughly 30–48 cups</li>
+      <li><strong>For a crowd</strong> — a 12-cup pot uses about ¾ cup of grounds</li>
     </ul>
+    <h3>Tips</h3>
+    <p>Coffee makers measure a "cup" as 6 oz, not 8 — so a "12-cup" pot is about 72 oz. Use fresh, filtered water and grind just before brewing for the best flavor.</p>
   </div>
     <div class="about">
     <h2>Frequently asked questions</h2>
-    <h3>What does this cooking conversion calculator do?</h3>
-    <p>The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes.</p>
-    <h3>Why convert cups to grams for baking?</h3>
-    <p>Volume is imprecise — a cup of flour can weigh 120 to 150 grams depending on how it is scooped. Weighing ingredients gives far more consistent baking results.</p>
-    <h3>How many teaspoons are in a tablespoon?</h3>
-    <p>There are 3 teaspoons in 1 tablespoon and 16 tablespoons in 1 cup. This converter handles all of those relationships instantly.</p>
+    <h3>How much ground coffee per cup?</h3>
+    <p>Use about 1 to 2 tablespoons of ground coffee per 6 ounces of water — one tablespoon for mild, two for strong. This coffee calculator multiplies that by the number and size of cups you're brewing.</p>
+    <h3>How much coffee do I need for a party of 50?</h3>
+    <p>For 50 people having about 2 cups each, you'll brew around 100 cups, which takes roughly 2 to 3 pounds of ground coffee. The calculator gives the exact amount in cups, tablespoons, and grams.</p>
+    <h3>How many cups does a pound of coffee make?</h3>
+    <p>A pound of ground coffee makes roughly 30 cups at strong strength and up to about 48 cups at mild strength, depending on your ratio.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
@@ -205,8 +213,8 @@
       <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
       <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
       <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
-      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
       <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
       <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
       <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
       <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
@@ -225,86 +233,38 @@
   </nav>
   </main>
   <footer>
-    <p>Free Cooking Measurement Converter · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+    <p>Free Coffee Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
   </footer>
   <script>
-    let mode='vol';
-    const VOL_UNITS=[
-      {id:'tsp',   label:'Teaspoon (tsp)',   ml:4.92892},
-      {id:'tbsp',  label:'Tablespoon (tbsp)',ml:14.7868},
-      {id:'floz',  label:'Fluid oz (fl oz)', ml:29.5735},
-      {id:'cup',   label:'Cup',              ml:236.588},
-      {id:'pint',  label:'Pint (pt)',        ml:473.176},
-      {id:'quart', label:'Quart (qt)',       ml:946.353},
-      {id:'gallon',label:'Gallon (gal)',     ml:3785.41},
-      {id:'ml',    label:'Milliliter (ml)',  ml:1},
-      {id:'liter', label:'Liter (L)',        ml:1000},
-    ];
-    const WT_UNITS=[
-      {id:'tsp_w',  label:'Teaspoon (water)', g:4.92892},
-      {id:'tbsp_w', label:'Tablespoon (water)',g:14.7868},
-      {id:'oz',    label:'Ounce (oz)',        g:28.3495},
-      {id:'lb',    label:'Pound (lb)',        g:453.592},
-      {id:'g',     label:'Gram (g)',          g:1},
-      {id:'kg',    label:'Kilogram (kg)',     g:1000},
-    ];
-
-    function setMode(m,btn){
-      mode=m;
-      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      populateUnits(); calculate();
-    }
-
-    function populateUnits(){
-      const sel=document.getElementById('fromUnit');
-      const units=mode==='vol'?VOL_UNITS:mode==='wt'?WT_UNITS:[];
-      if(mode==='temp'){sel.innerHTML='<option value="f">°F</option><option value="c">°C</option>'; return;}
-      sel.innerHTML=units.map(u=>`<option value="${u.id}">${u.label}</option>`).join('');
-      document.getElementById('inputTitle').textContent=mode==='vol'?'Convert Volume':'Convert Weight';
-    }
-
-    function fmt(n){
-      if(n===0) return '0';
-      if(Math.abs(n)<0.01) return n.toExponential(2);
-      if(Math.abs(n)>=10000) return n.toLocaleString(undefined,{maximumFractionDigits:0});
-      if(Math.abs(n)>=100) return n.toFixed(1);
-      if(Math.abs(n)>=10) return n.toFixed(2);
-      return n.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
-    }
-
+    let strength=1.5;
+    function setStrength(n,btn){strength=n;document.querySelectorAll('#strengthBtns .preset-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');calculate();}
+    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
     function calculate(){
-      const val=parseFloat(document.getElementById('amount').value)||0;
-      const from=document.getElementById('fromUnit').value;
-      let rows='';
-      if(mode==='temp'){
-        const f=from==='f'?val:val*9/5+32;
-        const c=from==='c'?val:(val-32)*5/9;
-        const k=c+273.15;
-        rows=`<div class="result-row"><span class="result-label">°Fahrenheit</span><span class="result-value">${fmt(f)} °F</span></div>
-              <div class="result-row"><span class="result-label">°Celsius</span><span class="result-value">${fmt(c)} °C</span></div>
-              <div class="result-row"><span class="result-label">Kelvin</span><span class="result-value">${fmt(k)} K</span></div>`;
-        document.getElementById('resultsBody').innerHTML=`<div class="result-hero"><div class="result-hero-value">${fmt(from==='f'?c:f)}°${from==='f'?'C':'F'}</div><div class="result-hero-label">⚗️ temperature conversion</div></div>${rows}`;
-        return;
-      }
-      const units=mode==='vol'?VOL_UNITS:WT_UNITS;
-      const fromU=units.find(u=>u.id===from);
-      if(!fromU) return;
-      const key=mode==='vol'?'ml':'g';
-      const baseVal=val*fromU[key];
-      const hero=units[0];
-      rows=units.filter(u=>u.id!==from).map(u=>`
-        <div class="result-row"><span class="result-label">${u.label}</span><span class="result-value">${fmt(baseVal/u[key])}</span></div>`).join('');
+      const people=Math.max(1,num('people'));
+      const cpp=Math.max(1,num('cpp'));
+      const cupOz=parseInt(document.getElementById('cupSize').value)||8;
+      const totalCups=Math.ceil(people*cpp);
+      const totalOz=totalCups*cupOz;
+      const tbsp=totalOz/6*strength;
+      const groundCups=tbsp/16;
+      const groundOzWeight=tbsp*0.18;
+      const groundGrams=tbsp*5;
+      const waterQuarts=totalOz/32;
+      const waterLiters=totalOz*0.0295735;
       document.getElementById('resultsBody').innerHTML=`
         <div class="result-hero">
-          <div class="result-hero-value">${fmt(baseVal/hero[key])}</div>
-          <div class="result-hero-label">⚗️ ${hero.label.split(' ')[0].toLowerCase()}s</div>
-        </div>${rows}`;
+          <div class="result-hero-value">${groundCups.toFixed(1)} cups</div>
+          <div class="result-hero-label">☕ ground coffee for ${totalCups} cups</div>
+        </div>
+        <div class="result-row"><span class="result-label">Total coffee served</span><span class="result-value">${totalCups} × ${cupOz} oz</span></div>
+        <div class="result-row"><span class="result-label">Ground coffee</span><span class="result-value">${Math.round(tbsp)} tbsp (${groundCups.toFixed(1)} cups)</span></div>
+        <div class="result-row"><span class="result-label">Ground coffee by weight</span><span class="result-value">${groundOzWeight.toFixed(1)} oz (${Math.round(groundGrams)} g)</span></div>
+        <div class="result-row"><span class="result-label">Water needed</span><span class="result-value">${waterQuarts.toFixed(1)} qt (${waterLiters.toFixed(1)} L)</span></div>
+        <div class="notice">Based on ${strength} tbsp of grounds per 6 oz cup. Adjust to taste — more grounds for stronger coffee. A standard "cup" on most coffee makers is 6 oz, not 8.</div>`;
     }
-
-    document.getElementById('amount').addEventListener('input',calculate);
-    document.getElementById('fromUnit').addEventListener('change',calculate);
-    populateUnits(); calculate();
+    ['people','cpp'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    document.getElementById('cupSize').addEventListener('change',calculate);
+    calculate();
   </script>
 </body>
 </html>
