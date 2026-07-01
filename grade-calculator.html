@@ -90,6 +90,8 @@
     .need-section-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:12px; }
     .need-result { font-size:13px; color:var(--text-muted); line-height:1.6; margin-top:8px; }
     .need-result strong { color:var(--accent); font-size:15px; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -145,7 +147,9 @@
     </div>
     <div class="support-row"><a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a></div>
 
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
+  <div class="about">
       <h2>Grade Calculation Methods</h2>
       <h3>How do you calculate a weighted grade?</h3>
       <p>Multiply each score by its weight percentage, sum the results, then divide by the total weight percentage. For example: 85% × 20% + 90% × 80% = 17 + 72 = 89%. This normalizes partial weights so even if your weights don't add to 100% the result is still accurate.</p>
@@ -155,7 +159,8 @@
       <p>On a standard 4.0 scale: 4.0 = A (93–100%), 3.7 = A- (90–92%), 3.3 = B+ (87–89%), 3.0 = B (83–86%), 2.7 = B- (80–82%), 2.3 = C+ (77–79%), 2.0 = C (73–76%). Individual schools and programs may use slightly different cutoffs.</p>
     </div>
 
-    <div class="about" style="margin-top:24px;">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about" style="margin-top:24px;">
       <h2>Frequently Asked Questions</h2>
       <h3>How do you calculate a weighted average grade?</h3>
       <p>Multiply each assignment score by its weight percentage, add all those products together, then divide by the total weight. For example: (85 × 0.20) + (90 × 0.80) = 17 + 72 = 89%. Use the calculator above to handle any combination of weights.</p>

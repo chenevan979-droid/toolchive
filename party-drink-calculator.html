@@ -123,6 +123,8 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -170,6 +172,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How much alcohol for a party?</h2>
     <p>The classic guideline is <strong>one drink per guest per hour</strong>, with an extra drink in the first hour when people arrive thirsty. This party drink calculator applies that rate, subtracts non-drinkers, and splits the total into beer, wine, and liquor based on your chosen mix.</p>
@@ -182,7 +186,8 @@
     <h3>Don't forget</h3>
     <p>Plan plenty of non-alcoholic options, about 1–1.5 lb of ice per guest, and enough cups. It's better to have a few extra bottles — unopened alcohol keeps.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How much alcohol do I need for a party?</h3>
     <p>Plan about one drink per guest per hour, plus one extra in the first hour. The party drink calculator works out the total from your guest count and party length, then splits it into beer, wine, and liquor.</p>

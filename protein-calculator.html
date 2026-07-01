@@ -118,7 +118,9 @@
     .rel-emoji { font-size:18px; }
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
-</style>
+    .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+  </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -163,6 +165,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How Much Protein Do You Need?</h2>
     <p>Protein is the most important macronutrient for body composition — it builds and repairs muscle tissue, keeps you full, and has a higher thermic effect than carbs or fat. But "how much" depends on your weight, how active you are, and what you're trying to achieve.</p>
@@ -176,7 +180,8 @@
     <h3>Is eating too much protein bad for you?</h3>
     <p>For healthy individuals with normal kidney function, high protein intakes up to 3g/kg per day have not been shown to cause kidney damage in research studies. The kidneys in healthy people adapt to higher protein loads efficiently. However, if you have existing kidney disease or reduced kidney function, consult your doctor before significantly increasing protein intake.</p>
   </div>
-  <div class="about" style="margin-top:32px">
+  
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about" style="margin-top:32px">
     <h2>Frequently asked questions</h2>
     <h3>How much protein do I need per day?</h3>
     <p>The USDA minimum is 0.8g per kg of body weight, but for active people, research supports 1.6–2.2g/kg for muscle building and 1.6g/kg when losing fat to prevent muscle loss. Sedentary individuals doing no resistance training can get by on less, but most people benefit from aiming above the minimum.</p>

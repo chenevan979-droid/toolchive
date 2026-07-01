@@ -123,6 +123,8 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -153,6 +155,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How to plan a taco bar</h2>
     <p>A taco bar is one of the easiest ways to feed a crowd. Plan about <strong>3 tacos per person</strong> and roughly 2 ounces of cooked meat per taco. This taco bar calculator scales the meat, tortillas, beans, rice, cheese, and toppings to your guest count.</p>
@@ -166,7 +170,8 @@
     <h3>Tips</h3>
     <p>Offer two proteins so guests can mix, keep meats warm in slow cookers, and set toppings in the order people build a taco. Buying raw meat? Add ~25–30% for cooking shrinkage.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How much meat do I need for a taco bar?</h3>
     <p>Plan about 2 ounces of cooked meat per taco and roughly 3 tacos per guest — about 6 ounces of cooked meat per person. The taco bar calculator totals it for your headcount and reminds you to add ~25–30% if buying raw.</p>

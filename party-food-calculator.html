@@ -123,6 +123,8 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -157,6 +159,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How much food for a party?</h2>
     <p>The right amount of party food depends on the time of day, how long the event runs, and whether you're serving a full meal or just snacks. This party food calculator uses standard catering portions per guest, then adjusts for event length.</p>
@@ -169,7 +173,8 @@
     <h3>Don't forget</h3>
     <p>Offer a vegetarian option, plan for ice and drinks separately, and round up for hearty eaters. It's always better to have a little extra than to run short.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How much food do I need for a party?</h3>
     <p>Enter your guest count and event type into the party food calculator. For a full meal, plan about ½ lb of main protein, two sides, a few appetizers, and one dessert per guest; for an appetizer-only party, plan 10–14 bites per person.</p>

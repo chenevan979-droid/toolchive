@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -160,6 +162,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About This Calculator</h2>
     <p>This calculator uses the standard <strong>amortizing loan formula</strong>: monthly payment = P × [r(1+r)ⁿ] / [(1+r)ⁿ – 1], where P is the principal, r is the monthly rate, and n is the number of payments.</p>
@@ -172,7 +176,8 @@
     <h3>Reducing interest paid</h3>
     <p>Making extra principal payments early in the loan dramatically reduces total interest, since interest is calculated on the remaining balance.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this loan calculator work?</h3>
     <p>The loan calculator uses the standard amortization formula to turn your loan amount, interest rate, and term into a fixed monthly payment, plus the total interest and total cost over the life of the loan.</p>

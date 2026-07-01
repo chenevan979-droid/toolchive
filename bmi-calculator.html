@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -166,6 +168,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About BMI</h2>
     <p>Body Mass Index (BMI) is calculated as weight (kg) ÷ height² (m²). It's used as a population-level screening tool to identify potential weight-related health risks.</p>
@@ -179,7 +183,8 @@
     <h3>Limitations</h3>
     <p>BMI doesn't distinguish between fat and muscle, so athletes may register as "overweight" despite being healthy. It also doesn't account for where fat is distributed in the body. Always discuss weight and health with your doctor.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this BMI calculator work?</h3>
     <p>The BMI calculator divides your weight by your height squared (kg/m²). Enter measurements in imperial or metric and it shows your BMI value and category — underweight, normal, overweight, or obese.</p>

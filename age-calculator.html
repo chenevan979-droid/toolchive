@@ -121,7 +121,9 @@
   .rel-emoji { font-size:18px; }
   footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
   footer a { color:var(--text-muted); }
-</style>
+    .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+  </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -159,7 +161,10 @@
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
 
-  <div class="about">
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
+  
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How do I calculate my exact age?</h3>
     <p>Enter your date of birth and this calculator shows your exact age in years, months, and days as of today. It accounts for leap years and different month lengths automatically.</p>

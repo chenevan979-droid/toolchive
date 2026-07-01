@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -156,6 +158,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About This Calculator</h2>
     <p>Carpet is priced and sold by the <strong>square yard</strong> (1 yd² = 9 sq ft), unlike hard flooring which is sold by the square foot or box. This calculator converts your room dimensions to square yards and adds a waste allowance for cuts, seams, and pattern matching.</p>
@@ -168,7 +172,8 @@
       <li>Add padding to your budget: expect $0.50–$1.50/sq ft for quality carpet padding.</li>
     </ul>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this carpet calculator work?</h3>
     <p>Enter each room's length and width in feet. The carpet calculator adds up the total floor area, applies the waste percentage you choose, and converts the result to square yards — the unit most carpet is sold in.</p>

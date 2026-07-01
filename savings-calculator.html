@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -162,6 +164,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About This Calculator</h2>
     <p>This calculator finds how long it takes for your monthly contributions — plus compound interest — to reach a savings goal. It compounds monthly.</p>
@@ -174,7 +178,8 @@
     <h3>Where to keep savings</h3>
     <p>High-yield savings accounts (HYSA) often pay 4–5% APY as of 2026, far better than traditional savings accounts at 0.01–0.5%.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this savings calculator work?</h3>
     <p>The savings calculator runs a month-by-month projection from your starting balance, adding your monthly contribution and interest each month, to estimate how long it takes to reach your savings goal.</p>

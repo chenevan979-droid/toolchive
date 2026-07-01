@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -178,6 +180,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About This Calculator</h2>
     <p>The key to great-looking curtains is <strong>fullness</strong> — the ratio of total fabric width to window width. Flat panels at 1:1 look skimpy; 2× fullness creates a classic gathered look; 2.5–3× is used for formal or luxurious drapes.</p>
@@ -190,7 +194,8 @@
     <h3>Hem allowance</h3>
     <p>Add 6–8 inches for a standard double-fold bottom hem and 2 inches for a top header. For floor-length drapes that puddle, add an extra 6–12 inches to your drop.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this curtain calculator decide how many panels I need?</h3>
     <p>The curtain calculator multiplies your window width by the fullness ratio you pick (2× is the standard gathered look), then divides by the panel width to find how many panels give proper, even fullness.</p>

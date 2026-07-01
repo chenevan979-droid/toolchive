@@ -123,6 +123,8 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -165,6 +167,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How much coffee per cup?</h2>
     <p>The standard "golden ratio" is about <strong>1 to 2 tablespoons of ground coffee per 6 ounces of water</strong> — 1 for mild, 2 for strong. This coffee calculator scales that ratio from a single mug all the way up to a big batch for a party or office.</p>
@@ -177,7 +181,8 @@
     <h3>Tips</h3>
     <p>Coffee makers measure a "cup" as 6 oz, not 8 — so a "12-cup" pot is about 72 oz. Use fresh, filtered water and grind just before brewing for the best flavor.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How much ground coffee per cup?</h3>
     <p>Use about 1 to 2 tablespoons of ground coffee per 6 ounces of water — one tablespoon for mild, two for strong. This coffee calculator multiplies that by the number and size of cups you're brewing.</p>

@@ -124,6 +124,8 @@
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
 
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -158,6 +160,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>About This Calculator</h2>
     <p>US recipes use volume measurements (cups, tablespoons, teaspoons) while most of the world uses weight (grams). Weight measurements are more accurate for baking — 1 cup of flour can weigh anywhere from 120 to 150 grams depending on how it's scooped.</p>
@@ -169,7 +173,8 @@
       <li>1 pound = 16 ounces = 453.6 grams</li>
     </ul>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>What does this cooking conversion calculator do?</h3>
     <p>The cooking conversion calculator converts between volume units (teaspoons, tablespoons, cups, milliliters, liters), weight units (ounces, pounds, grams, kilograms), and oven temperatures (°F, °C) used in recipes.</p>

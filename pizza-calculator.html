@@ -123,6 +123,8 @@
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
     .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+      .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
@@ -162,6 +164,8 @@
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
+  
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
     <h2>How many pizzas do you need?</h2>
     <p>A common rule of thumb is <strong>3 slices per adult</strong> and 2 per child for a casual meal. Hungrier crowds or pizza-only parties run closer to 4 slices each. This pizza calculator multiplies your headcount by slices per person, then divides by the slices in your chosen pizza size and rounds up.</p>
@@ -175,7 +179,8 @@
     <h3>Ordering tips</h3>
     <p>Order a little extra if you have teenagers, a long event, or few other foods. Offer at least one vegetarian option, and remember leftover pizza keeps well.</p>
   </div>
-    <div class="about">
+    
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How many pizzas do I need for a party?</h3>
     <p>Enter your guest count and appetite into this pizza calculator. As a rule of thumb, plan 3 slices per adult — so a large 10-slice pizza feeds about 3 people. For 10 people that's roughly 3–4 large pizzas.</p>
