@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Body Fat Calculator — Toolchive</title>
+  <meta name="description" content="Free body fat percentage calculator using the U.S. Navy method. Enter your height, waist, neck (and hip for women) to get your body fat %, fat mass, and lean mass instantly.">
+  <link rel="canonical" href="https://toolchive.com/body-fat-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/body-fat-calculator">
+  <meta property="og:title" content="Body Fat Calculator — Toolchive">
+  <meta property="og:description" content="Free body fat percentage calculator using the U.S. Navy method. Enter your height, waist, neck (and hip for women) to get your body fat %, fat mass, and lean mass instantly.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Body Fat Calculator",
+    "url":"https://toolchive.com/body-fat-calculator","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How is body fat percentage calculated?",
+     "acceptedAnswer":{"@type":"Answer","text":"This calculator uses the U.S. Navy circumference method. For men it uses waist, neck, and height; for women it adds the hip measurement. The formula is: Men: 86.010 × log10(waist − neck) − 70.041 × log10(height) + 36.76. Women: 163.205 × log10(waist + hip − neck) − 97.684 × log10(height) − 78.387. All measurements in centimeters."}},
+    {"@type":"Question","name":"What is a healthy body fat percentage?",
+     "acceptedAnswer":{"@type":"Answer","text":"According to the American Council on Exercise (ACE), a fitness range for women is 21–24% and for men 14–17%. An athletic range is 14–20% for women and 6–13% for men. Essential fat (the minimum needed for survival) is 10–13% for women and 2–5% for men."}},
+    {"@type":"Question","name":"How accurate is the Navy body fat method?",
+     "acceptedAnswer":{"@type":"Answer","text":"The U.S. Navy method is a reasonable estimate with an accuracy of roughly ±3–4% compared to DEXA scans. It is more accurate than BMI-based estimates because it accounts for body shape (waist-to-neck ratio), but it can overestimate body fat in very muscular individuals with a large neck circumference."}}
+  ]}
+  </script>
+<style>
+  :root {
+    --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+    --text:#1a1a18; --text-muted:#888780;
+    --accent:#b56820; --accent-bg:#fdf0e0; --radius:8px;
+  }
+  @media (prefers-color-scheme:dark) {
+    :root {
+      --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+      --text:#f0ede8; --text-muted:#888780;
+      --accent:#d4882a; --accent-bg:#2a1e08;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; padding: 48px 24px 80px;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+  .site-nav a { color:var(--text-muted); }
+  header { text-align:center; margin-bottom:40px; max-width:600px; }
+  header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+  .h1-emoji {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:52px; height:52px; font-size:28px; border-radius:14px;
+    background:var(--accent-bg); margin-bottom:14px;
+  }
+  header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+  .card {
+    background:var(--surface); border:0.5px solid var(--border);
+    border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+  }
+  .card-title {
+    font-size:13px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+  }
+  .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+  .field-row:last-child { margin-bottom:0; }
+  .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+  .field-row input[type="number"] {
+    width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+    border-radius:var(--radius); border:0.5px solid var(--border);
+    background:var(--bg); color:var(--text); text-align:center;
+  }
+  .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+  .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+  .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+  .unit-btn.active { background:var(--accent); color:#fff; }
+  .sex-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+  .sex-btn { font-size:13px; padding:6px 20px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+  .sex-btn.active { background:var(--accent); color:#fff; }
+  .results-card {
+    background:var(--surface); border:0.5px solid var(--border);
+    border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+  }
+  .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+  .result-hero-value { font-size:48px; font-weight:700; color:var(--accent); line-height:1; }
+  .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+  .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+  .result-row:last-child { border-bottom:none; }
+  .result-label { font-size:14px; color:var(--text-muted); }
+  .result-value { font-size:18px; font-weight:600; }
+  .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+  .btn-kofi {
+    display:inline-flex; align-items:center; gap:8px; font-size:13px;
+    padding:9px 18px; border-radius:var(--radius); border:none;
+    background:#D63A35; color:#fff; font-weight:500; cursor:pointer;
+    text-decoration:none; transition:filter .15s;
+  }
+  .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+  .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+  .about { width:100%; max-width:640px; margin-top:32px; }
+  .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+  .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+  .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+  .about ul, .about table { margin-bottom:12px; }
+  .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; padding-left:4px; }
+  .about ul { padding-left:20px; }
+  .cat-table { width:100%; border-collapse:collapse; font-size:14px; }
+  .cat-table th, .cat-table td { text-align:left; padding:8px 12px; border-bottom:0.5px solid var(--border); color:var(--text-muted); }
+  .cat-table th { font-weight:600; color:var(--text); }
+  .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+  .rel-card {
+    display:flex; align-items:center; gap:8px; padding:10px 12px;
+    border:1px solid var(--border); border-radius:10px; text-decoration:none;
+    color:var(--text); font-size:14px; background:var(--surface);
+    transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+  }
+  .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+  .rel-emoji { font-size:18px; }
+  footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+  footer a { color:var(--text-muted); }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">📏</div>
+    <h1>Body Fat Calculator</h1>
+    <p>Calculate your body fat percentage using the U.S. Navy circumference method — no gym equipment needed.</p>
+  </header>
+  <main>
+  <div class="card">
+    <div class="card-title">Sex</div>
+    <div class="sex-toggle">
+      <button class="sex-btn active" id="btn-male" onclick="setSex('male',this)">Male</button>
+      <button class="sex-btn" id="btn-female" onclick="setSex('female',this)">Female</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Units</div>
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="btn-imperial" onclick="setUnit('imperial',this)">Imperial (in, lb)</button>
+      <button class="unit-btn" id="btn-metric" onclick="setUnit('metric',this)">Metric (cm, kg)</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Measurements</div>
+    <div class="field-row">
+      <label>Height</label>
+      <div id="heightImperial" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <input type="number" id="feet" min="3" max="8" value="5" step="1" style="width:80px;font-size:18px;font-weight:600;padding:8px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text);text-align:center">
+        <span class="input-suffix">ft</span>
+        <input type="number" id="inches_h" min="0" max="11" value="10" step="1" style="width:70px;font-size:18px;font-weight:600;padding:8px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text);text-align:center">
+        <span class="input-suffix">in</span>
+      </div>
+      <div id="heightMetric" style="display:none;align-items:center;gap:8px">
+        <input type="number" id="height_cm" min="100" max="250" value="178" step="1" style="width:110px;font-size:18px;font-weight:600;padding:8px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);color:var(--text);text-align:center">
+        <span class="input-suffix">cm</span>
+      </div>
+    </div>
+    <div class="field-row">
+      <label>Neck</label>
+      <input type="number" id="neck" min="20" max="80" value="15" step="0.5">
+      <span class="input-suffix" id="neck-unit">in</span>
+      <span style="font-size:12px;color:var(--text-muted)">at narrowest point</span>
+    </div>
+    <div class="field-row">
+      <label id="waist-label">Waist (abdomen)</label>
+      <input type="number" id="waist" min="20" max="200" value="34" step="0.5">
+      <span class="input-suffix" id="waist-unit">in</span>
+      <span id="waist-tip" style="font-size:12px;color:var(--text-muted)">at navel</span>
+    </div>
+    <div class="field-row" id="hip-row" style="display:none">
+      <label>Hip</label>
+      <input type="number" id="hip" min="20" max="200" value="38" step="0.5">
+      <span class="input-suffix" id="hip-unit">in</span>
+      <span style="font-size:12px;color:var(--text-muted)">at widest point</span>
+    </div>
+    <div class="field-row">
+      <label>Weight</label>
+      <input type="number" id="weight" min="50" max="700" value="170" step="1">
+      <span class="input-suffix" id="weight-unit">lb</span>
+    </div>
+  </div>
+  <div class="results-card"><div id="resultsBody"></div></div>
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>Body Fat Percentage Categories</h2>
+    <p>The American Council on Exercise (ACE) defines the following categories for adults:</p>
+    <table class="cat-table">
+      <thead><tr><th>Category</th><th>Women</th><th>Men</th></tr></thead>
+      <tbody>
+        <tr><td>Essential fat</td><td>10–13%</td><td>2–5%</td></tr>
+        <tr><td>Athletes</td><td>14–20%</td><td>6–13%</td></tr>
+        <tr><td>Fitness</td><td>21–24%</td><td>14–17%</td></tr>
+        <tr><td>Average</td><td>25–31%</td><td>18–24%</td></tr>
+        <tr><td>Obese</td><td>32%+</td><td>25%+</td></tr>
+      </tbody>
+    </table>
+    <h2>How the U.S. Navy Method Works</h2>
+    <p>The Navy circumference method estimates body fat by comparing your neck and waist (and hip for women) to your height. Larger waist relative to neck and height = higher body fat percentage. It doesn't require calipers or a DEXA scan — just a tape measure.</p>
+    <h3>Formulas used</h3>
+    <p><strong>Men:</strong> BF% = 86.010 × log₁₀(waist − neck) − 70.041 × log₁₀(height) + 36.76</p>
+    <p><strong>Women:</strong> BF% = 163.205 × log₁₀(waist + hip − neck) − 97.684 × log₁₀(height) − 78.387</p>
+    <p>All measurements in centimeters. For men, waist is measured at the navel; for women, at the narrowest point. Neck is measured just below the larynx (Adam's apple) for men, and at the same level for women.</p>
+    <h3>How accurate is it?</h3>
+    <p>Studies show the Navy method is accurate to within ±3–4 percentage points compared to DEXA scans for most people. It may overestimate body fat in very muscular people with large neck circumferences, and underestimate in people who carry fat in unusual distributions.</p>
+  </div>
+
+  <div class="about">
+    <h2>Frequently asked questions</h2>
+    <h3>How is body fat percentage calculated?</h3>
+    <p>This calculator uses the U.S. Navy circumference method. For men it uses waist, neck, and height; for women it adds the hip measurement. The formula uses the log₁₀ ratio of circumferences to height — a larger waist-to-neck ratio at a given height indicates higher body fat.</p>
+    <h3>What is a healthy body fat percentage?</h3>
+    <p>According to the American Council on Exercise (ACE), a fitness range for women is 21–24% and for men 14–17%. An athletic range is 14–20% for women and 6–13% for men. Essential fat — the minimum needed for survival — is 10–13% for women and 2–5% for men.</p>
+    <h3>How accurate is the Navy body fat method?</h3>
+    <p>The U.S. Navy method is a reasonable estimate with an accuracy of roughly ±3–4% compared to DEXA scans. It is more accurate than BMI-based estimates because it accounts for body shape, but it can overestimate body fat in very muscular individuals with a large neck circumference.</p>
+  </div>
+
+  <nav class="about" style="margin-top:40px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+    </div>
+  </nav>
+  </main>
+  <footer>
+    <p>Free Body Fat Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    let unit = 'imperial';
+    let sex = 'male';
+
+    function setSex(s, btn) {
+      sex = s;
+      document.getElementById('btn-male').classList.toggle('active', s === 'male');
+      document.getElementById('btn-female').classList.toggle('active', s === 'female');
+      document.getElementById('hip-row').style.display = s === 'female' ? 'flex' : 'none';
+      const wLabel = document.getElementById('waist-label');
+      const wTip = document.getElementById('waist-tip');
+      if (s === 'male') { wLabel.textContent = 'Waist (abdomen)'; wTip.textContent = 'at navel'; }
+      else { wLabel.textContent = 'Waist'; wTip.textContent = 'at narrowest point'; }
+      calculate();
+    }
+
+    function setUnit(u, btn) {
+      unit = u;
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      document.getElementById('heightImperial').style.display = u === 'imperial' ? 'flex' : 'none';
+      document.getElementById('heightMetric').style.display = u === 'metric' ? 'flex' : 'none';
+      ['neck-unit','waist-unit','hip-unit','weight-unit'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id === 'weight-unit') el.textContent = u === 'imperial' ? 'lb' : 'kg';
+        else el.textContent = u === 'imperial' ? 'in' : 'cm';
+      });
+      calculate();
+    }
+
+    function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
+
+    function toInches(val) { return val; }
+    function toCm(val) { return unit === 'imperial' ? val * 2.54 : val; }
+
+    function calculate() {
+      let heightCm;
+      if (unit === 'imperial') {
+        heightCm = (num('feet') * 12 + num('inches_h')) * 2.54;
+      } else {
+        heightCm = num('height_cm');
+      }
+      const neckCm = toCm(num('neck'));
+      const waistCm = toCm(num('waist'));
+      const hipCm = sex === 'female' ? toCm(num('hip')) : 0;
+      const weightRaw = num('weight');
+      const weightKg = unit === 'imperial' ? weightRaw * 0.453592 : weightRaw;
+
+      if (heightCm < 50 || neckCm < 15 || waistCm < 20 || (sex === 'female' && hipCm < 20)) {
+        document.getElementById('resultsBody').innerHTML = '';
+        return;
+      }
+
+      let bf;
+      if (sex === 'male') {
+        const diff = waistCm - neckCm;
+        if (diff <= 0) { document.getElementById('resultsBody').innerHTML = '<div class="notice">Waist must be larger than neck to calculate body fat.</div>'; return; }
+        bf = 86.010 * Math.log10(diff) - 70.041 * Math.log10(heightCm) + 36.76;
+      } else {
+        const sum = waistCm + hipCm - neckCm;
+        if (sum <= 0) { document.getElementById('resultsBody').innerHTML = '<div class="notice">Please check your measurements.</div>'; return; }
+        bf = 163.205 * Math.log10(sum) - 97.684 * Math.log10(heightCm) - 78.387;
+      }
+      bf = Math.max(1, Math.min(70, bf));
+
+      const fatMassKg = weightKg * bf / 100;
+      const leanMassKg = weightKg - fatMassKg;
+      const fmt = (kg) => unit === 'imperial'
+        ? (kg / 0.453592).toFixed(1) + ' lb'
+        : kg.toFixed(1) + ' kg';
+
+      let cat, catColor;
+      if (sex === 'male') {
+        if (bf < 6)       { cat = 'Essential fat'; catColor = '#3a8abf'; }
+        else if (bf < 14) { cat = 'Athletic';      catColor = '#3a9a5a'; }
+        else if (bf < 18) { cat = 'Fitness';       catColor = '#4a9a7a'; }
+        else if (bf < 25) { cat = 'Average';       catColor = '#e09030'; }
+        else              { cat = 'Obese';          catColor = '#d04040'; }
+      } else {
+        if (bf < 14)      { cat = 'Essential fat'; catColor = '#3a8abf'; }
+        else if (bf < 21) { cat = 'Athletic';      catColor = '#3a9a5a'; }
+        else if (bf < 25) { cat = 'Fitness';       catColor = '#4a9a7a'; }
+        else if (bf < 32) { cat = 'Average';       catColor = '#e09030'; }
+        else              { cat = 'Obese';          catColor = '#d04040'; }
+      }
+
+      document.getElementById('resultsBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value" style="color:${catColor}">${bf.toFixed(1)}%</div>
+          <div class="result-hero-label">📏 Body fat — <strong style="color:${catColor}">${cat}</strong></div>
+        </div>
+        <div class="result-row"><span class="result-label">Body fat percentage</span><span class="result-value">${bf.toFixed(1)}%</span></div>
+        <div class="result-row"><span class="result-label">Category (ACE)</span><span class="result-value" style="color:${catColor}">${cat}</span></div>
+        <div class="result-row"><span class="result-label">Fat mass</span><span class="result-value">${fmt(fatMassKg)}</span></div>
+        <div class="result-row"><span class="result-label">Lean mass</span><span class="result-value">${fmt(leanMassKg)}</span></div>
+        <div class="notice">Result is an estimate (±3–4%). Method: U.S. Navy circumference formula. Not a medical assessment — consult a healthcare provider for personalized guidance.</div>`;
+    }
+
+    document.querySelectorAll('input[type="number"]').forEach(el => el.addEventListener('input', calculate));
+    calculate();
+  </script>
+</body>
+</html>

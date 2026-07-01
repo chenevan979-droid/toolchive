@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Age Calculator — How Old Am I? — Toolchive</title>
+  <meta name="description" content="Free age calculator. Find out exactly how old you are in years, months, and days — plus days lived, days until your next birthday, and a countdown to any date.">
+  <link rel="canonical" href="https://toolchive.com/age-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/age-calculator">
+  <meta property="og:title" content="Age Calculator — How Old Am I? — Toolchive">
+  <meta property="og:description" content="Free age calculator. Find out exactly how old you are in years, months, and days — plus days lived, days until your next birthday, and a countdown to any date.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Age Calculator",
+    "url":"https://toolchive.com/age-calculator","applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I calculate my exact age?",
+     "acceptedAnswer":{"@type":"Answer","text":"Enter your date of birth and this calculator shows your exact age in years, months, and days as of today. It accounts for leap years and different month lengths automatically."}},
+    {"@type":"Question","name":"How many days until my next birthday?",
+     "acceptedAnswer":{"@type":"Answer","text":"The calculator shows the countdown to your next birthday in days. It automatically adjusts for whether your birthday has already passed this year or is still upcoming."}},
+    {"@type":"Question","name":"Can I count down to any date?",
+     "acceptedAnswer":{"@type":"Answer","text":"Yes. Use the 'Days Until' section to enter any target date — a holiday, event, or deadline — and the calculator shows exactly how many days remain from today."}}
+  ]}
+  </script>
+<style>
+  :root {
+    --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+    --text:#1a1a18; --text-muted:#888780;
+    --accent:#5a35bf; --accent-bg:#eeebfa; --radius:8px;
+  }
+  @media (prefers-color-scheme:dark) {
+    :root {
+      --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+      --text:#f0ede8; --text-muted:#888780;
+      --accent:#836de0; --accent-bg:#1a1430;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; padding: 48px 24px 80px;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+  .site-nav a { color:var(--text-muted); }
+  header { text-align:center; margin-bottom:40px; max-width:600px; }
+  header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+  .h1-emoji {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:52px; height:52px; font-size:28px; border-radius:14px;
+    background:var(--accent-bg); margin-bottom:14px;
+  }
+  header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+  .card {
+    background:var(--surface); border:0.5px solid var(--border);
+    border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+  }
+  .card-title {
+    font-size:13px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+  }
+  .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+  .field-row:last-child { margin-bottom:0; }
+  .field-row label { font-size:14px; font-weight:500; min-width:130px; }
+  .field-row input[type="date"], .field-row input[type="text"] {
+    font-size:16px; font-weight:500; padding:8px 14px;
+    border-radius:var(--radius); border:0.5px solid var(--border);
+    background:var(--bg); color:var(--text);
+  }
+  .field-row input[type="date"]::-webkit-calendar-picker-indicator { opacity:0.5; cursor:pointer; }
+  .results-card {
+    background:var(--surface); border:0.5px solid var(--border);
+    border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+  }
+  .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+  .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1.15; }
+  .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+  .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+  .result-row:last-child { border-bottom:none; }
+  .result-label { font-size:14px; color:var(--text-muted); }
+  .result-value { font-size:18px; font-weight:600; }
+  .countdown-hero { text-align:center; padding:20px 0; }
+  .countdown-number { font-size:56px; font-weight:700; color:var(--accent); line-height:1; }
+  .countdown-label { font-size:15px; color:var(--text-muted); margin-top:8px; }
+  .btn-kofi {
+    display:inline-flex; align-items:center; gap:8px; font-size:13px;
+    padding:9px 18px; border-radius:var(--radius); border:none;
+    background:#D63A35; color:#fff; font-weight:500; cursor:pointer;
+    text-decoration:none; transition:filter .15s;
+  }
+  .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+  .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+  .about { width:100%; max-width:640px; margin-top:32px; }
+  .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+  .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+  .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+  .quick-dates { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  .quick-btn {
+    font-size:13px; padding:5px 14px; border-radius:20px;
+    border:0.5px solid var(--border); background:var(--bg);
+    color:var(--text-muted); cursor:pointer; transition:all .15s;
+  }
+  .quick-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+  .rel-card {
+    display:flex; align-items:center; gap:8px; padding:10px 12px;
+    border:1px solid var(--border); border-radius:10px; text-decoration:none;
+    color:var(--text); font-size:14px; background:var(--surface);
+    transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+  }
+  .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+  .rel-emoji { font-size:18px; }
+  footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+  footer a { color:var(--text-muted); }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">🎂</div>
+    <h1>Age Calculator</h1>
+    <p>How old am I? Enter your birthday to get your exact age — and count down to any date.</p>
+  </header>
+  <main>
+  <div class="card">
+    <div class="card-title">Your Birthday</div>
+    <div class="field-row">
+      <label for="dob">Date of birth</label>
+      <input type="date" id="dob" max="">
+    </div>
+  </div>
+  <div class="results-card" id="ageCard" style="display:none"><div id="ageBody"></div></div>
+
+  <div class="card">
+    <div class="card-title">Days Until Any Date</div>
+    <div class="field-row">
+      <label for="targetLabel">Event name</label>
+      <input type="text" id="targetLabel" placeholder="e.g. Christmas" style="flex:1;min-width:160px">
+    </div>
+    <div class="field-row" style="margin-bottom:12px">
+      <label for="targetDate">Target date</label>
+      <input type="date" id="targetDate" min="">
+    </div>
+    <div class="quick-dates" id="quickDates"></div>
+  </div>
+  <div class="results-card" id="countdownCard" style="display:none"><div id="countdownBody"></div></div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="about">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I calculate my exact age?</h3>
+    <p>Enter your date of birth and this calculator shows your exact age in years, months, and days as of today. It accounts for leap years and different month lengths automatically.</p>
+    <h3>How many days until my next birthday?</h3>
+    <p>The calculator shows the countdown to your next birthday in days. It automatically adjusts for whether your birthday has already passed this year or is still upcoming.</p>
+    <h3>Can I count down to any date?</h3>
+    <p>Yes. Use the "Days Until" section to enter any target date — a holiday, event, or deadline — and the calculator shows exactly how many days remain from today. Use the quick shortcuts to jump to common dates like Christmas or New Year's.</p>
+  </div>
+
+  <nav class="about" style="margin-top:40px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+    </div>
+  </nav>
+  </main>
+  <footer>
+    <p>Free Age Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a></p>
+  </footer>
+  <script>
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // Set max date for DOB to today, min date for target to today
+    document.getElementById('dob').max = today.toISOString().slice(0,10);
+    document.getElementById('targetDate').min = today.toISOString().slice(0,10);
+
+    // Quick date shortcuts
+    const QUICK = [
+      { label: '🎄 Christmas', fn: () => nextOccurrence(12, 25) },
+      { label: '🎆 New Year\'s', fn: () => nextOccurrence(1, 1) },
+      { label: '🎃 Halloween', fn: () => nextOccurrence(10, 31) },
+      { label: '❤️ Valentine\'s', fn: () => nextOccurrence(2, 14) },
+    ];
+
+    function nextOccurrence(month, day) {
+      const y = today.getFullYear();
+      let d = new Date(y, month - 1, day);
+      if (d <= today) d = new Date(y + 1, month - 1, day);
+      return d.toISOString().slice(0, 10);
+    }
+
+    const qc = document.getElementById('quickDates');
+    QUICK.forEach(q => {
+      const btn = document.createElement('button');
+      btn.className = 'quick-btn';
+      btn.textContent = q.label;
+      btn.onclick = () => {
+        const val = q.fn();
+        document.getElementById('targetDate').value = val;
+        document.getElementById('targetLabel').value = q.label.replace(/^\S+\s/, '');
+        calculateCountdown();
+      };
+      qc.appendChild(btn);
+    });
+
+    function diffYMD(from, to) {
+      let y = to.getFullYear() - from.getFullYear();
+      let m = to.getMonth() - from.getMonth();
+      let d = to.getDate() - from.getDate();
+      if (d < 0) { m--; const prev = new Date(to.getFullYear(), to.getMonth(), 0); d += prev.getDate(); }
+      if (m < 0) { y--; m += 12; }
+      return { y, m, d };
+    }
+
+    function calculateAge() {
+      const dobVal = document.getElementById('dob').value;
+      if (!dobVal) { document.getElementById('ageCard').style.display = 'none'; return; }
+      const dob = new Date(dobVal + 'T00:00:00');
+      if (dob >= today) { document.getElementById('ageCard').style.display = 'none'; return; }
+
+      const { y, m, d } = diffYMD(dob, today);
+      const daysLived = Math.floor((today - dob) / 86400000);
+
+      // Next birthday
+      let nextBday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+      if (nextBday <= today) nextBday = new Date(today.getFullYear() + 1, dob.getMonth(), dob.getDate());
+      const daysUntilBday = Math.round((nextBday - today) / 86400000);
+
+      const isBirthday = dob.getMonth() === today.getMonth() && dob.getDate() === today.getDate();
+
+      document.getElementById('ageCard').style.display = 'block';
+      document.getElementById('ageBody').innerHTML = `
+        <div class="result-hero">
+          <div class="result-hero-value">${y} <span style="font-size:22px;font-weight:500">years</span>${m > 0 ? ` ${m} <span style="font-size:22px;font-weight:500">mo</span>` : ''} ${d > 0 ? ` ${d} <span style="font-size:22px;font-weight:500">days</span>` : ''}</div>
+          <div class="result-hero-label">🎂 Your exact age today</div>
+        </div>
+        <div class="result-row"><span class="result-label">Years old</span><span class="result-value">${y}</span></div>
+        <div class="result-row"><span class="result-label">Months old</span><span class="result-value">${y * 12 + m}</span></div>
+        <div class="result-row"><span class="result-label">Days lived</span><span class="result-value">${daysLived.toLocaleString()}</span></div>
+        <div class="result-row"><span class="result-label">${isBirthday ? '🎉 Happy birthday!' : 'Days until next birthday'}</span><span class="result-value" style="color:var(--accent)">${isBirthday ? 'Today! 🎂' : daysUntilBday + ' days'}</span></div>`;
+    }
+
+    function calculateCountdown() {
+      const targetVal = document.getElementById('targetDate').value;
+      const label = document.getElementById('targetLabel').value.trim() || 'that date';
+      if (!targetVal) { document.getElementById('countdownCard').style.display = 'none'; return; }
+      const target = new Date(targetVal + 'T00:00:00');
+      const diff = Math.round((target - today) / 86400000);
+      document.getElementById('countdownCard').style.display = 'block';
+      if (diff < 0) {
+        document.getElementById('countdownBody').innerHTML = `<div class="countdown-hero"><div class="countdown-number" style="font-size:32px;color:var(--text-muted)">${Math.abs(diff)} days ago</div><div class="countdown-label">${label} has already passed.</div></div>`;
+      } else if (diff === 0) {
+        document.getElementById('countdownBody').innerHTML = `<div class="countdown-hero"><div class="countdown-number">🎉 Today!</div><div class="countdown-label">${label} is today.</div></div>`;
+      } else {
+        document.getElementById('countdownBody').innerHTML = `<div class="countdown-hero"><div class="countdown-number">${diff}</div><div class="countdown-label">days until <strong>${label}</strong></div></div>`;
+      }
+    }
+
+    document.getElementById('dob').addEventListener('change', calculateAge);
+    document.getElementById('targetDate').addEventListener('change', calculateCountdown);
+    document.getElementById('targetLabel').addEventListener('input', calculateCountdown);
+
+    // Pre-fill DOB with a sample date so the calculator isn't empty on load
+    const sampleDob = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate() - 5);
+    document.getElementById('dob').value = sampleDob.toISOString().slice(0, 10);
+    calculateAge();
+  </script>
+</body>
+</html>
