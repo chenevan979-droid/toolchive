@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Pool Volume Calculator — Toolchive</title>
+  <meta name="description" content="Free pool volume calculator — find how many gallons your swimming pool holds. Works for rectangular, round, and oval pools. Includes chemical dosage reference.">
+  <link rel="canonical" href="https://toolchive.com/pool-volume-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/pool-volume-calculator">
+  <meta property="og:title" content="Pool Volume Calculator — Toolchive">
+  <meta property="og:description" content="Free pool volume calculator — find how many gallons your swimming pool holds. Works for rectangular, round, and oval pools. Includes chemical dosage reference.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Pool Volume Calculator","url":"https://toolchive.com/pool-volume-calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I calculate pool volume in gallons?","acceptedAnswer":{"@type":"Answer","text":"For a rectangular pool, multiply length × width × average depth (in feet) × 7.48 to get gallons. For a round pool, use π × radius² × depth × 7.48. The calculator above handles all shapes automatically."}},{"@type":"Question","name":"How many gallons does an average swimming pool hold?","acceptedAnswer":{"@type":"Answer","text":"A standard residential inground pool (16×32 ft, 5 ft average depth) holds about 19,200 gallons. Above-ground pools range from 5,000 to 15,000 gallons. Olympic pools hold 660,000 gallons."}},{"@type":"Question","name":"How much chlorine do I need to shock my pool?","acceptedAnswer":{"@type":"Answer","text":"A general starting point is 1 pound of calcium hypochlorite (cal-hypo) shock per 10,000 gallons. Always follow your specific product's label, test the water first, and shock at dusk to prevent UV breakdown."}}]}</script>
+<style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#1a8080; --accent-bg:#e5f5f5; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#30a0a0; --accent-bg:#081818;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:48px 24px 80px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji { display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; font-size:28px; border-radius:14px; background:var(--accent-bg); margin-bottom:14px; }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .card-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px; }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:140px; }
+    .field-row input[type="number"] { width:110px; font-size:18px; font-weight:600; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    select { font-size:14px; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; }
+    .results-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .btn-kofi { display:inline-flex; align-items:center; gap:8px; font-size:13px; padding:9px 18px; border-radius:var(--radius); border:none; background:#D63A35; color:#fff; font-weight:500; cursor:pointer; text-decoration:none; transition:filter .15s; }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card { display:flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); font-size:14px; background:var(--surface); transition:border-color .15s,transform .15s,box-shadow .15s,background .15s; }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">🏊</div>
+    <h1>Pool Volume Calculator</h1>
+    <p>Calculate swimming pool volume in gallons and liters for any shape.</p>
+  </header>
+  <main>
+    <div class="card">
+      <div class="card-title">Pool Dimensions</div>
+      <div class="field-row">
+        <label for="shape">Pool shape</label>
+        <select id="shape" onchange="onShapeChange()">
+          <option value="rectangular">Rectangular</option>
+          <option value="round">Round</option>
+          <option value="oval">Oval</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <label>Units</label>
+        <div class="unit-toggle">
+          <button class="unit-btn active" id="btnImperial" onclick="setUnit('imperial')">Imperial (ft)</button>
+          <button class="unit-btn" id="btnMetric" onclick="setUnit('metric')">Metric (m)</button>
+        </div>
+      </div>
+      <div class="field-row" id="rowLength">
+        <label id="labelLength">Length</label>
+        <input type="number" id="length" value="30" min="0" step="0.5">
+        <span class="input-suffix" id="dimSuffix1">ft</span>
+      </div>
+      <div class="field-row" id="rowWidth">
+        <label>Width</label>
+        <input type="number" id="width" value="15" min="0" step="0.5">
+        <span class="input-suffix" id="dimSuffix2">ft</span>
+      </div>
+      <div class="field-row" id="rowDiameter" style="display:none">
+        <label>Diameter</label>
+        <input type="number" id="diameter" value="24" min="0" step="0.5">
+        <span class="input-suffix" id="dimSuffix3">ft</span>
+      </div>
+      <div class="field-row">
+        <label>Average depth</label>
+        <input type="number" id="depth" value="5" min="0" step="0.5">
+        <span class="input-suffix" id="depthSuffix">ft</span>
+      </div>
+    </div>
+
+    <div class="results-card">
+      <div id="resultsBody"></div>
+    </div>
+
+    <div class="support-row">
+      <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+    </div>
+
+    <div class="about">
+      <h2>Pool Volume by Size</h2>
+      <h3>How many gallons in a 12×24 pool?</h3>
+      <p>A 12×24 ft rectangular pool with a 4.5 ft average depth holds approximately 9,700 gallons. With a 5 ft average depth the volume rises to about 10,800 gallons. Above-ground pools of this size typically use a shallower depth of 4 ft, which gives around 8,640 gallons.</p>
+      <h3>How many gallons is an average inground pool?</h3>
+      <p>A standard 16×32 ft inground pool with 5 ft average depth holds about 19,200 gallons. Larger pools scale up quickly — a 20×40 ft pool at 5 ft average depth holds roughly 30,000 gallons. The exact amount depends on the depth profile (shallow end vs. deep end), which is why average depth is used in the calculation.</p>
+      <h3>How many gallons in a 24-foot round pool?</h3>
+      <p>A 24-ft diameter round pool at 4 ft depth holds about 13,500 gallons. At 52 inches (4.33 ft depth), which is the most common size for above-ground round pools, it holds approximately 14,700 gallons. Use the calculator above and enter your exact depth for a precise result.</p>
+    </div>
+
+    <div class="about" style="margin-top:24px">
+      <h2>Frequently asked questions</h2>
+      <h3>How do I calculate pool volume in gallons?</h3>
+      <p>For a rectangular pool, multiply length × width × average depth (in feet) × 7.48 to get gallons. For a round pool, use π × radius² × depth × 7.48. The calculator above handles all shapes automatically.</p>
+      <h3>How many gallons does an average swimming pool hold?</h3>
+      <p>A standard residential inground pool (16×32 ft, 5 ft average depth) holds about 19,200 gallons. Above-ground pools range from 5,000 to 15,000 gallons. Olympic pools hold 660,000 gallons.</p>
+      <h3>How much chlorine do I need to shock my pool?</h3>
+      <p>A general starting point is 1 pound of calcium hypochlorite (cal-hypo) shock per 10,000 gallons. Always follow your specific product's label, test the water first, and shock at dusk to prevent UV breakdown.</p>
+    </div>
+
+    <nav class="about" style="margin-top:40px">
+      <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+      <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
+      <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
+      <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
+      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
+      <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
+      <a class="rel-card" href="/budget-calculator"><span class="rel-emoji">💸</span> Budget</a>
+      <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
+      <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
+      <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
+    </div>
+    </nav>
+  </main>
+  <footer><p>Free Pool Volume Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p></footer>
+<script>
+var currentUnit = 'imperial';
+
+function onShapeChange() {
+  var shape = document.getElementById('shape').value;
+  document.getElementById('rowLength').style.display = shape === 'round' ? 'none' : 'flex';
+  document.getElementById('rowWidth').style.display = shape === 'round' ? 'none' : 'flex';
+  document.getElementById('rowDiameter').style.display = shape === 'round' ? 'flex' : 'none';
+  calc();
+}
+
+function setUnit(u) {
+  if (u === currentUnit) return;
+  var toM = u === 'metric';
+  var factor = toM ? 0.3048 : (1 / 0.3048);
+  var ids = ['length', 'width', 'diameter', 'depth'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    var val = parseFloat(el.value) || 0;
+    el.value = (val * factor).toFixed(2);
+  });
+  var suffix = toM ? 'm' : 'ft';
+  ['dimSuffix1','dimSuffix2','dimSuffix3','depthSuffix'].forEach(function(id) {
+    document.getElementById(id).textContent = suffix;
+  });
+  document.getElementById('btnImperial').classList.toggle('active', !toM);
+  document.getElementById('btnMetric').classList.toggle('active', toM);
+  currentUnit = u;
+  calc();
+}
+
+function calc() {
+  var shape = document.getElementById('shape').value;
+  var depth = parseFloat(document.getElementById('depth').value) || 0;
+  var volUnit;
+
+  if (currentUnit === 'metric') {
+    var depthFt = depth / 0.3048;
+    var volCuft;
+    if (shape === 'round') {
+      var diam = parseFloat(document.getElementById('diameter').value) || 0;
+      var diamFt = diam / 0.3048;
+      volCuft = Math.PI * Math.pow(diamFt / 2, 2) * depthFt;
+    } else if (shape === 'oval') {
+      var len = parseFloat(document.getElementById('length').value) || 0;
+      var wid = parseFloat(document.getElementById('width').value) || 0;
+      var lenFt = len / 0.3048;
+      var widFt = wid / 0.3048;
+      volCuft = Math.PI * (lenFt / 2) * (widFt / 2) * depthFt;
+    } else {
+      var len = parseFloat(document.getElementById('length').value) || 0;
+      var wid = parseFloat(document.getElementById('width').value) || 0;
+      var lenFt = len / 0.3048;
+      var widFt = wid / 0.3048;
+      volCuft = lenFt * widFt * depthFt;
+    }
+    volUnit = volCuft;
+  } else {
+    if (shape === 'round') {
+      var diam = parseFloat(document.getElementById('diameter').value) || 0;
+      volUnit = Math.PI * Math.pow(diam / 2, 2) * depth;
+    } else if (shape === 'oval') {
+      var len = parseFloat(document.getElementById('length').value) || 0;
+      var wid = parseFloat(document.getElementById('width').value) || 0;
+      volUnit = Math.PI * (len / 2) * (wid / 2) * depth;
+    } else {
+      var len = parseFloat(document.getElementById('length').value) || 0;
+      var wid = parseFloat(document.getElementById('width').value) || 0;
+      volUnit = len * wid * depth;
+    }
+  }
+
+  var volCuft = currentUnit === 'metric'
+    ? volUnit
+    : volUnit;
+
+  var gallons = volUnit * 7.48052;
+  var liters = gallons * 3.78541;
+  var cubicFt = volUnit;
+  var cubicM = cubicFt * 0.0283168;
+  var chlorineLbs = gallons / 10000;
+  var chlorineKg = chlorineLbs * 0.453592;
+
+  var html = '<div class="result-hero">';
+  html += '<div class="result-hero-value">' + Math.round(gallons).toLocaleString() + ' gal</div>';
+  html += '<div class="result-hero-label">Pool volume in gallons</div>';
+  html += '</div>';
+  html += '<div class="result-row"><span class="result-label">Liters</span><span class="result-value">' + Math.round(liters).toLocaleString() + ' L</span></div>';
+  html += '<div class="result-row"><span class="result-label">Cubic feet</span><span class="result-value">' + Math.round(cubicFt).toLocaleString() + ' ft³</span></div>';
+  html += '<div class="result-row"><span class="result-label">Cubic meters</span><span class="result-value">' + cubicM.toFixed(1) + ' m³</span></div>';
+  html += '<div class="result-row"><span class="result-label">Chlorine shock dose</span><span class="result-value">' + chlorineLbs.toFixed(1) + ' lbs (' + chlorineKg.toFixed(2) + ' kg)</span></div>';
+  html += '<div class="notice">Chemical dosages are general estimates. Follow product label instructions and test water before adding chemicals.</div>';
+
+  document.getElementById('resultsBody').innerHTML = html;
+}
+
+['length','width','diameter','depth'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', calc);
+});
+document.getElementById('shape').addEventListener('change', onShapeChange);
+
+calc();
+</script>
+</body>
+</html>

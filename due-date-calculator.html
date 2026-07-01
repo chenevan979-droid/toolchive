@@ -4,37 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Aspect Ratio Calculator — Toolchive</title>
-  <meta name="description" content="Free aspect ratio calculator. Find the simplified ratio of any two dimensions, scale a ratio to a new size, or find missing width or height.">
-  <link rel="canonical" href="https://toolchive.com/aspect-ratio-calculator">
+  <title>Pregnancy Due Date Calculator — Toolchive</title>
+  <meta name="description" content="Free pregnancy due date calculator — enter your last menstrual period or conception date to find your estimated due date, current week, trimester, and key milestones.">
+  <link rel="canonical" href="https://toolchive.com/due-date-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/aspect-ratio-calculator">
-  <meta property="og:title" content="Aspect Ratio Calculator — Toolchive">
-  <meta property="og:description" content="Free aspect ratio calculator. Find the simplified ratio of any two dimensions, scale a ratio to a new size, or find missing width or height.">
+  <meta property="og:url" content="https://toolchive.com/due-date-calculator">
+  <meta property="og:title" content="Pregnancy Due Date Calculator — Toolchive">
+  <meta property="og:description" content="Calculate your estimated due date and track your pregnancy milestones.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Aspect Ratio Calculator",
-    "url":"https://toolchive.com/aspect-ratio-calculator","applicationCategory":"UtilitiesApplication",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Pregnancy Due Date Calculator",
+    "url":"https://toolchive.com/due-date-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
-    <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this aspect ratio calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "The aspect ratio calculator simplifies a width and height to their lowest ratio (for example 1920×1080 becomes 16:9) and can also scale dimensions to a new size while keeping the same proportions."}}, {"@type": "Question", "name": "How do I calculate an aspect ratio?", "acceptedAnswer": {"@type": "Answer", "text": "Divide the width and height by their greatest common divisor. For example, 1920 and 1080 share a divisor of 120, which gives 16:9. The tool does this for any dimensions."}}, {"@type": "Question", "name": "How do I resize an image without distortion?", "acceptedAnswer": {"@type": "Answer", "text": "Use the scale mode: enter your original size and one new dimension, and the tool calculates the other dimension to preserve the exact aspect ratio."}}]}
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How is a pregnancy due date calculated?","acceptedAnswer":{"@type":"Answer","text":"The most common method (Naegele's rule) adds 280 days (40 weeks) to the first day of your last menstrual period. If you know your conception date, add 266 days. Your doctor may adjust the date based on an early ultrasound."}},
+    {"@type":"Question","name":"What week does each trimester start?","acceptedAnswer":{"@type":"Answer","text":"The first trimester runs from week 1 through week 12. The second trimester is weeks 13–27. The third trimester begins at week 28 and continues until delivery, typically around week 40."}},
+    {"@type":"Question","name":"Can I find out the baby's sex at the anatomy scan?","acceptedAnswer":{"@type":"Answer","text":"The anatomy scan (typically at 20 weeks) can often reveal fetal sex if the baby is in a favorable position and you choose to find out. Some parents ask the technician not to reveal it."}}
+  ]}
   </script>
 <style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
-      --accent:#a0508a; --accent-bg:#f8e8f5; --radius:8px;
+      --accent:#c0507a; --accent-bg:#faeef3; --radius:8px;
     }
     @media (prefers-color-scheme:dark) {
       :root {
         --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
         --text:#f0ede8; --text-muted:#888780;
-        --accent:#d080b8; --accent-bg:#200818;
+        --accent:#e07090; --accent-bg:#1e080e;
       }
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg); color: var(--text);
@@ -64,39 +67,31 @@
     }
     .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
     .field-row:last-child { margin-bottom:0; }
-    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
-    .field-row input[type="number"], .field-row input[type="text"] {
+    .field-row label { font-size:14px; font-weight:500; min-width:140px; }
+    .field-row input[type="number"] {
       width:110px; font-size:18px; font-weight:600; padding:8px 12px;
       border-radius:var(--radius); border:0.5px solid var(--border);
       background:var(--bg); color:var(--text); text-align:center;
     }
-    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .field-row input[type="date"] {
+      font-size:15px; font-weight:500; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text);
+    }
     .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
     .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
     .unit-btn.active { background:var(--accent); color:#fff; }
-    .preset-btn {
-      font-size:13px; padding:5px 14px; border-radius:20px;
-      border:0.5px solid var(--border); background:var(--bg);
-      color:var(--text-muted); cursor:pointer; transition:all .15s;
-    }
-    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
-    select {
-      font-size:14px; padding:8px 12px; border-radius:var(--radius);
-      border:0.5px solid var(--border); background:var(--bg); color:var(--text);
-      cursor:pointer;
-    }
     .results-card {
       background:var(--surface); border:0.5px solid var(--border);
       border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
     }
     .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
-    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-value { font-size:36px; font-weight:700; color:var(--accent); line-height:1; }
     .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
     .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
     .result-row:last-child { border-bottom:none; }
     .result-label { font-size:14px; color:var(--text-muted); }
     .result-value { font-size:18px; font-weight:600; }
-    .cost-value { color:var(--accent); }
     .btn-kofi {
       display:inline-flex; align-items:center; gap:8px; font-size:13px;
       padding:9px 18px; border-radius:var(--radius); border:none;
@@ -111,6 +106,7 @@
     .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
     .about ul { padding-left:20px; }
     .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
     .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
     .rel-card {
       display:flex; align-items:center; gap:8px; padding:10px 12px;
@@ -122,56 +118,35 @@
     .rel-emoji { font-size:18px; }
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
-    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
-
-  </style>
+    #cycleRow { transition: opacity .2s; }
+</style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
   <header>
-    <div class="h1-emoji">📐</div>
-    <h1>Aspect Ratio Calculator</h1>
-    <p>Simplify any ratio, scale a size while keeping the ratio, or find a missing width or height.</p>
+    <div class="h1-emoji">🤰</div>
+    <h1>Pregnancy Due Date Calculator</h1>
+    <p>Calculate your estimated due date and track your pregnancy milestones.</p>
   </header>
   <main>
   <div class="card">
-    <div class="card-title">Mode</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="preset-btn active" id="btn-simplify" onclick="setMode('simplify',this)">Simplify ratio</button>
-      <button class="preset-btn" id="btn-scale" onclick="setMode('scale',this)">Scale to new size</button>
-    </div>
-  </div>
-  <div class="card" id="simplifyCard">
-    <div class="card-title">Width × Height</div>
+    <div class="card-title">Your information</div>
     <div class="field-row">
-      <label>Width</label>
-      <input type="number" id="sW" min="1" value="1920" step="1">
-      <span class="input-suffix">px (or any unit)</span>
+      <label>Calculation method</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-lmp" onclick="setMethod('lmp')">Last Period</button>
+        <button class="unit-btn" id="btn-conc" onclick="setMethod('conception')">Conception Date</button>
+      </div>
     </div>
     <div class="field-row">
-      <label>Height</label>
-      <input type="number" id="sH" min="1" value="1080" step="1">
+      <label id="dateLabel" for="startDate">Last menstrual period</label>
+      <input type="date" id="startDate">
     </div>
-  </div>
-  <div class="card" id="scaleCard" style="display:none">
-    <div class="card-title">Original Size</div>
-    <div class="field-row">
-      <label>Width</label>
-      <input type="number" id="origW" min="1" value="1920" step="1">
-    </div>
-    <div class="field-row">
-      <label>Height</label>
-      <input type="number" id="origH" min="1" value="1080" step="1">
-    </div>
-    <div class="card-title" style="margin-top:20px">Target (leave one blank)</div>
-    <div class="field-row">
-      <label>New width</label>
-      <input type="number" id="newW" min="1" value="1280" step="1" placeholder="Width">
-    </div>
-    <div class="field-row">
-      <label>New height</label>
-      <input type="number" id="newH" min="1" step="1" placeholder="Height (auto)">
+    <div class="field-row" id="cycleRow">
+      <label for="cycleLen">Cycle length</label>
+      <input type="number" id="cycleLen" value="28" min="21" max="45">
+      <span style="font-size:13px;color:var(--text-muted)">days</span>
     </div>
   </div>
   <div class="results-card"><div id="resultsBody"></div></div>
@@ -179,28 +154,31 @@
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>An aspect ratio describes the proportional relationship between width and height. It's expressed as W:H (e.g. 16:9) or as a decimal (1.778).</p>
-    <h3>Common aspect ratios</h3>
-    <ul>
-      <li><strong>16:9</strong> — Widescreen HD/4K TV, YouTube, most monitors</li>
-      <li><strong>4:3</strong> — Older TVs, tablets, many cameras</li>
-      <li><strong>1:1</strong> — Square (Instagram, profile photos)</li>
-      <li><strong>21:9</strong> — Ultra-wide monitors, cinema</li>
-      <li><strong>3:2</strong> — DSLR cameras, 35mm film</li>
-    </ul>
+    <h2>Understanding Your Due Date</h2>
+    <p>A due date gives you and your care team a shared timeline for prenatal appointments, screenings, and birth planning. Understanding how it's calculated and what to expect along the way helps you feel prepared at each stage.</p>
+
+    <h3>How is a due date calculated?</h3>
+    <p>The standard method is Naegele's rule, which adds 280 days (40 weeks) to the first day of your last menstrual period. This assumes a 28-day cycle and ovulation on day 14. If your cycle is longer or shorter, the due date shifts accordingly — which is why this calculator lets you enter your actual cycle length. Your doctor may also adjust the date after an early ultrasound, which measures the size of the embryo and is often more accurate than date-based estimates.</p>
+
+    <h3>How accurate is a due date calculator?</h3>
+    <p>Only about 5% of babies are born on their exact due date. Most arrive within two weeks before or after — the normal range is 37–42 weeks. A first-trimester ultrasound (ideally before 14 weeks) is the most accurate way to date a pregnancy. The calculator here gives you a reliable estimate, but your healthcare provider's assessment — especially from an early scan — takes precedence.</p>
+
+    <h3>What week is the anatomy scan?</h3>
+    <p>The anatomy scan (also called the 20-week scan or mid-pregnancy ultrasound) is typically scheduled between 18 and 22 weeks, most commonly right around 20 weeks. During the scan, a sonographer checks fetal anatomy including the brain, heart, spine, kidneys, and limbs, measures growth, checks placenta position, and can often determine fetal sex if you choose to find out.</p>
   </div>
-    <div class="about">
+  <div class="about" style="margin-top:32px">
     <h2>Frequently asked questions</h2>
-    <h3>How does this aspect ratio calculator work?</h3>
-    <p>The aspect ratio calculator simplifies a width and height to their lowest ratio (for example 1920×1080 becomes 16:9) and can also scale dimensions to a new size while keeping the same proportions.</p>
-    <h3>How do I calculate an aspect ratio?</h3>
-    <p>Divide the width and height by their greatest common divisor. For example, 1920 and 1080 share a divisor of 120, which gives 16:9. The tool does this for any dimensions.</p>
-    <h3>How do I resize an image without distortion?</h3>
-    <p>Use the scale mode: enter your original size and one new dimension, and the tool calculates the other dimension to preserve the exact aspect ratio.</p>
+    <h3>How is a pregnancy due date calculated?</h3>
+    <p>The most common method (Naegele's rule) adds 280 days (40 weeks) to the first day of your last menstrual period. If you know your conception date, add 266 days. Your doctor may adjust the date based on an early ultrasound, which is generally more accurate than calendar-based methods.</p>
+
+    <h3>What week does each trimester start?</h3>
+    <p>The first trimester runs from week 1 through week 12. The second trimester is weeks 13–27. The third trimester begins at week 28 and continues until delivery, typically around week 40. Key screenings, scans, and symptoms differ by trimester, so knowing which one you're in helps you know what to expect next.</p>
+
+    <h3>Can I find out the baby's sex at the anatomy scan?</h3>
+    <p>The anatomy scan (typically at 20 weeks) can often reveal fetal sex if the baby is in a favorable position and you choose to find out. Some parents ask the technician not to reveal it, or to write it in an envelope for a gender reveal. Early blood tests like NIPT (around 10 weeks) can also detect fetal sex with high accuracy.</p>
   </div>
   <nav class="about" style="margin-top:40px">
-        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
     <div class="rel-grid">
       <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
       <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
@@ -241,77 +219,120 @@
       <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
       <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
       <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
       <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
       <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
       <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
       <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
       <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
       <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
-      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
       <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
       <a class="rel-card" href="/pool-volume-calculator"><span class="rel-emoji">🏊</span> Pool Volume</a>
       <a class="rel-card" href="/budget-calculator"><span class="rel-emoji">💸</span> Budget</a>
       <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
       <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
       <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
-    </div></div>
+    </div>
   </nav>
   </main>
   <footer>
-    <p>Free Aspect Ratio Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
+    <p>Free Pregnancy Due Date Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
   </footer>
   <script>
-    let mode='simplify';
-    function setMode(m,btn){
-      mode=m;
-      document.querySelectorAll('.card .preset-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('simplifyCard').style.display=m==='simplify'?'':'none';
-      document.getElementById('scaleCard').style.display=m==='scale'?'':'none';
-      calculate();
+  var calcMethod = 'lmp';
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function setMethod(m) {
+    calcMethod = m;
+    document.getElementById('btn-lmp').classList.toggle('active', m === 'lmp');
+    document.getElementById('btn-conc').classList.toggle('active', m === 'conception');
+    document.getElementById('dateLabel').textContent = m === 'lmp' ? 'Last menstrual period' : 'Conception date';
+    document.getElementById('cycleRow').style.display = m === 'lmp' ? '' : 'none';
+    calc();
+  }
+
+  function addDays(date, days) {
+    var d = new Date(date.getTime());
+    d.setDate(d.getDate() + days);
+    return d;
+  }
+
+  function fmtDate(d) {
+    return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function fmtShort(d) {
+    return MONTHS[d.getMonth()].slice(0,3) + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function setDefaultDate() {
+    var today = new Date();
+    var defaultLmp = addDays(today, -280);
+    var y = defaultLmp.getFullYear();
+    var mo = String(defaultLmp.getMonth() + 1).padStart(2, '0');
+    var da = String(defaultLmp.getDate()).padStart(2, '0');
+    document.getElementById('startDate').value = y + '-' + mo + '-' + da;
+  }
+
+  function calc() {
+    var dateVal = document.getElementById('startDate').value;
+    if (!dateVal) return;
+
+    var startDate = new Date(dateVal + 'T00:00:00');
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    var lmpDate;
+    var edd;
+
+    if (calcMethod === 'lmp') {
+      var cycleLen = parseInt(document.getElementById('cycleLen').value) || 28;
+      lmpDate = startDate;
+      var adjustment = cycleLen - 28;
+      edd = addDays(lmpDate, 280 + adjustment);
+    } else {
+      var conceptionDate = startDate;
+      lmpDate = addDays(conceptionDate, -14);
+      edd = addDays(conceptionDate, 266);
     }
-    function gcd(a,b){return b===0?a:gcd(b,a%b);}
-    function num(id){return Math.max(0,parseFloat(document.getElementById(id).value)||0);}
-    const COMMON=[{r:'1:1',v:1},{r:'4:3',v:4/3},{r:'16:9',v:16/9},{r:'16:10',v:16/10},{r:'21:9',v:21/9},{r:'2:1',v:2},{r:'3:2',v:3/2},{r:'5:4',v:5/4}];
-    function calculate(){
-      if(mode==='simplify'){
-        const w=num('sW'), h=num('sH');
-        if(!w||!h){document.getElementById('resultsBody').innerHTML='';return;}
-        const g=gcd(Math.round(w),Math.round(h));
-        const rw=Math.round(w)/g, rh=Math.round(h)/g;
-        const dec=(w/h).toFixed(4);
-        const close=COMMON.reduce((best,c)=>Math.abs(c.v-w/h)<Math.abs(best.v-w/h)?c:best);
-        document.getElementById('resultsBody').innerHTML=`
-          <div class="result-hero">
-            <div class="result-hero-value">${rw}:${rh}</div>
-            <div class="result-hero-label">📐 simplified aspect ratio</div>
-          </div>
-          <div class="result-row"><span class="result-label">Simplified ratio</span><span class="result-value">${rw}:${rh}</span></div>
-          <div class="result-row"><span class="result-label">Decimal ratio</span><span class="result-value">${dec}</span></div>
-          <div class="result-row"><span class="result-label">Closest common ratio</span><span class="result-value">${close.r}</span></div>`;
-      } else {
-        const oW=num('origW'), oH=num('origH');
-        const nW=num('newW'), nH=num('newH');
-        if(!oW||!oH){document.getElementById('resultsBody').innerHTML='';return;}
-        const ratio=oW/oH;
-        let finalW=nW, finalH=nH;
-        if(nW&&!nH) finalH=Math.round(nW/ratio);
-        else if(nH&&!nW) finalW=Math.round(nH*ratio);
-        else if(nW&&nH){finalW=nW; finalH=nH;}
-        else{document.getElementById('resultsBody').innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted)">Enter a new width or height.</div>';return;}
-        const g=gcd(Math.round(oW),Math.round(oH));
-        document.getElementById('resultsBody').innerHTML=`
-          <div class="result-hero">
-            <div class="result-hero-value">${finalW} × ${finalH}</div>
-            <div class="result-hero-label">📐 scaled dimensions</div>
-          </div>
-          <div class="result-row"><span class="result-label">Original size</span><span class="result-value">${oW} × ${oH}</span></div>
-          <div class="result-row"><span class="result-label">Aspect ratio</span><span class="result-value">${Math.round(oW)/g}:${Math.round(oH)/g}</span></div>
-          <div class="result-row"><span class="result-label">New size</span><span class="result-value">${finalW} × ${finalH}</span></div>`;
-      }
-    }
-    ['sW','sH','origW','origH','newW','newH'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
-    calculate();
+
+    var msPerDay = 86400000;
+    var gestationalDaysFromToday = Math.floor((today.getTime() - lmpDate.getTime()) / msPerDay);
+    var currentWeek = Math.floor(gestationalDaysFromToday / 7);
+    var currentDay = gestationalDaysFromToday % 7;
+    var daysRemaining = Math.ceil((edd.getTime() - today.getTime()) / msPerDay);
+
+    var trimester;
+    if (currentWeek <= 12) trimester = '1st trimester';
+    else if (currentWeek <= 27) trimester = '2nd trimester';
+    else trimester = '3rd trimester';
+
+    var firstTrimEnd = addDays(lmpDate, 12 * 7);
+    var anatomyScan = addDays(lmpDate, 140);
+    var fullTerm = addDays(lmpDate, 259);
+
+    var weekLabel = currentWeek > 0 ? 'Week ' + currentWeek + ' + ' + currentDay + ' day' + (currentDay !== 1 ? 's' : '') : 'Not yet started';
+
+    var html = '<div class="result-hero">';
+    html += '<div class="result-hero-value">' + fmtDate(edd) + '</div>';
+    html += '<div class="result-hero-label">Estimated due date</div>';
+    html += '</div>';
+
+    html += '<div class="result-row"><span class="result-label">Current week of pregnancy</span><span class="result-value">' + weekLabel + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Trimester</span><span class="result-value">' + trimester + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Days remaining</span><span class="result-value">' + (daysRemaining > 0 ? daysRemaining + ' days' : 'Past due date') + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">1st trimester ends</span><span class="result-value">' + fmtShort(firstTrimEnd) + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Anatomy scan (~20 wks)</span><span class="result-value">' + fmtShort(anatomyScan) + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Full term (37 wks)</span><span class="result-value">' + fmtShort(fullTerm) + '</span></div>';
+    html += '<div class="notice">Estimated due date is calculated using Naegele\'s rule and may differ from your doctor\'s dating based on ultrasound measurements. Only your healthcare provider can confirm your due date.</div>';
+
+    document.getElementById('resultsBody').innerHTML = html;
+  }
+
+  setDefaultDate();
+  document.getElementById('startDate').addEventListener('change', calc);
+  document.getElementById('cycleLen').addEventListener('input', calc);
+  calc();
   </script>
 </body>
 </html>

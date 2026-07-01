@@ -1,4 +1,21 @@
 User-agent: *
 Allow: /
+Crawl-delay: 1
+
+# Block aggressive SEO crawlers that eat crawl budget
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
 
 Sitemap: https://toolchive.com/sitemap.xml

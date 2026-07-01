@@ -4,37 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <title>Unit Price Calculator — Toolchive</title>
-  <meta name="description" content="Free unit price calculator. Compare the price per unit of up to 4 products to instantly find the best value — great for grocery shopping.">
-  <link rel="canonical" href="https://toolchive.com/unit-price-calculator">
+  <title>Turkey Size &amp; Cook Time Calculator — Toolchive</title>
+  <meta name="description" content="Free turkey calculator — find the right bird size, defrost time, and roasting time for your Thanksgiving dinner. Works for any number of guests.">
+  <link rel="canonical" href="https://toolchive.com/turkey-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://toolchive.com/unit-price-calculator">
-  <meta property="og:title" content="Unit Price Calculator — Toolchive">
-  <meta property="og:description" content="Free unit price calculator. Compare the price per unit of up to 4 products to instantly find the best value — great for grocery shopping.">
+  <meta property="og:url" content="https://toolchive.com/turkey-calculator">
+  <meta property="og:title" content="Turkey Size &amp; Cook Time Calculator — Toolchive">
+  <meta property="og:description" content="Find the perfect turkey size, defrost time, and cook time for your dinner.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Unit Price Calculator",
-    "url":"https://toolchive.com/unit-price-calculator","applicationCategory":"UtilitiesApplication",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Turkey Size & Cook Time Calculator",
+    "url":"https://toolchive.com/turkey-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
-    <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this unit price calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "The unit price calculator divides each item's price by its quantity to find the cost per unit, normalizes compatible units such as ounces and pounds, and highlights which option is the best value."}}, {"@type": "Question", "name": "How do I compare prices with different sizes?", "acceptedAnswer": {"@type": "Answer", "text": "Enter each product's price, quantity, and unit. The tool converts comparable units to a common base, so you can fairly compare a 16 oz pack against a 3 lb bag, for example."}}, {"@type": "Question", "name": "What is unit price?", "acceptedAnswer": {"@type": "Answer", "text": "Unit price is the cost per single unit of measure — per ounce, per liter, or per count. Comparing unit prices reveals the true best deal regardless of package size."}}]}
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How much turkey do I need per person?","acceptedAnswer":{"@type":"Answer","text":"Plan on 1 lb raw turkey per person with no leftovers, or 1.5 lbs per person if you want leftovers. A 15-lb bird typically feeds 10 people with leftovers."}},
+    {"@type":"Question","name":"How long does it take to thaw a frozen turkey?","acceptedAnswer":{"@type":"Answer","text":"Allow 24 hours of refrigerator thawing for every 4–5 pounds. A 16-lb turkey needs about 3–4 days in the fridge. Never thaw at room temperature."}},
+    {"@type":"Question","name":"What temperature is a turkey done?","acceptedAnswer":{"@type":"Answer","text":"The USDA recommends 165°F (74°C) in the thickest part of the thigh, away from bone. Let the turkey rest 30 minutes before carving."}}
+  ]}
   </script>
 <style>
     :root {
       --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
       --text:#1a1a18; --text-muted:#888780;
-      --accent:#5a4fa0; --accent-bg:#eceaf8; --radius:8px;
+      --accent:#c44a20; --accent-bg:#faeee8; --radius:8px;
     }
     @media (prefers-color-scheme:dark) {
       :root {
         --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
         --text:#f0ede8; --text-muted:#888780;
-        --accent:#8a80d0; --accent-bg:#100e20;
+        --accent:#e0622a; --accent-bg:#1e0e08;
       }
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg); color: var(--text);
@@ -64,7 +67,7 @@
     }
     .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
     .field-row:last-child { margin-bottom:0; }
-    .field-row label { font-size:14px; font-weight:500; min-width:120px; }
+    .field-row label { font-size:14px; font-weight:500; min-width:140px; }
     .field-row input[type="number"], .field-row input[type="text"] {
       width:110px; font-size:18px; font-weight:600; padding:8px 12px;
       border-radius:var(--radius); border:0.5px solid var(--border);
@@ -74,12 +77,6 @@
     .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
     .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
     .unit-btn.active { background:var(--accent); color:#fff; }
-    .preset-btn {
-      font-size:13px; padding:5px 14px; border-radius:20px;
-      border:0.5px solid var(--border); background:var(--bg);
-      color:var(--text-muted); cursor:pointer; transition:all .15s;
-    }
-    .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
     select {
       font-size:14px; padding:8px 12px; border-radius:var(--radius);
       border:0.5px solid var(--border); background:var(--bg); color:var(--text);
@@ -96,7 +93,6 @@
     .result-row:last-child { border-bottom:none; }
     .result-label { font-size:14px; color:var(--text-muted); }
     .result-value { font-size:18px; font-weight:600; }
-    .cost-value { color:var(--accent); }
     .btn-kofi {
       display:inline-flex; align-items:center; gap:8px; font-size:13px;
       padding:9px 18px; border-radius:var(--radius); border:none;
@@ -111,6 +107,7 @@
     .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
     .about ul { padding-left:20px; }
     .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
     .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
     .rel-card {
       display:flex; align-items:center; gap:8px; padding:10px 12px;
@@ -122,50 +119,69 @@
     .rel-emoji { font-size:18px; }
     footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
     footer a { color:var(--text-muted); }
-    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
-
-  </style>
+</style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
   <header>
-    <div class="h1-emoji">🏷️</div>
-    <h1>Unit Price Calculator</h1>
-    <p>Compare up to 4 products by price per unit to instantly find the best deal — great for grocery shopping.</p>
+    <div class="h1-emoji">🦃</div>
+    <h1>Turkey Size &amp; Cook Time Calculator</h1>
+    <p>Find the perfect turkey size, defrost time, and cook time for your dinner.</p>
   </header>
   <main>
   <div class="card">
-    <div class="card-title">Products to Compare</div>
-    <div id="itemsList"></div>
-    <button class="preset-btn" style="margin-top:12px" id="addBtn" onclick="addItem()">+ Add product</button>
+    <div class="card-title">Your dinner details</div>
+    <div class="field-row">
+      <label for="guests">Number of guests</label>
+      <input type="number" id="guests" value="10" min="1" max="100">
+    </div>
+    <div class="field-row">
+      <label>Leftovers?</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-yes" onclick="setLeftovers(true)">Yes</button>
+        <button class="unit-btn" id="btn-no" onclick="setLeftovers(false)">No</button>
+      </div>
+    </div>
+    <div class="field-row">
+      <label for="method">Cooking method</label>
+      <select id="method">
+        <option value="roasted">Roasted (325°F)</option>
+        <option value="smoked">Smoked (225°F)</option>
+        <option value="fried">Deep Fried (350°F)</option>
+      </select>
+    </div>
   </div>
   <div class="results-card"><div id="resultsBody"></div></div>
   <div class="support-row">
     <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
   </div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>Unit price is the cost per standard unit of measure (per ounce, per liter, etc.). It's the most reliable way to compare products of different sizes — the product with the lowest unit price gives you the most for your money.</p>
-    <h3>Shopping tips</h3>
-    <ul>
-      <li>Bigger isn't always cheaper per unit — always check the unit price.</li>
-      <li>Store brands often have a 20–40% lower unit price than name brands for identical products.</li>
-      <li>Club store bulk packs are usually 15–30% cheaper per unit than supermarkets.</li>
-      <li>Sale prices can make a smaller package cheaper per unit than a bulk one — always compare.</li>
-    </ul>
+    <h2>Turkey Size &amp; Timing by Guest Count</h2>
+    <p>Planning Thanksgiving or any turkey dinner starts with two numbers: how much raw turkey to buy and how long to cook it. Use this calculator to remove the guesswork so you can focus on everything else.</p>
+
+    <h3>How big of a turkey for 10 people?</h3>
+    <p>For 10 guests with leftovers, plan on about 1.5 lbs of raw turkey per person — that means a 13–15 lb bird. Without leftovers, 10 lbs is usually enough, but a 12–13 lb bird gives you a comfortable buffer. Remember that a whole turkey loses 25–30% of its weight during roasting, so raw weight is always higher than what ends up on the plate.</p>
+
+    <h3>How long to thaw a 15-pound turkey?</h3>
+    <p>A 15-pound frozen turkey needs approximately 3–4 days to thaw safely in the refrigerator. The rule of thumb is 24 hours of fridge time for every 4–5 pounds of bird. Never thaw a turkey on the countertop — bacteria multiply rapidly between 40°F and 140°F. Keep it in its original packaging on the lowest shelf to prevent juices from dripping onto other food.</p>
+
+    <h3>How long to cook a 20-pound turkey at 325°F?</h3>
+    <p>An unstuffed 20-pound turkey roasted at 325°F takes approximately 4 to 4.5 hours. At that weight the calculator uses 13 minutes per pound (turkeys over 12 lbs cook more efficiently per pound). Always verify doneness with a meat thermometer — the thigh should read 165°F — rather than relying on time alone. Let the bird rest at least 30 minutes before carving so the juices redistribute.</p>
   </div>
-    <div class="about">
+  <div class="about" style="margin-top:32px">
     <h2>Frequently asked questions</h2>
-    <h3>How does this unit price calculator work?</h3>
-    <p>The unit price calculator divides each item's price by its quantity to find the cost per unit, normalizes compatible units such as ounces and pounds, and highlights which option is the best value.</p>
-    <h3>How do I compare prices with different sizes?</h3>
-    <p>Enter each product's price, quantity, and unit. The tool converts comparable units to a common base, so you can fairly compare a 16 oz pack against a 3 lb bag, for example.</p>
-    <h3>What is unit price?</h3>
-    <p>Unit price is the cost per single unit of measure — per ounce, per liter, or per count. Comparing unit prices reveals the true best deal regardless of package size.</p>
+    <h3>How much turkey do I need per person?</h3>
+    <p>Plan on 1 lb raw turkey per person with no leftovers, or 1.5 lbs per person if you want leftovers. A 15-lb bird typically feeds 10 people with leftovers. Whole birds have bones, skin, and cavity weight that don't end up on the plate, which is why you need more raw weight than you might expect.</p>
+
+    <h3>How long does it take to thaw a frozen turkey?</h3>
+    <p>Allow 24 hours of refrigerator thawing for every 4–5 pounds. A 16-lb turkey needs about 3–4 days in the fridge. Never thaw at room temperature — the outer surface reaches the danger zone while the inside is still frozen. Cold-water thawing (30 min per pound, changing water every 30 min) works faster but requires constant attention.</p>
+
+    <h3>What temperature is a turkey done?</h3>
+    <p>The USDA recommends 165°F (74°C) in the thickest part of the thigh, away from bone. Let the turkey rest 30 minutes before carving. The temperature will continue to rise 5–10°F after you pull it from the oven (carryover cooking), so you can safely remove it at 160°F if you plan to rest it properly.</p>
   </div>
   <nav class="about" style="margin-top:40px">
-        <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
     <div class="rel-grid">
       <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
       <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
@@ -204,12 +220,12 @@
       <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
       <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
       <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
       <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
       <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
       <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
       <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
       <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
-      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
       <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
       <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
       <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
@@ -219,83 +235,67 @@
       <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
       <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
       <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
-    </div></div>
+    </div>
   </nav>
   </main>
   <footer>
-    <p>Free Unit Price Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
+    <p>Free Turkey Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
   </footer>
   <script>
-    const UNITS=['oz','lb','fl oz','L','ml','g','kg','count','ft','m','sq ft','sq m'];
-    // dimension + conversion factor to a common base unit, so items priced in different
-    // (but compatible) units rank correctly — e.g. $/oz vs $/lb must be compared on equal footing
-    const UNIT_INFO={
-      'oz':{dim:'weight',toBase:28.3495}, 'lb':{dim:'weight',toBase:453.592},
-      'g':{dim:'weight',toBase:1}, 'kg':{dim:'weight',toBase:1000},
-      'fl oz':{dim:'volume',toBase:29.5735}, 'L':{dim:'volume',toBase:1000}, 'ml':{dim:'volume',toBase:1},
-      'ft':{dim:'length',toBase:0.3048}, 'm':{dim:'length',toBase:1},
-      'sq ft':{dim:'area',toBase:0.092903}, 'sq m':{dim:'area',toBase:1},
-      'count':{dim:'count',toBase:1},
-    };
-    let items=[
-      {name:'Small pack',price:2.99,qty:16,unit:'oz'},
-      {name:'Large pack',price:7.49,qty:48,unit:'oz'},
-    ];
+  var wantLeftovers = true;
 
-    function addItem(){if(items.length<4){items.push({name:'',price:0,qty:0,unit:'oz'}); renderItems();}}
-    function delItem(i){if(items.length>2){items.splice(i,1); renderItems(); calculate();}}
-    function updItem(i,k,v){
-      if(k==='price'||k==='qty') items[i][k]=Math.max(0,parseFloat(v)||0);
-      else items[i][k]=v;
-      calculate();
+  function setLeftovers(val) {
+    wantLeftovers = val;
+    document.getElementById('btn-yes').classList.toggle('active', val);
+    document.getElementById('btn-no').classList.toggle('active', !val);
+    calc();
+  }
+
+  function fmtTime(totalMinutes) {
+    var h = Math.floor(totalMinutes / 60);
+    var m = totalMinutes % 60;
+    if (h === 0) return m + ' min';
+    if (m === 0) return h + ' hr';
+    return h + ' hr ' + m + ' min';
+  }
+
+  function calc() {
+    var guests = parseInt(document.getElementById('guests').value) || 1;
+    var method = document.getElementById('method').value;
+    var lbsPerPerson = wantLeftovers ? 1.5 : 1.0;
+    var weightLbs = Math.ceil(guests * lbsPerPerson);
+
+    var cookMinutes;
+    var methodLabel;
+    if (method === 'roasted') {
+      var minsPerLb = weightLbs <= 12 ? 15 : 13;
+      cookMinutes = Math.round(weightLbs * minsPerLb);
+      methodLabel = 'Roasted at 325°F';
+    } else if (method === 'smoked') {
+      cookMinutes = Math.round(weightLbs * 30);
+      methodLabel = 'Smoked at 225°F';
+    } else {
+      cookMinutes = Math.round(weightLbs * 3 + 5);
+      methodLabel = 'Deep fried at 350°F';
     }
 
-    function renderItems(){
-      document.getElementById('itemsList').innerHTML=items.map((it,i)=>`
-        <div style="border:0.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px">
-          <div class="field-row" style="margin-bottom:10px">
-            <label style="min-width:60px">Name</label>
-            <input type="text" value="${it.name}" placeholder="Product name" style="width:180px;font-size:14px;text-align:left" oninput="updItem(${i},'name',this.value)">
-            ${items.length>2?`<button class="preset-btn" onclick="delItem(${i})" style="padding:4px 10px">✕</button>`:''}
-          </div>
-          <div class="field-row" style="margin-bottom:10px">
-            <label style="min-width:60px">Price</label>
-            <span style="color:var(--text-muted);font-weight:600">$</span>
-            <input type="number" min="0" step="0.01" value="${it.price||''}" placeholder="Price" style="width:90px;font-size:16px" oninput="updItem(${i},'price',this.value)">
-          </div>
-          <div class="field-row" style="margin-bottom:0">
-            <label style="min-width:60px">Quantity</label>
-            <input type="number" min="0" step="any" value="${it.qty||''}" placeholder="Qty" style="width:80px;font-size:16px" oninput="updItem(${i},'qty',this.value)">
-            <select onchange="updItem(${i},'unit',this.value)" style="width:80px">
-              ${UNITS.map(u=>`<option ${u===it.unit?'selected':''}>${u}</option>`).join('')}
-            </select>
-          </div>
-        </div>`).join('');
-      document.getElementById('addBtn').style.display=items.length>=4?'none':'';
-    }
+    var thawDays = Math.ceil(weightLbs / 4.5);
 
-    function calculate(){
-      const valid=items.map((it,i)=>({...it,i,
-        perUnit:it.price>0&&it.qty>0?it.price/it.qty:null,
-        perBase:it.price>0&&it.qty>0?it.price/(it.qty*UNIT_INFO[it.unit].toBase):null,
-      })).filter(it=>it.perUnit!==null);
-      if(valid.length<1){document.getElementById('resultsBody').innerHTML='';return;}
-      // rank by normalized price-per-base-unit so different (but compatible) units compare fairly
-      valid.sort((a,b)=>a.perBase-b.perBase);
-      const best=valid[0];
-      const rows=valid.map((it,rank)=>`
-        <div class="result-row" style="${rank===0?'background:var(--accent-bg);border-radius:8px;margin:0 -4px;padding:14px 4px':''}">
-          <span class="result-label">${it.name||'Product '+(it.i+1)} ${rank===0?'🏆 Best value':''}</span>
-          <span class="result-value" style="${rank===0?'color:var(--accent)':''}">$${it.perUnit.toFixed(4)} / ${it.unit}</span>
-        </div>`).join('');
-      document.getElementById('resultsBody').innerHTML=`
-        <div class="result-hero">
-          <div class="result-hero-value">$${best.perUnit.toFixed(4)}</div>
-          <div class="result-hero-label">🏷️ best price: ${best.perUnit.toFixed(3)} per ${best.unit} (${best.name||'Product '+(best.i+1)})</div>
-        </div>${rows}`;
-    }
+    var html = '<div class="result-hero">';
+    html += '<div class="result-hero-value">' + weightLbs + ' lbs</div>';
+    html += '<div class="result-hero-label">Recommended turkey weight</div>';
+    html += '</div>';
+    html += '<div class="result-row"><span class="result-label">Fridge defrost time</span><span class="result-value">' + thawDays + ' day' + (thawDays !== 1 ? 's' : '') + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Cook time (' + methodLabel + ')</span><span class="result-value">' + fmtTime(cookMinutes) + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Rest time after cooking</span><span class="result-value">30 min</span></div>';
+    html += '<div class="result-row"><span class="result-label">Safe internal temperature</span><span class="result-value">165°F (74°C)</span></div>';
 
-    renderItems(); calculate();
+    document.getElementById('resultsBody').innerHTML = html;
+  }
+
+  document.getElementById('guests').addEventListener('input', calc);
+  document.getElementById('method').addEventListener('change', calc);
+  calc();
   </script>
 </body>
 </html>

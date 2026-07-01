@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Debt Payoff Calculator — Toolchive</title>
+  <meta name="description" content="Free debt payoff calculator — see how long it takes to pay off credit card or loan debt, total interest paid, and payoff date. Supports extra payment scenarios.">
+  <link rel="canonical" href="https://toolchive.com/debt-payoff-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/debt-payoff-calculator">
+  <meta property="og:title" content="Debt Payoff Calculator — Toolchive">
+  <meta property="og:description" content="Free debt payoff calculator — see how long it takes to pay off credit card or loan debt, total interest paid, and payoff date. Supports extra payment scenarios.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Debt Payoff Calculator","url":"https://toolchive.com/debt-payoff-calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long does it take to pay off $5,000 in credit card debt?","acceptedAnswer":{"@type":"Answer","text":"At a 20% APR with a $150 monthly payment, it takes about 44 months and costs roughly $1,400 in interest. Increasing the payment to $250/month cuts the time to 24 months and saves about $700 in interest."}},{"@type":"Question","name":"What is the avalanche method for paying off debt?","acceptedAnswer":{"@type":"Answer","text":"The avalanche method means making minimum payments on all debts, then applying any extra money to the highest-interest debt first. Once that's paid off, roll that payment to the next-highest rate. It minimizes total interest paid."}},{"@type":"Question","name":"Should I pay off debt or invest?","acceptedAnswer":{"@type":"Answer","text":"A common rule: if debt interest rate exceeds expected investment returns (typically 7–10% for the stock market), pay the debt first. High-interest debt (credit cards at 18%+) should almost always be paid before investing beyond any employer 401k match."}}]}</script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#8a4a20; --accent-bg:#f5ede5; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#b06030; --accent-bg:#180c06;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:48px 24px 80px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji { display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; font-size:28px; border-radius:14px; background:var(--accent-bg); margin-bottom:14px; }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .card-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px; }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:160px; }
+    .field-row input[type="number"], .field-row input[type="text"] { width:120px; font-size:18px; font-weight:600; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    select { font-size:14px; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; }
+    .results-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .btn-kofi { display:inline-flex; align-items:center; gap:8px; font-size:13px; padding:9px 18px; border-radius:var(--radius); border:none; background:#D63A35; color:#fff; font-weight:500; cursor:pointer; text-decoration:none; transition:filter .15s; }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+    .add-btn { font-size:13px; padding:7px 16px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text-muted); cursor:pointer; margin-top:8px; }
+    .add-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card { display:flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); font-size:14px; background:var(--surface); transition:border-color .15s,transform .15s,box-shadow .15s,background .15s; }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">💳</div>
+    <h1>Debt Payoff Calculator</h1>
+    <p>Find your debt-free date and see how much interest you'll pay.</p>
+  </header>
+  <main style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <div class="card">
+      <div class="card-title">Debt Details</div>
+      <div class="field-row">
+        <label for="balance">Current balance</label>
+        <input type="number" id="balance" value="5000" min="0" step="1">
+        <span class="input-suffix">$</span>
+      </div>
+      <div class="field-row">
+        <label for="apr">Annual interest rate</label>
+        <input type="number" id="apr" value="19.99" min="0" step="0.01">
+        <span class="input-suffix">%</span>
+      </div>
+      <div class="field-row">
+        <label for="payment">Monthly payment</label>
+        <input type="number" id="payment" value="150" min="0" step="1">
+        <span class="input-suffix">$</span>
+      </div>
+      <div class="field-row">
+        <label for="extra">Extra monthly payment</label>
+        <input type="number" id="extra" value="0" min="0" step="1">
+        <span class="input-suffix">$</span>
+      </div>
+    </div>
+    <div class="results-card">
+      <div id="resultsBody"></div>
+    </div>
+    <div class="support-row"><a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a></div>
+    <div class="about">
+      <h2>Smart Debt Payoff Strategies</h2>
+      <h3>How much interest do you pay on a $5,000 credit card balance?</h3>
+      <p>At 20% APR paying $150/month, you pay about $1,400 in interest and take roughly 44 months to become debt-free. Bump that payment to $250/month and you cut interest costs to about $700 and pay it off in just 24 months — saving nearly two years and $700 simply by paying more each month.</p>
+      <h3>What's the difference between the debt avalanche and debt snowball?</h3>
+      <p>Both strategies work, but they optimize for different things. The <strong>avalanche method</strong> means making minimum payments on all your debts, then throwing every extra dollar at the highest-interest debt first. Once that's gone, roll that payment to the next-highest rate. This approach saves the most money in interest over time.</p>
+      <p>The <strong>snowball method</strong> means attacking the smallest balance first regardless of interest rate. You get faster psychological wins by eliminating accounts entirely, which can keep motivation high — especially if you have many debts. The trade-off is you'll typically pay more interest overall.</p>
+      <h3>Does paying extra on debt really make a difference?</h3>
+      <p>Yes — dramatically. An extra $50/month on a $5,000 balance at 20% APR saves over $600 in interest and pays off the debt 14 months sooner. Even small extra payments compound significantly because every dollar reduces the principal that interest is calculated on the following month.</p>
+    </div>
+    <div class="about" style="margin-top:24px;">
+      <h2>Frequently Asked Questions</h2>
+      <h3>How long does it take to pay off $5,000 in credit card debt?</h3>
+      <p>At a 20% APR with a $150 monthly payment, it takes about 44 months and costs roughly $1,400 in interest. Increasing the payment to $250/month cuts the time to 24 months and saves about $700 in interest.</p>
+      <h3>What is the avalanche method for paying off debt?</h3>
+      <p>The avalanche method means making minimum payments on all debts, then applying any extra money to the highest-interest debt first. Once that's paid off, roll that payment to the next-highest rate. It minimizes total interest paid.</p>
+      <h3>Should I pay off debt or invest?</h3>
+      <p>A common rule: if your debt's interest rate exceeds expected investment returns (typically 7–10% for the stock market), pay the debt first. High-interest debt (credit cards at 18%+) should almost always be paid before investing beyond any employer 401k match.</p>
+    </div>
+    <nav class="about" style="margin-top:40px">
+      <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+      <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
+      <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
+      <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
+      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
+      <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
+      <a class="rel-card" href="/pool-volume-calculator"><span class="rel-emoji">🏊</span> Pool Volume</a>
+      <a class="rel-card" href="/budget-calculator"><span class="rel-emoji">💸</span> Budget</a>
+      <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
+      <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
+    </div>
+    </nav>
+  </main>
+  <footer><p>Free Debt Payoff Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p></footer>
+  <script>
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function fmt$(n) {
+      return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    function amortize(balance, monthlyRate, totalPayment) {
+      let b = balance;
+      let months = 0;
+      let totalInterest = 0;
+      if (totalPayment <= b * monthlyRate) return null;
+      while (b > 0 && months < 600) {
+        const interest = b * monthlyRate;
+        totalInterest += interest;
+        b = b + interest - totalPayment;
+        if (b < 0) b = 0;
+        months++;
+      }
+      return { months, totalInterest };
+    }
+
+    function payoffDate(months) {
+      const d = new Date();
+      d.setMonth(d.getMonth() + months);
+      return MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function calc() {
+      const balance = parseFloat(document.getElementById('balance').value) || 0;
+      const apr = parseFloat(document.getElementById('apr').value) || 0;
+      const payment = parseFloat(document.getElementById('payment').value) || 0;
+      const extra = parseFloat(document.getElementById('extra').value) || 0;
+      const monthlyRate = apr / 12 / 100;
+      const totalPayment = payment + extra;
+      const el = document.getElementById('resultsBody');
+
+      if (balance <= 0) {
+        el.innerHTML = '<div class="result-hero"><div class="result-hero-value" style="font-size:24px;color:var(--accent)">Enter a balance</div></div>';
+        return;
+      }
+
+      if (totalPayment <= balance * monthlyRate) {
+        el.innerHTML = '<div class="result-hero"><div class="result-hero-value" style="font-size:22px;color:#c00">Payment too low to pay off debt</div><div class="result-hero-label">Increase your monthly payment above ' + fmt$(balance * monthlyRate) + ' to cover interest</div></div>';
+        return;
+      }
+
+      const result = amortize(balance, monthlyRate, totalPayment);
+      const totalPaid = totalPayment * result.months;
+      let html = '';
+      html += '<div class="result-hero">';
+      html += '<div class="result-hero-value">' + payoffDate(result.months) + '</div>';
+      html += '<div class="result-hero-label">Projected debt-free date</div>';
+      html += '</div>';
+      html += '<div class="result-row"><span class="result-label">Months to payoff</span><span class="result-value">' + result.months + ' months</span></div>';
+      html += '<div class="result-row"><span class="result-label">Total interest paid</span><span class="result-value">' + fmt$(result.totalInterest) + '</span></div>';
+      html += '<div class="result-row"><span class="result-label">Total amount paid</span><span class="result-value">' + fmt$(totalPaid) + '</span></div>';
+      html += '<div class="result-row"><span class="result-label">Current balance</span><span class="result-value">' + fmt$(balance) + '</span></div>';
+      html += '<div class="result-row"><span class="result-label">Monthly payment (total)</span><span class="result-value">' + fmt$(totalPayment) + '</span></div>';
+
+      if (extra > 0) {
+        const baseResult = amortize(balance, monthlyRate, payment);
+        if (baseResult) {
+          const interestSaved = baseResult.totalInterest - result.totalInterest;
+          html += '<div class="result-row"><span class="result-label">Interest saved vs. minimum</span><span class="result-value" style="color:var(--accent)">' + fmt$(interestSaved) + '</span></div>';
+        }
+      }
+
+      html += '<div class="notice">This calculator uses simple amortization. Actual payoff may vary based on minimum payment changes, fees, or compounding frequency.</div>';
+      el.innerHTML = html;
+    }
+
+    document.querySelectorAll('input').forEach(function(el) { el.addEventListener('input', calc); });
+    calc();
+  </script>
+</body>
+</html>

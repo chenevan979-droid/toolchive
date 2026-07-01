@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Monthly Budget Calculator — Toolchive</title>
+  <meta name="description" content="Free monthly budget calculator — enter your income and expenses to see your surplus or deficit. Includes 50/30/20 rule guide for needs, wants, and savings.">
+  <link rel="canonical" href="https://toolchive.com/budget-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/budget-calculator">
+  <meta property="og:title" content="Monthly Budget Calculator — Toolchive">
+  <meta property="og:description" content="Free monthly budget calculator — enter your income and expenses to see your surplus or deficit. Includes 50/30/20 rule guide for needs, wants, and savings.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Monthly Budget Calculator","url":"https://toolchive.com/budget-calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 50/30/20 budget rule?","acceptedAnswer":{"@type":"Answer","text":"The 50/30/20 rule allocates 50% of after-tax income to needs (rent, food, utilities, insurance), 30% to wants (dining, entertainment, subscriptions), and 20% to savings and debt repayment. It's a starting framework — adjust percentages for your situation."}},{"@type":"Question","name":"How much of my income should go to rent?","acceptedAnswer":{"@type":"Answer","text":"A common guideline is to keep housing costs (rent or mortgage + utilities) at or below 30% of gross income. If you live in a high cost-of-living city, 35–40% may be unavoidable, but try to compensate by reducing other spending."}},{"@type":"Question","name":"How do I build a monthly budget from scratch?","acceptedAnswer":{"@type":"Answer","text":"Start with your take-home (after-tax) income. List all fixed expenses (rent, car payment, insurance). Then estimate variable expenses (food, gas, entertainment) using last month's bank statement. Subtract total expenses from income — the result is your surplus (save it) or deficit (cut something)."}}]}</script>
+<style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#4a7a30; --accent-bg:#edf5e5; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#60a040; --accent-bg:#0a1408;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:48px 24px 80px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji { display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; font-size:28px; border-radius:14px; background:var(--accent-bg); margin-bottom:14px; }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .card-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px; }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:200px; flex:1; }
+    .field-row input[type="number"] { width:130px; font-size:18px; font-weight:600; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    .input-prefix { font-size:16px; color:var(--text-muted); margin-right:-8px; font-weight:500; }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .section-divider { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); padding:10px 0 6px; border-top:0.5px solid var(--border); margin-bottom:4px; margin-top:8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    select { font-size:14px; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; }
+    .results-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .result-value.positive { color:var(--accent); }
+    .result-value.negative { color:#d04040; }
+    .budget-rule-box { background:var(--accent-bg); border-radius:10px; padding:14px 16px; margin-top:16px; font-size:13px; line-height:1.6; color:var(--text-muted); }
+    .budget-rule-box strong { color:var(--text); }
+    .btn-kofi { display:inline-flex; align-items:center; gap:8px; font-size:13px; padding:9px 18px; border-radius:var(--radius); border:none; background:#D63A35; color:#fff; font-weight:500; cursor:pointer; text-decoration:none; transition:filter .15s; }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card { display:flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); font-size:14px; background:var(--surface); transition:border-color .15s,transform .15s,box-shadow .15s,background .15s; }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">💸</div>
+    <h1>Monthly Budget Calculator</h1>
+    <p>Track income and expenses to find your monthly surplus or deficit.</p>
+  </header>
+  <main>
+    <div class="card">
+      <div class="card-title">Monthly Budget</div>
+
+      <div class="section-divider">Income</div>
+      <div class="field-row" style="margin-top:12px">
+        <label for="income">Monthly income after tax</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="income" value="5000" min="0" step="50">
+      </div>
+
+      <div class="section-divider">Expenses — Needs</div>
+      <div class="field-row" style="margin-top:12px">
+        <label for="housing">Housing (rent/mortgage)</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="housing" value="1500" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="food">Food &amp; groceries</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="food" value="500" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="transport">Transportation</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="transport" value="400" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="utilities">Utilities</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="utilities" value="150" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="healthcare">Healthcare</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="healthcare" value="100" min="0" step="10">
+      </div>
+
+      <div class="section-divider">Expenses — Wants</div>
+      <div class="field-row" style="margin-top:12px">
+        <label for="entertainment">Entertainment</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="entertainment" value="200" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="personal">Personal &amp; clothing</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="personal" value="100" min="0" step="10">
+      </div>
+
+      <div class="section-divider">Savings &amp; Debt</div>
+      <div class="field-row" style="margin-top:12px">
+        <label for="savings">Savings &amp; investments</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="savings" value="500" min="0" step="10">
+      </div>
+      <div class="field-row">
+        <label for="debt">Debt payments</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="debt" value="300" min="0" step="10">
+      </div>
+
+      <div class="section-divider">Other</div>
+      <div class="field-row" style="margin-top:12px">
+        <label for="other">Other</label>
+        <span class="input-prefix">$</span>
+        <input type="number" id="other" value="0" min="0" step="10">
+      </div>
+    </div>
+
+    <div class="results-card">
+      <div id="resultsBody"></div>
+    </div>
+
+    <div class="support-row">
+      <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+    </div>
+
+    <div class="about">
+      <h2>The 50/30/20 Budget Rule</h2>
+      <h3>What is the 50/30/20 rule?</h3>
+      <p>The 50/30/20 rule divides your after-tax income into three buckets: 50% to needs (housing, food, utilities, minimum debt payments), 30% to wants (dining out, entertainment, hobbies, subscriptions), and 20% to savings and extra debt payments. It was popularized by Senator Elizabeth Warren in her book "All Your Worth" and remains one of the simplest frameworks for building a balanced budget.</p>
+      <h3>How much should I spend on housing?</h3>
+      <p>The standard guideline is to keep housing costs at no more than 30% of gross income or 28% of net (after-tax) income. In high cost-of-living cities like New York, San Francisco, or Boston, many renters spend 35–40% of income on housing. If you exceed the 30% threshold, look to compensate by reducing discretionary spending or increasing income.</p>
+      <h3>How much should I save each month?</h3>
+      <p>Financial advisors commonly recommend saving at least 20% of after-tax income. A practical priority order: first build an emergency fund covering 3–6 months of expenses, then capture any employer 401(k) match (free money), then pay down high-interest debt, then contribute to a Roth IRA, and finally invest additional amounts in taxable brokerage accounts. Even saving 10% consistently from an early age can lead to significant wealth through compound growth.</p>
+    </div>
+
+    <div class="about" style="margin-top:24px">
+      <h2>Frequently asked questions</h2>
+      <h3>What is the 50/30/20 budget rule?</h3>
+      <p>The 50/30/20 rule allocates 50% of after-tax income to needs (rent, food, utilities, insurance), 30% to wants (dining, entertainment, subscriptions), and 20% to savings and debt repayment. It's a starting framework — adjust percentages for your situation.</p>
+      <h3>How much of my income should go to rent?</h3>
+      <p>A common guideline is to keep housing costs (rent or mortgage + utilities) at or below 30% of gross income. If you live in a high cost-of-living city, 35–40% may be unavoidable, but try to compensate by reducing other spending.</p>
+      <h3>How do I build a monthly budget from scratch?</h3>
+      <p>Start with your take-home (after-tax) income. List all fixed expenses (rent, car payment, insurance). Then estimate variable expenses (food, gas, entertainment) using last month's bank statement. Subtract total expenses from income — the result is your surplus (save it) or deficit (cut something).</p>
+    </div>
+
+    <nav class="about" style="margin-top:40px">
+      <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+      <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
+      <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
+      <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
+      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
+      <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
+      <a class="rel-card" href="/pool-volume-calculator"><span class="rel-emoji">🏊</span> Pool Volume</a>
+      <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
+      <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
+      <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
+    </div>
+    </nav>
+  </main>
+  <footer><p>Free Monthly Budget Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p></footer>
+<script>
+var expenseIds = ['housing','food','transport','utilities','healthcare','entertainment','personal','savings','debt','other'];
+var needsIds = ['housing','food','transport','utilities','healthcare'];
+var wantsIds = ['entertainment','personal'];
+var savingsDebtIds = ['savings','debt'];
+
+function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+function fmt(n) {
+  return '$' + Math.abs(Math.round(n)).toLocaleString();
+}
+
+function pct(val, total) {
+  if (!total) return '0%';
+  return Math.round(val / total * 100) + '%';
+}
+
+function calc() {
+  var income = v('income');
+  var needs = needsIds.reduce(function(s,id){ return s + v(id); }, 0);
+  var wants = wantsIds.reduce(function(s,id){ return s + v(id); }, 0);
+  var savDebt = savingsDebtIds.reduce(function(s,id){ return s + v(id); }, 0);
+  var other = v('other');
+  var totalExp = needs + wants + savDebt + other;
+  var surplus = income - totalExp;
+
+  var needsPct = Math.round(needs / (income || 1) * 100);
+  var wantsPct = Math.round(wants / (income || 1) * 100);
+  var savPct = Math.round(savDebt / (income || 1) * 100);
+
+  var surplusClass = surplus >= 0 ? 'positive' : 'negative';
+  var surplusLabel = surplus >= 0 ? 'Monthly surplus' : 'Monthly deficit';
+  var surplusSign = surplus >= 0 ? '+' : '-';
+
+  var html = '<div class="result-hero">';
+  html += '<div class="result-hero-value ' + surplusClass + '">' + surplusSign + fmt(surplus) + '</div>';
+  html += '<div class="result-hero-label">' + surplusLabel + '</div>';
+  html += '</div>';
+  html += '<div class="result-row"><span class="result-label">Total income</span><span class="result-value positive">+' + fmt(income) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Total expenses</span><span class="result-value negative">-' + fmt(totalExp) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Needs (housing, food, transport…)</span><span class="result-value">' + fmt(needs) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Wants (entertainment, personal…)</span><span class="result-value">' + fmt(wants) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Savings + debt payments</span><span class="result-value">' + fmt(savDebt) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Needs % of income</span><span class="result-value">' + pct(needs, income) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Wants % of income</span><span class="result-value">' + pct(wants, income) + '</span></div>';
+  html += '<div class="result-row"><span class="result-label">Savings % of income</span><span class="result-value">' + pct(savDebt, income) + '</span></div>';
+
+  html += '<div class="budget-rule-box">';
+  html += '<strong>50/30/20 target:</strong> 50% needs / 30% wants / 20% savings<br>';
+  html += 'Yours: <strong>' + needsPct + '% needs</strong> / <strong>' + wantsPct + '% wants</strong> / <strong>' + savPct + '% savings</strong>';
+  html += '</div>';
+
+  document.getElementById('resultsBody').innerHTML = html;
+}
+
+expenseIds.forEach(function(id) {
+  document.getElementById(id).addEventListener('input', calc);
+});
+document.getElementById('income').addEventListener('input', calc);
+
+calc();
+</script>
+</body>
+</html>

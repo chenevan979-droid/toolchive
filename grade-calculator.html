@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Grade Calculator — Toolchive</title>
+  <meta name="description" content="Free grade calculator — calculate your weighted or unweighted class grade from assignments, quizzes, and exams. Add up to 20 items with custom weights and point values.">
+  <link rel="canonical" href="https://toolchive.com/grade-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/grade-calculator">
+  <meta property="og:title" content="Grade Calculator — Toolchive">
+  <meta property="og:description" content="Free grade calculator — calculate your weighted or unweighted class grade from assignments, quizzes, and exams. Add up to 20 items with custom weights and point values.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Grade Calculator","url":"https://toolchive.com/grade-calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do you calculate a weighted average grade?","acceptedAnswer":{"@type":"Answer","text":"Multiply each assignment score by its weight percentage, add all those products together, then divide by the total weight. For example: (85 × 0.20) + (90 × 0.80) = 17 + 72 = 89%. Use the calculator above to handle any combination of weights."}},{"@type":"Question","name":"What grade do I need on my final to pass?","acceptedAnswer":{"@type":"Answer","text":"Subtract the weighted points you've already earned from your target grade, then divide by the final exam's weight. Example: to reach 75% overall when the final is worth 40% and you currently have 65% from other work: (75 - 60%) / 0.40 = 87.5% needed on the final."}},{"@type":"Question","name":"What is the GPA for a B+ grade?","acceptedAnswer":{"@type":"Answer","text":"A B+ (87–89%) equals 3.3 GPA points on a standard 4.0 scale. An A is 4.0, A- is 3.7, B is 3.0, B- is 2.7, and so on. Individual schools may use slightly different scales."}}]}</script>
+  <style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#5a5abf; --accent-bg:#eeeefc; --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#7878e0; --accent-bg:#0c0c1e;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:48px 24px 80px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji { display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; font-size:28px; border-radius:14px; background:var(--accent-bg); margin-bottom:14px; }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .card-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px; }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:160px; }
+    .field-row input[type="number"], .field-row input[type="text"] { width:120px; font-size:18px; font-weight:600; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    select { font-size:14px; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; }
+    .results-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px; }
+    .result-hero { text-align:center; padding:8px 0 20px; border-bottom:0.5px solid var(--border); margin-bottom:4px; }
+    .result-hero-value { font-size:40px; font-weight:700; color:var(--accent); line-height:1; }
+    .result-hero-label { font-size:13px; color:var(--text-muted); margin-top:6px; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:0.5px solid var(--border); }
+    .result-row:last-child { border-bottom:none; }
+    .result-label { font-size:14px; color:var(--text-muted); }
+    .result-value { font-size:18px; font-weight:600; }
+    .btn-kofi { display:inline-flex; align-items:center; gap:8px; font-size:13px; padding:9px 18px; border-radius:var(--radius); border:none; background:#D63A35; color:#fff; font-weight:500; cursor:pointer; text-decoration:none; transition:filter .15s; }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+    .add-btn { font-size:13px; padding:7px 16px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text-muted); cursor:pointer; margin-top:8px; }
+    .add-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card { display:flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); font-size:14px; background:var(--surface); transition:border-color .15s,transform .15s,box-shadow .15s,background .15s; }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .mode-toggle { display:flex; gap:0; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; margin-bottom:24px; }
+    .mode-btn { font-size:13px; font-weight:500; padding:8px 18px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:background .15s,color .15s; }
+    .mode-btn.active { background:var(--accent); color:#fff; }
+    .assignment-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+    .assignment-row input[type="text"] { width:160px; font-size:14px; font-weight:500; padding:8px 10px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:left; }
+    .assignment-row input[type="number"] { width:80px; font-size:15px; font-weight:600; padding:8px 10px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    .assignment-row .col-label { font-size:12px; color:var(--text-muted); display:block; margin-bottom:3px; }
+    .assignment-col { display:flex; flex-direction:column; }
+    .remove-btn { background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer; padding:0 4px; line-height:1; flex-shrink:0; }
+    .remove-btn:hover { color:#c00; }
+    .col-headers { display:flex; gap:10px; margin-bottom:6px; padding-left:0; flex-wrap:wrap; }
+    .col-header { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); }
+    .col-header.name-col { width:160px; }
+    .col-header.num-col { width:80px; text-align:center; }
+    .need-section { margin-top:20px; padding-top:16px; border-top:0.5px solid var(--border); }
+    .need-section-title { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:12px; }
+    .need-result { font-size:13px; color:var(--text-muted); line-height:1.6; margin-top:8px; }
+    .need-result strong { color:var(--accent); font-size:15px; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">📝</div>
+    <h1>Grade Calculator</h1>
+    <p>Calculate your weighted class grade from assignments, quizzes, and exams.</p>
+  </header>
+  <main style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <div class="card" id="inputCard">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btnWeighted" onclick="setMode('weighted')">Weighted</button>
+        <button class="mode-btn" id="btnPoints" onclick="setMode('points')">Points</button>
+      </div>
+
+      <div id="weightedSection">
+        <div class="card-title">Assignments</div>
+        <div class="col-headers">
+          <span class="col-header name-col">Assignment</span>
+          <span class="col-header num-col">Score %</span>
+          <span class="col-header num-col">Weight %</span>
+        </div>
+        <div id="assignmentList"></div>
+        <button class="add-btn" onclick="addRow()">+ Add assignment</button>
+        <div class="need-section">
+          <div class="need-section-title">What grade do I need?</div>
+          <div class="field-row" style="margin-bottom:8px;">
+            <label for="targetGrade" style="min-width:140px;font-size:14px;">Target overall grade</label>
+            <input type="number" id="targetGrade" value="90" min="0" max="100" step="0.1" style="width:90px;">
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="need-result" id="needResult"></div>
+        </div>
+      </div>
+
+      <div id="pointsSection" style="display:none;">
+        <div class="card-title">Points</div>
+        <div class="field-row">
+          <label for="ptEarned">Points earned</label>
+          <input type="number" id="ptEarned" value="342" min="0" step="1">
+        </div>
+        <div class="field-row">
+          <label for="ptTotal">Total possible</label>
+          <input type="number" id="ptTotal" value="400" min="1" step="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="results-card">
+      <div id="resultsBody"></div>
+    </div>
+    <div class="support-row"><a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a></div>
+
+    <div class="about">
+      <h2>Grade Calculation Methods</h2>
+      <h3>How do you calculate a weighted grade?</h3>
+      <p>Multiply each score by its weight percentage, sum the results, then divide by the total weight percentage. For example: 85% × 20% + 90% × 80% = 17 + 72 = 89%. This normalizes partial weights so even if your weights don't add to 100% the result is still accurate.</p>
+      <h3>What is the grade needed on my final exam?</h3>
+      <p>Subtract your current weighted grade contribution (scores × weights for all items except the final) from your target grade, then divide by the final's weight. For example, if you need 85% overall and the final is worth 40%, and you've earned 60% of the non-final weight so far, you need (85 − 60%) / 0.40 on the final.</p>
+      <h3>How does GPA convert to letter grades?</h3>
+      <p>On a standard 4.0 scale: 4.0 = A (93–100%), 3.7 = A- (90–92%), 3.3 = B+ (87–89%), 3.0 = B (83–86%), 2.7 = B- (80–82%), 2.3 = C+ (77–79%), 2.0 = C (73–76%). Individual schools and programs may use slightly different cutoffs.</p>
+    </div>
+
+    <div class="about" style="margin-top:24px;">
+      <h2>Frequently Asked Questions</h2>
+      <h3>How do you calculate a weighted average grade?</h3>
+      <p>Multiply each assignment score by its weight percentage, add all those products together, then divide by the total weight. For example: (85 × 0.20) + (90 × 0.80) = 17 + 72 = 89%. Use the calculator above to handle any combination of weights.</p>
+      <h3>What grade do I need on my final to pass?</h3>
+      <p>Subtract the weighted points you've already earned from your target grade, then divide by the final exam's weight. Example: to reach 75% overall when the final is worth 40% and you currently have 65% from other work: (75 − 60%) / 0.40 = 87.5% needed on the final.</p>
+      <h3>What is the GPA for a B+ grade?</h3>
+      <p>A B+ (87–89%) equals 3.3 GPA points on a standard 4.0 scale. An A is 4.0, A- is 3.7, B is 3.0, B- is 2.7, and so on. Individual schools may use slightly different scales.</p>
+    </div>
+
+    <nav class="about" style="margin-top:40px">
+      <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+      <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
+      <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
+      <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
+      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
+      <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
+      <a class="rel-card" href="/pool-volume-calculator"><span class="rel-emoji">🏊</span> Pool Volume</a>
+      <a class="rel-card" href="/budget-calculator"><span class="rel-emoji">💸</span> Budget</a>
+      <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
+      <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
+    </div>
+    </nav>
+  </main>
+  <footer><p>Free Grade Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p></footer>
+  <script>
+    var mode = 'weighted';
+    var defaultRows = [
+      { name: 'Homework', score: 85, weight: 20 },
+      { name: 'Midterm', score: 78, weight: 35 },
+      { name: 'Final', score: 92, weight: 45 }
+    ];
+
+    function letterGrade(pct) {
+      if (pct >= 93) return { letter: 'A', gpa: 4.0 };
+      if (pct >= 90) return { letter: 'A-', gpa: 3.7 };
+      if (pct >= 87) return { letter: 'B+', gpa: 3.3 };
+      if (pct >= 83) return { letter: 'B', gpa: 3.0 };
+      if (pct >= 80) return { letter: 'B-', gpa: 2.7 };
+      if (pct >= 77) return { letter: 'C+', gpa: 2.3 };
+      if (pct >= 73) return { letter: 'C', gpa: 2.0 };
+      if (pct >= 70) return { letter: 'C-', gpa: 1.7 };
+      if (pct >= 67) return { letter: 'D+', gpa: 1.3 };
+      if (pct >= 63) return { letter: 'D', gpa: 1.0 };
+      if (pct >= 60) return { letter: 'D-', gpa: 0.7 };
+      return { letter: 'F', gpa: 0.0 };
+    }
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById('weightedSection').style.display = m === 'weighted' ? '' : 'none';
+      document.getElementById('pointsSection').style.display = m === 'points' ? '' : 'none';
+      document.getElementById('btnWeighted').classList.toggle('active', m === 'weighted');
+      document.getElementById('btnPoints').classList.toggle('active', m === 'points');
+      calc();
+    }
+
+    function getRows() {
+      var rows = [];
+      document.querySelectorAll('.assignment-row').forEach(function(row) {
+        var name = row.querySelector('.a-name').value || 'Assignment';
+        var score = parseFloat(row.querySelector('.a-score').value) || 0;
+        var weight = parseFloat(row.querySelector('.a-weight').value) || 0;
+        rows.push({ name: name, score: score, weight: weight });
+      });
+      return rows;
+    }
+
+    function addRow(data) {
+      var list = document.getElementById('assignmentList');
+      var idx = list.children.length;
+      var d = data || { name: 'Assignment ' + (idx + 1), score: 100, weight: 10 };
+      var div = document.createElement('div');
+      div.className = 'assignment-row';
+      div.innerHTML =
+        '<div class="assignment-col"><input type="text" class="a-name" value="' + escHtml(d.name) + '" placeholder="Assignment"></div>' +
+        '<div class="assignment-col"><input type="number" class="a-score" value="' + d.score + '" min="0" max="200" step="0.1"></div>' +
+        '<div class="assignment-col"><input type="number" class="a-weight" value="' + d.weight + '" min="0" max="100" step="0.1"></div>' +
+        '<button class="remove-btn" title="Remove" onclick="removeRow(this)">×</button>';
+      div.querySelectorAll('input').forEach(function(el) { el.addEventListener('input', calc); });
+      list.appendChild(div);
+      updateRemoveButtons();
+      calc();
+    }
+
+    function removeRow(btn) {
+      var list = document.getElementById('assignmentList');
+      if (list.children.length <= 1) return;
+      btn.closest('.assignment-row').remove();
+      updateRemoveButtons();
+      calc();
+    }
+
+    function updateRemoveButtons() {
+      var list = document.getElementById('assignmentList');
+      var btns = list.querySelectorAll('.remove-btn');
+      btns.forEach(function(b) { b.style.visibility = list.children.length > 1 ? 'visible' : 'hidden'; });
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function calc() {
+      var el = document.getElementById('resultsBody');
+      var pct, lg, html = '';
+
+      if (mode === 'weighted') {
+        var rows = getRows();
+        var sumWeightedScore = 0;
+        var sumWeight = 0;
+        rows.forEach(function(r) { sumWeightedScore += r.score * r.weight; sumWeight += r.weight; });
+        if (sumWeight === 0) {
+          el.innerHTML = '<div class="result-hero"><div class="result-hero-value" style="font-size:22px">Enter weights above</div></div>';
+          return;
+        }
+        pct = sumWeightedScore / sumWeight;
+        lg = letterGrade(pct);
+
+        html += '<div class="result-hero">';
+        html += '<div class="result-hero-value">' + pct.toFixed(1) + '%</div>';
+        html += '<div class="result-hero-label">Overall grade</div>';
+        html += '</div>';
+        html += '<div class="result-row"><span class="result-label">Letter grade</span><span class="result-value">' + lg.letter + '</span></div>';
+        html += '<div class="result-row"><span class="result-label">GPA points</span><span class="result-value">' + lg.gpa.toFixed(1) + '</span></div>';
+        html += '<div class="result-row"><span class="result-label">Total weight assigned</span><span class="result-value">' + sumWeight.toFixed(1) + '%</span></div>';
+        el.innerHTML = html;
+
+        calcNeedResult(rows);
+
+      } else {
+        var earned = parseFloat(document.getElementById('ptEarned').value) || 0;
+        var total = parseFloat(document.getElementById('ptTotal').value) || 1;
+        if (total <= 0) { el.innerHTML = '<div class="result-hero"><div class="result-hero-value" style="font-size:22px">Enter total points</div></div>'; return; }
+        pct = (earned / total) * 100;
+        lg = letterGrade(pct);
+        html += '<div class="result-hero">';
+        html += '<div class="result-hero-value">' + pct.toFixed(1) + '%</div>';
+        html += '<div class="result-hero-label">Overall grade</div>';
+        html += '</div>';
+        html += '<div class="result-row"><span class="result-label">Letter grade</span><span class="result-value">' + lg.letter + '</span></div>';
+        html += '<div class="result-row"><span class="result-label">GPA points</span><span class="result-value">' + lg.gpa.toFixed(1) + '</span></div>';
+        html += '<div class="result-row"><span class="result-label">Points earned</span><span class="result-value">' + earned + ' / ' + total + '</span></div>';
+        el.innerHTML = html;
+      }
+    }
+
+    function calcNeedResult(rows) {
+      var target = parseFloat(document.getElementById('targetGrade').value);
+      var needEl = document.getElementById('needResult');
+      if (!rows || rows.length < 2 || isNaN(target)) { needEl.innerHTML = ''; return; }
+      var last = rows[rows.length - 1];
+      if (last.weight === 0) { needEl.innerHTML = ''; return; }
+      var sumExcludingLast = 0;
+      var weightExcludingLast = 0;
+      for (var i = 0; i < rows.length - 1; i++) {
+        sumExcludingLast += rows[i].score * rows[i].weight;
+        weightExcludingLast += rows[i].weight;
+      }
+      var totalWeight = weightExcludingLast + last.weight;
+      var needed = (target * totalWeight - sumExcludingLast) / last.weight;
+      var color = needed > 100 ? '#c00' : 'var(--accent)';
+      needEl.innerHTML = 'To earn <strong style="color:var(--accent)">' + target.toFixed(1) + '%</strong> in this class, you need <strong style="color:' + color + '">' + needed.toFixed(1) + '%</strong> on ' + escHtml(last.name) + '.';
+    }
+
+    defaultRows.forEach(function(r) { addRow(r); });
+    document.getElementById('targetGrade').addEventListener('input', calc);
+    document.getElementById('ptEarned').addEventListener('input', calc);
+    document.getElementById('ptTotal').addEventListener('input', calc);
+    calc();
+  </script>
+</body>
+</html>
