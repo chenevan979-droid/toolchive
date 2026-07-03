@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Thanksgiving Sides Calculator — How Much of Each Dish to Make | Toolchive</title>
+  <meta name="description" content="Enter your guest count and find out exactly how much mashed potatoes, stuffing, gravy, cranberry sauce, green beans, sweet potatoes, and rolls to make for Thanksgiving.">
+  <link rel="canonical" href="https://toolchive.com/thanksgiving-sides-calculator">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolchive.com/thanksgiving-sides-calculator">
+  <meta property="og:title" content="Thanksgiving Sides Calculator — How Much of Each Dish to Make | Toolchive">
+  <meta property="og:description" content="Enter your guest count and find out exactly how much mashed potatoes, stuffing, gravy, cranberry sauce, green beans, sweet potatoes, and rolls to make for Thanksgiving.">
+  <meta property="og:image" content="https://toolchive.com/og.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Thanksgiving Sides Calculator",
+    "description":"Calculate how much of each Thanksgiving side dish to make — mashed potatoes, stuffing, gravy, cranberry sauce, green beans, sweet potatoes, and rolls — based on guest count.",
+    "url":"https://toolchive.com/thanksgiving-sides-calculator","applicationCategory":"UtilityApplication",
+    "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How much mashed potatoes do I need for 10 people?","acceptedAnswer":{"@type":"Answer","text":"For 10 guests, plan on 5 lbs of raw potatoes (they cook down significantly). With leftovers, buy 6–7 lbs. One large russet potato weighs about 0.5–0.75 lbs."}},
+    {"@type":"Question","name":"How much stuffing do I make for 12 people?","acceptedAnswer":{"@type":"Answer","text":"Plan about 1/2 cup dry breadcrumbs per person, which yields roughly 3/4 cup cooked. For 12 people: 6 cups dry (one standard 14 oz bag of stuffing mix). Add leftovers buffer and buy 2 bags."}},
+    {"@type":"Question","name":"How many cans of cranberry sauce for Thanksgiving?","acceptedAnswer":{"@type":"Answer","text":"One standard 14 oz can serves about 8 people (2 tablespoons each). For 10–16 guests, two cans is plenty. Many families do one jellied and one whole berry."}},
+    {"@type":"Question","name":"How much gravy per person for Thanksgiving?","acceptedAnswer":{"@type":"Answer","text":"About 1/3 cup per person as a generous serving. For 10 people: roughly 3–4 cups (1 quart). Turkey drippings from a 15 lb bird yield about 2 cups — supplement with store-bought."}},
+    {"@type":"Question","name":"Should I make extras of every side dish?","acceptedAnswer":{"@type":"Answer","text":"Yes — Thanksgiving leftovers are half the point. The calculator's \"Yes, leftovers!\" mode adds 25% to all quantities. Sides reheat perfectly; you'll be grateful for the next two days."}}
+  ]}
+  </script>
+<style>
+    :root {
+      --bg:#f6f7f5; --surface:#fff; --border:rgba(0,0,0,0.09);
+      --text:#1a1a18; --text-muted:#888780;
+      --accent:#b07820; --accent-bg:rgba(176,120,32,0.10); --radius:8px;
+    }
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg:#181a17; --surface:#222421; --border:rgba(255,255,255,0.1);
+        --text:#f0ede8; --text-muted:#888780;
+        --accent:#c98f30; --accent-bg:rgba(176,120,32,0.15);
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 48px 24px 80px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .site-nav { font-size:13px; color:var(--text-muted); margin-bottom:32px; }
+    .site-nav a { color:var(--text-muted); }
+    header { text-align:center; margin-bottom:40px; max-width:600px; }
+    header h1 { font-size:30px; font-weight:600; letter-spacing:-0.02em; margin-bottom:8px; }
+    .h1-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:52px; height:52px; font-size:28px; border-radius:14px;
+      background:var(--accent-bg); margin-bottom:14px;
+    }
+    header p { font-size:15px; color:var(--text-muted); line-height:1.6; }
+    .card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .card-title {
+      font-size:13px; font-weight:600; text-transform:uppercase;
+      letter-spacing:0.06em; color:var(--text-muted); margin-bottom:20px;
+    }
+    .field-row { display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+    .field-row:last-child { margin-bottom:0; }
+    .field-row label { font-size:14px; font-weight:500; min-width:140px; }
+    .field-row input[type="number"], .field-row input[type="text"] {
+      width:110px; font-size:18px; font-weight:600; padding:8px 12px;
+      border-radius:var(--radius); border:0.5px solid var(--border);
+      background:var(--bg); color:var(--text); text-align:center;
+    }
+    .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
+    .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
+    .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .unit-btn.active { background:var(--accent); color:#fff; }
+    .results-card {
+      background:var(--surface); border:0.5px solid var(--border);
+      border-radius:16px; padding:28px; width:100%; max-width:640px; margin-bottom:16px;
+    }
+    .result-table { width:100%; border-collapse:collapse; }
+    .result-table th {
+      font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+      color:var(--text-muted); text-align:left; padding:0 0 12px;
+      border-bottom:0.5px solid var(--border);
+    }
+    .result-table th:last-child { text-align:right; }
+    .result-table td {
+      padding:13px 0; border-bottom:0.5px solid var(--border);
+      font-size:14px; vertical-align:middle;
+    }
+    .result-table tr:last-child td { border-bottom:none; }
+    .result-table .dish-name { font-weight:500; color:var(--text); }
+    .result-table .dish-serves { font-size:12px; color:var(--text-muted); margin-top:2px; }
+    .result-table .dish-amount { font-size:17px; font-weight:700; color:var(--accent); text-align:right; white-space:nowrap; }
+    .leftovers-tip {
+      margin-top:16px; padding:10px 14px; border-radius:8px;
+      background:var(--accent-bg); font-size:13px; color:var(--text-muted); line-height:1.6;
+      border-left:3px solid var(--accent);
+    }
+    .btn-kofi {
+      display:inline-flex; align-items:center; gap:8px; font-size:13px;
+      padding:9px 18px; border-radius:var(--radius); border:none;
+      background:#D63A35; color:#fff; font-weight:500; cursor:pointer;
+      text-decoration:none; transition:filter .15s;
+    }
+    .btn-kofi:hover { filter:brightness(1.1); text-decoration:none; }
+    .support-row { display:flex; justify-content:center; margin:8px 0 24px; }
+    .about { width:100%; max-width:640px; margin-top:32px; }
+    .about h2 { font-size:20px; font-weight:600; margin-bottom:12px; }
+    .about h3 { font-size:15px; font-weight:600; margin-top:24px; margin-bottom:8px; }
+    .about p { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:12px; }
+    .about ul { padding-left:20px; }
+    .about li { font-size:14px; line-height:1.75; color:var(--text-muted); margin-bottom:6px; }
+    .notice { font-size:12px; color:var(--text-muted); background:var(--bg); border-radius:8px; padding:10px 14px; margin-top:8px; line-height:1.6; }
+    .rel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+    .rel-card {
+      display:flex; align-items:center; gap:8px; padding:10px 12px;
+      border:1px solid var(--border); border-radius:10px; text-decoration:none;
+      color:var(--text); font-size:14px; background:var(--surface);
+      transition:border-color .15s, transform .15s, box-shadow .15s, background .15s;
+    }
+    .rel-card:hover { border-color:var(--accent); background:var(--accent-bg); transform:translateY(-2px); box-shadow:0 6px 16px -6px rgba(0,0,0,0.18); }
+    .rel-emoji { font-size:18px; }
+    footer { margin-top:48px; text-align:center; font-size:12px; color:var(--text-muted); }
+    footer a { color:var(--text-muted); }
+    .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
+    @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
+  <header>
+    <div class="h1-emoji">🍂</div>
+    <h1>Thanksgiving Sides Calculator</h1>
+    <p>Enter your guest count to find out how much of each Thanksgiving side dish to make.</p>
+  </header>
+  <main>
+  <div class="card">
+    <div class="card-title">Your dinner details</div>
+    <div class="field-row">
+      <label for="guests">Number of guests</label>
+      <input type="number" id="guests" value="10" min="1" max="200">
+    </div>
+    <div class="field-row">
+      <label>Leftovers?</label>
+      <div class="unit-toggle">
+        <button class="unit-btn" id="btn-enough" onclick="setLeftovers('no')">Just enough</button>
+        <button class="unit-btn active" id="btn-leftovers" onclick="setLeftovers('yes')">Yes, leftovers!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-card"><div id="resultsBody"></div></div>
+
+  <div class="support-row">
+    <a class="btn-kofi" href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">☕ Support this free tool</a>
+  </div>
+
+  <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
+
+  <div class="about">
+    <h2>How the Thanksgiving Sides Calculator Works</h2>
+    <p>The calculator uses tested per-person benchmarks to estimate each side dish. The foundation is 0.5 lbs of raw potatoes per person for mashed potatoes — this is the standard referenced by most culinary guides. Raw russet potatoes lose roughly 25–30% of their weight during boiling and peeling, so 0.5 lbs raw translates to a generous side-dish portion. All quantities scale linearly with guest count, so a table of 20 simply doubles the amounts for 10.</p>
+
+    <p>Thanksgiving is culturally synonymous with abundance — running out of food is considered far worse than having too much. The "Yes, leftovers!" mode multiplies every quantity by 1.25 (a 25% buffer). This is the sweet spot: enough for generous second servings and next-day leftovers without wasteful excess. The leftover turkey sandwich on Friday morning is arguably the best meal of the long weekend, and the same applies to mashed potatoes reheated with a splash of cream and leftover gravy poured over stuffing.</p>
+
+    <p>For shopping, plan your list early: grab your mashed potato ingredients (russets, butter, cream) and stuffing breadcrumbs at least a week before — stores run low on basics. For green beans, fresh beans roast beautifully and hold up better than canned; buy them 2–3 days before and refrigerate in a damp paper towel. Dinner rolls are a great candidate for the bakery section (bought the morning of) or a quality frozen par-baked roll that finishes in the oven alongside the turkey — no skill required and they come out perfectly golden.</p>
+  </div>
+
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div>
+
+  <div class="about" style="margin-top:32px">
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>How much mashed potatoes do I need for 10 people?</h3>
+    <p>For 10 guests, plan on 5 lbs of raw potatoes (they cook down significantly). With leftovers, buy 6–7 lbs. One large russet potato weighs about 0.5–0.75 lbs, so you're looking at roughly 8–12 large potatoes for 10 people. Russets are the go-to for fluffy, smooth mash.</p>
+
+    <h3>How much stuffing do I make for 12 people?</h3>
+    <p>Plan about 1/2 cup dry breadcrumbs per person, which yields roughly 3/4 cup cooked. For 12 people: 6 cups dry (one standard 14 oz bag of stuffing mix). Add a leftovers buffer and buy 2 bags. If you're making stuffing from scratch with cubed bread, one pound of bread loaf yields about 8 cups of cubed stuffing.</p>
+
+    <h3>How many cans of cranberry sauce for Thanksgiving?</h3>
+    <p>One standard 14 oz can serves about 8 people (2 tablespoons each). For 10–16 guests, two cans is plenty. Many families do one jellied and one whole berry — doubles the variety without doubling the cost. If you're making cranberry sauce from scratch, one 12 oz bag of fresh cranberries yields about 2 cups of sauce, serving 8.</p>
+
+    <h3>How much gravy per person for Thanksgiving?</h3>
+    <p>About 1/3 cup per person as a generous serving. For 10 people: roughly 3–4 cups (1 quart). Turkey drippings from a 15 lb bird yield about 2 cups — supplement with store-bought turkey or chicken broth-based gravy to reach your target. Make gravy in advance and reheat gently to free up oven space on the day.</p>
+
+    <h3>Should I make extras of every side dish?</h3>
+    <p>Yes — Thanksgiving leftovers are half the point. The calculator's "Yes, leftovers!" mode adds 25% to all quantities. Sides reheat perfectly: mashed potatoes come back to life with a splash of warm cream, stuffing crisps up beautifully in a skillet, and green beans toss well in a quick pan with garlic. You'll be grateful for the next two days.</p>
+  </div>
+
+  <nav class="about" style="margin-top:40px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
+    <div class="rel-grid">
+      <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
+      <a class="rel-card" href="/flooring-calculator"><span class="rel-emoji">🪵</span> Flooring</a>
+      <a class="rel-card" href="/wallpaper-calculator"><span class="rel-emoji">🧻</span> Wallpaper</a>
+      <a class="rel-card" href="/roofing-calculator"><span class="rel-emoji">🏠</span> Roofing</a>
+      <a class="rel-card" href="/drywall-calculator"><span class="rel-emoji">🧱</span> Drywall</a>
+      <a class="rel-card" href="/deck-calculator"><span class="rel-emoji">🪵</span> Deck</a>
+      <a class="rel-card" href="/insulation-calculator"><span class="rel-emoji">🧣</span> Insulation</a>
+      <a class="rel-card" href="/siding-calculator"><span class="rel-emoji">🏡</span> Siding</a>
+      <a class="rel-card" href="/retaining-wall-calculator"><span class="rel-emoji">🧱</span> Retaining Wall</a>
+      <a class="rel-card" href="/stair-calculator"><span class="rel-emoji">🪜</span> Stairs</a>
+      <a class="rel-card" href="/paint-calculator"><span class="rel-emoji">🖌️</span> Paint</a>
+      <a class="rel-card" href="/concrete-calculator"><span class="rel-emoji">🏗️</span> Concrete</a>
+      <a class="rel-card" href="/gravel-calculator"><span class="rel-emoji">🪨</span> Gravel</a>
+      <a class="rel-card" href="/mulch-calculator"><span class="rel-emoji">🍂</span> Mulch</a>
+      <a class="rel-card" href="/fence-calculator"><span class="rel-emoji">🪵</span> Fence Cost</a>
+      <a class="rel-card" href="/sod-calculator"><span class="rel-emoji">🌿</span> Sod</a>
+      <a class="rel-card" href="/carpet-calculator"><span class="rel-emoji">🛋️</span> Carpet</a>
+      <a class="rel-card" href="/moving-box-calculator"><span class="rel-emoji">📦</span> Moving Boxes</a>
+      <a class="rel-card" href="/curtain-calculator"><span class="rel-emoji">🪟</span> Curtains</a>
+      <a class="rel-card" href="/bbq-meat-calculator"><span class="rel-emoji">🔥</span> BBQ Meat</a>
+      <a class="rel-card" href="/party-food-calculator"><span class="rel-emoji">🎉</span> Party Food</a>
+      <a class="rel-card" href="/party-drink-calculator"><span class="rel-emoji">🍹</span> Party Drinks</a>
+      <a class="rel-card" href="/pizza-calculator"><span class="rel-emoji">🍕</span> Pizza</a>
+      <a class="rel-card" href="/taco-bar-calculator"><span class="rel-emoji">🌮</span> Taco Bar</a>
+      <a class="rel-card" href="/coffee-calculator"><span class="rel-emoji">☕</span> Coffee</a>
+      <a class="rel-card" href="/recipe-scaler"><span class="rel-emoji">🍳</span> Recipe Scaler</a>
+      <a class="rel-card" href="/cooking-conversion"><span class="rel-emoji">⚗️</span> Cooking Conversion</a>
+      <a class="rel-card" href="/food-cost-calculator"><span class="rel-emoji">🧾</span> Food Cost</a>
+      <a class="rel-card" href="/tip-calculator"><span class="rel-emoji">💵</span> Tip</a>
+      <a class="rel-card" href="/sleep-calculator"><span class="rel-emoji">😴</span> Sleep</a>
+      <a class="rel-card" href="/bmi-calculator"><span class="rel-emoji">⚖️</span> BMI</a>
+      <a class="rel-card" href="/calorie-calculator"><span class="rel-emoji">🍽️</span> Calories</a>
+      <a class="rel-card" href="/water-intake-calculator"><span class="rel-emoji">💧</span> Water Intake</a>
+      <a class="rel-card" href="/pace-calculator"><span class="rel-emoji">🏃</span> Running Pace</a>
+      <a class="rel-card" href="/loan-calculator"><span class="rel-emoji">🏦</span> Loan Payment</a>
+      <a class="rel-card" href="/compound-interest-calculator"><span class="rel-emoji">📈</span> Compound Interest</a>
+      <a class="rel-card" href="/savings-calculator"><span class="rel-emoji">💰</span> Savings Goal</a>
+      <a class="rel-card" href="/unit-price-calculator"><span class="rel-emoji">🏷️</span> Unit Price</a>
+      <a class="rel-card" href="/percentage-calculator"><span class="rel-emoji">💯</span> Percentage</a>
+      <a class="rel-card" href="/aspect-ratio-calculator"><span class="rel-emoji">📐</span> Aspect Ratio</a>
+      <a class="rel-card" href="/color-palette-generator"><span class="rel-emoji">🎨</span> Color Palette</a>
+      <a class="rel-card" href="/body-fat-calculator"><span class="rel-emoji">📏</span> Body Fat</a>
+      <a class="rel-card" href="/age-calculator"><span class="rel-emoji">🎂</span> Age</a>
+      <a class="rel-card" href="/turkey-calculator"><span class="rel-emoji">🦃</span> Turkey Size</a>
+      <a class="rel-card" href="/baking-conversion-calculator"><span class="rel-emoji">🧁</span> Baking Conversion</a>
+      <a class="rel-card" href="/protein-calculator"><span class="rel-emoji">💪</span> Protein</a>
+      <a class="rel-card" href="/due-date-calculator"><span class="rel-emoji">🤰</span> Due Date</a>
+      <a class="rel-card" href="/steps-to-miles-calculator"><span class="rel-emoji">👣</span> Steps to Miles</a>
+      <a class="rel-card" href="/pool-volume-calculator"><span class="rel-emoji">🏊</span> Pool Volume</a>
+      <a class="rel-card" href="/budget-calculator"><span class="rel-emoji">💸</span> Budget</a>
+      <a class="rel-card" href="/debt-payoff-calculator"><span class="rel-emoji">💳</span> Debt Payoff</a>
+      <a class="rel-card" href="/grade-calculator"><span class="rel-emoji">📝</span> Grade</a>
+      <a class="rel-card" href="/irrigation-calculator"><span class="rel-emoji">💧</span> Irrigation</a>
+      <a class="rel-card" href="/halloween-candy-calculator"><span class="rel-emoji">🎃</span> Halloween Candy</a>
+    </div>
+  </nav>
+  </main>
+  <footer>
+    <p>Free Thanksgiving Sides Calculator · <a href="/">More tools at Toolchive</a> · <a href="https://ko-fi.com/chenevan979-droid" target="_blank" rel="noopener">Support on Ko-fi</a> · <a href="/about">About</a> · <a href="/privacy-policy">Privacy</a> · <a href="/disclaimer">Disclaimer</a></p>
+  </footer>
+
+  <script>
+  var leftoverMode = 'yes';
+
+  function setLeftovers(val) {
+    leftoverMode = val;
+    document.getElementById('btn-enough').classList.toggle('active', val === 'no');
+    document.getElementById('btn-leftovers').classList.toggle('active', val === 'yes');
+    calc();
+  }
+
+  function roundToQuarter(n) {
+    return Math.round(n * 4) / 4;
+  }
+
+  function fmtGravy(cups) {
+    if (cups >= 4) {
+      var pints = cups / 2;
+      return pints % 1 === 0 ? pints + ' pints (' + cups + ' cups)' : cups + ' cups';
+    }
+    return cups + ' cups';
+  }
+
+  function calc() {
+    var guests = parseInt(document.getElementById('guests').value) || 1;
+    var factor = (leftoverMode === 'yes') ? 1.25 : 1.0;
+
+    // Mashed Potatoes: 0.5 lbs raw per person
+    var mashedRaw = Math.ceil(guests * 0.5 * factor);
+
+    // Stuffing: 0.5 cups dry per person
+    var stuffingCups = Math.ceil(guests * 0.5 * factor);
+
+    // Gravy: 0.33 cups per person, round to nearest 0.25
+    var gravyCups = roundToQuarter(guests * 0.33 * factor);
+    if (gravyCups < 0.25) gravyCups = 0.25;
+
+    // Cranberry Sauce: 1 can per 8 people, round up
+    var cranberryCans = Math.ceil((guests / 8) * factor);
+
+    // Green Beans: 0.25 lbs per person
+    var greenBeans = Math.ceil(guests * 0.25 * factor * 4) / 4; // round to nearest 0.25 lb
+    greenBeans = Math.ceil(guests * 0.25 * factor);
+
+    // Sweet Potato Casserole: 0.375 lbs per person
+    var sweetPotatoes = (guests * 0.375 * factor);
+    // Round to nearest 0.25 lb
+    sweetPotatoes = Math.round(sweetPotatoes * 4) / 4;
+    if (sweetPotatoes < 0.25) sweetPotatoes = 0.25;
+
+    // Dinner Rolls: 2 per person
+    var rolls = Math.ceil(guests * 2 * factor);
+
+    var html = '<table class="result-table">';
+    html += '<thead><tr><th>Side Dish</th><th>Serves ~' + guests + '</th></tr></thead>';
+    html += '<tbody>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Mashed Potatoes</div><div class="dish-serves">raw russet potatoes</div></td>';
+    html += '<td class="dish-amount">' + mashedRaw + ' lbs</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Stuffing / Dressing</div><div class="dish-serves">dry breadcrumbs · yields ~' + Math.ceil(stuffingCups * 1.5) + ' cups cooked</div></td>';
+    html += '<td class="dish-amount">' + stuffingCups + ' cups</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Gravy</div><div class="dish-serves">supplement turkey drippings as needed</div></td>';
+    html += '<td class="dish-amount">' + fmtGravy(gravyCups) + '</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Cranberry Sauce</div><div class="dish-serves">14 oz cans (standard size)</div></td>';
+    html += '<td class="dish-amount">' + cranberryCans + ' can' + (cranberryCans !== 1 ? 's' : '') + '</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Green Beans</div><div class="dish-serves">fresh or frozen · trim & blanch</div></td>';
+    html += '<td class="dish-amount">' + greenBeans + ' lbs</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Sweet Potato Casserole</div><div class="dish-serves">raw sweet potatoes</div></td>';
+    html += '<td class="dish-amount">' + sweetPotatoes + ' lbs</td>';
+    html += '</tr>';
+
+    html += '<tr>';
+    html += '<td><div class="dish-name">Dinner Rolls</div><div class="dish-serves">bakery or par-baked frozen</div></td>';
+    html += '<td class="dish-amount">' + rolls + ' rolls</td>';
+    html += '</tr>';
+
+    html += '</tbody></table>';
+
+    if (leftoverMode === 'yes') {
+      html += '<div class="leftovers-tip">Quantities include a 25% buffer for seconds and leftovers.</div>';
+    }
+
+    document.getElementById('resultsBody').innerHTML = html;
+  }
+
+  document.getElementById('guests').addEventListener('input', calc);
+  calc();
+  </script>
+</body>
+</html>
