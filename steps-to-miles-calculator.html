@@ -44,6 +44,11 @@
     .field-row:last-child { margin-bottom:0; }
     .field-row label { font-size:14px; font-weight:500; min-width:140px; }
     .field-row input[type="number"] { width:110px; font-size:18px; font-weight:600; padding:8px 12px; border-radius:var(--radius); border:0.5px solid var(--border); background:var(--bg); color:var(--text); text-align:center; }
+    @media(max-width:480px){
+      #rowHeightImperial { gap:8px; }
+      #rowHeightImperial label { min-width:0; width:100%; margin-bottom:0; }
+      #rowHeightImperial input[type="number"] { width:72px; font-size:16px; }
+    }
     .input-suffix { font-size:13px; color:var(--text-muted); margin-left:-8px; }
     .unit-toggle { display:flex; border:0.5px solid var(--border); border-radius:var(--radius); overflow:hidden; width:fit-content; }
     .unit-btn { font-size:13px; padding:6px 16px; border:none; background:var(--bg); color:var(--text-muted); cursor:pointer; transition:all .15s; }
