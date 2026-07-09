@@ -4,7 +4,7 @@
     {
       "name": "color-palette",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "-l", "3333", "/Users/evanchen/Desktop/网站"],
+      "runtimeArgs": ["serve", "-l", "3333", "/Users/evanchen/Desktop/副业运营/1-toolchive-网站/网站"],
       "port": 3333
     }
   ]
