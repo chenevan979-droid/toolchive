@@ -19,7 +19,17 @@
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
     <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this pace calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "Enter any two of distance, time, and pace, and the pace calculator solves for the third. It then projects your finish times for common races like the 5K, 10K, half marathon, and marathon."}}, {"@type": "Question", "name": "How do I calculate running pace?", "acceptedAnswer": {"@type": "Answer", "text": "Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically."}}, {"@type": "Question", "name": "Can it predict my race finish time?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. From your pace it estimates finish times for the 5K, 10K, half, and full marathon. These assume you hold the same pace, so allow for fatigue over longer distances."}}]}
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this pace calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "Enter any two of distance, time, and pace, and the pace calculator solves for the third. It then projects your finish times for common races like the 5K, 10K, half marathon, and marathon."}}, {"@type": "Question", "name": "How do I calculate running pace?", "acceptedAnswer": {"@type": "Answer", "text": "Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically."}}, {"@type": "Question", "name": "Can it predict my race finish time?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. From your pace it estimates finish times for the 5K, 10K, half, and full marathon. These assume you hold the same pace, so allow for fatigue over longer distances."}}, {"@type": "Question", "name": "What is a good marathon pace?", "acceptedAnswer": {"@type": "Answer", "text": "A 4-hour marathon is about 9:09 per mile (5:41 per km); a sub-4:00 is a common goal for recreational runners. Elite men run close to 4:41 per mile. Enter your goal finish time and the calculator returns the exact pace you need to hold."}}, {"@type": "Question", "name": "How do I convert min/mile to min/km?", "acceptedAnswer": {"@type": "Answer", "text": "Switch the distance unit toggle between Miles and Kilometers and your pace is recalculated instantly. As a rule of thumb, min/km is roughly min/mile divided by 1.609 — for example 8:00/mile is about 4:58/km."}}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"How to calculate your running pace",
+   "totalTime":"PT1M","tool":{"@type":"HowToTool","name":"Toolchive Running Pace Calculator"},
+   "step":[
+     {"@type":"HowToStep","position":1,"name":"Choose your unit","text":"Select Miles or Kilometers with the distance unit toggle."},
+     {"@type":"HowToStep","position":2,"name":"Enter two values","text":"Type any two of distance, total time, and pace. Leave the value you want to find blank."},
+     {"@type":"HowToStep","position":3,"name":"Read your pace","text":"The calculator instantly solves the missing value and shows your pace per mile or km."},
+     {"@type":"HowToStep","position":4,"name":"Check race projections","text":"Review projected finish times for the 5K, 10K, half marathon, and marathon at that pace."}
+   ]}
   </script>
 <style>
     :root {
@@ -126,8 +136,22 @@
 
       .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
     @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+    .about ol{padding-left:20px;}
+    .about ol li{font-size:14px;line-height:1.75;color:var(--text-muted);margin-bottom:8px;}
+    .about table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:14px;}
+    .about th,.about td{text-align:left;padding:8px 10px;border-bottom:0.5px solid var(--border);color:var(--text-muted);}
+    .about th{color:var(--text);font-weight:600;}
+    .about caption{caption-side:top;text-align:left;font-size:13px;color:var(--text-muted);margin-bottom:6px;}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3907469815607655" crossorigin="anonymous"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-20L9E9M9KL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-20L9E9M9KL');
+  </script>
 </head>
 <body>
   <div class="site-nav"><a href="/">← Back to Toolchive</a></div>
@@ -178,20 +202,51 @@
   
   <div class="ad-slot" id="ad-results" aria-hidden="true"></div>
   <div class="about">
-    <h2>About This Calculator</h2>
-    <p>Running calculators use the relationship: <strong>Time = Distance × Pace</strong>. Enter any two values and the third is solved automatically.</p>
+    <h2>Running Pace Calculator — Race, Marathon &amp; Training Pace</h2>
+    <p>This free <strong>running pace calculator</strong> works out your pace, time, or distance from any two values, then projects finish times for every major race. Whether you need your <strong>race pace</strong> for an upcoming 5K, your goal <strong>marathon pace</strong>, a <strong>10K pace</strong> target, or a simple <strong>running pace</strong> for daily training, the math is the same: <strong>Time = Distance × Pace</strong>. Enter two fields and the third is solved instantly in min/mile or min/km.</p>
+
+    <h3>How to use this pace calculator</h3>
+    <ol>
+      <li><strong>Pick your unit.</strong> Toggle between Miles and Kilometers at the top.</li>
+      <li><strong>Enter any two fields.</strong> Fill in two of distance, total time, and pace — leave the one you want to find blank.</li>
+      <li><strong>Read your result.</strong> Your pace appears at the top of the results card the moment there's enough to solve.</li>
+      <li><strong>Check race projections.</strong> Scroll to see estimated 5K, 10K, half, and full marathon finish times at that pace.</li>
+      <li><strong>Set a goal.</strong> To find a target pace, enter a race distance and your goal finish time — the tool returns the pace you must hold.</li>
+    </ol>
+
     <h3>Common race distances</h3>
     <ul>
-      <li>5K = 3.107 miles</li>
-      <li>10K = 6.214 miles</li>
+      <li>5K = 3.107 miles (5 km)</li>
+      <li>10K = 6.214 miles (10 km)</li>
       <li>Half Marathon = 13.109 miles (21.098 km)</li>
       <li>Marathon = 26.219 miles (42.195 km)</li>
     </ul>
+
+    <h3>Pace chart: what each pace means at the finish line</h3>
+    <table>
+      <caption>Finish times at a steady pace across common race distances.</caption>
+      <thead>
+        <tr><th>Pace /mi</th><th>5K</th><th>10K</th><th>Half</th><th>Marathon</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>7:00</td><td>21:45</td><td>43:30</td><td>1:31:46</td><td>3:03:31</td></tr>
+        <tr><td>8:00</td><td>24:51</td><td>49:43</td><td>1:44:52</td><td>3:29:45</td></tr>
+        <tr><td>9:00</td><td>27:58</td><td>55:56</td><td>1:57:59</td><td>3:55:58</td></tr>
+        <tr><td>10:00</td><td>31:04</td><td>1:02:09</td><td>2:11:05</td><td>4:22:11</td></tr>
+        <tr><td>11:00</td><td>34:11</td><td>1:08:22</td><td>2:24:12</td><td>4:48:25</td></tr>
+        <tr><td>12:00</td><td>37:17</td><td>1:14:34</td><td>2:37:19</td><td>5:14:38</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Marathon and half marathon pace goals</h3>
+    <p>Popular targets are the sub-2:00 half marathon (about 9:09 per mile) and the sub-4:00 marathon (about 9:09 per mile as well, held for 26.2 miles). A 5:00-per-mile pace is elite territory. Because fatigue builds over distance, most coaches suggest training slightly faster than goal pace on short intervals and slightly slower on long runs.</p>
+
     <h3>Note on projected times</h3>
-    <p>Projected race times assume you can maintain your current pace over the full distance. In practice, pacing strategy and fatigue affect finish times significantly.</p>
+    <p>Projected race times assume you can maintain your current pace over the full distance. In practice, pacing strategy, terrain, heat, and fatigue affect finish times significantly — longer races usually run a little slower per mile than short ones.</p>
   </div>
-    
-  <div class="ad-slot" id="ad-content" aria-hidden="true"></div><div class="about">
+
+  <div class="ad-slot" id="ad-content" aria-hidden="true"></div>
+  <div class="about">
     <h2>Frequently asked questions</h2>
     <h3>How does this pace calculator work?</h3>
     <p>Enter any two of distance, time, and pace, and the pace calculator solves for the third. It then projects your finish times for common races like the 5K, 10K, half marathon, and marathon.</p>
@@ -199,6 +254,10 @@
     <p>Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically.</p>
     <h3>Can it predict my race finish time?</h3>
     <p>Yes. From your pace it estimates finish times for the 5K, 10K, half, and full marathon. These assume you hold the same pace, so allow for fatigue over longer distances.</p>
+    <h3>What is a good marathon pace?</h3>
+    <p>A 4-hour marathon is about 9:09 per mile (5:41 per km), a common goal for recreational runners. Elite men hold close to 4:41 per mile. Enter your goal finish time against the marathon distance and the calculator returns the exact pace you need.</p>
+    <h3>How do I convert min/mile to min/km?</h3>
+    <p>Switch the distance unit toggle between Miles and Kilometers and your pace recalculates instantly. As a rule of thumb, min/km is roughly min/mile divided by 1.609 — for example 8:00/mile is about 4:58/km.</p>
   </div>
   <nav class="about" style="margin-top:40px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
