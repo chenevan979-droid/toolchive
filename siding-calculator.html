@@ -25,7 +25,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Siding Calculator",
-    "description": "Calculate how many squares and boxes of siding you need based on wall area, waste factor, and coverage per box.",
+    "description": "Calculate how many squares and boxes of siding you need from walls and gables, with door and window openings subtracted, waste factor, trim and accessory estimates (starter strip, corner posts, J-channel, nails), and total cost.",
     "url": "https://toolchive.com/siding-calculator",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
@@ -98,6 +98,21 @@
       font-size: 15px;
       color: var(--text-muted);
       line-height: 1.6;
+    }
+
+    .byline {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .wall-type {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 4px;
+      font-size: 13px;
     }
 
     .card {
@@ -488,7 +503,8 @@
 
   <header>
     <h1><span class="h1-emoji">🏡</span> Siding Calculator</h1>
-    <p>Add your walls to find out how many squares and boxes of siding you need — for vinyl, fiber cement, and more — with a waste factor and total cost.</p>
+    <p>Add your walls and gables, subtract doors and windows, and find out how many squares and boxes of siding you need — plus starter strip, corner post, and J-channel estimates, waste factor, and total cost.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-13">July 13, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -504,7 +520,39 @@
     </div>
 
     <div class="rooms-list" id="wallsList"></div>
-    <button class="add-room" onclick="addWall()">+ Add another wall</button>
+    <button class="add-room" onclick="addWall()">+ Add another wall or gable</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Openings — subtracted from area</div>
+    <div class="field-row">
+      <label>Doors</label>
+      <input type="number" id="doors" value="0" min="0" step="1">
+      <span class="input-suffix" id="doorSuffix">× 21 sq ft</span>
+      <span class="field-hint">Standard entry door ≈ 3′ × 7′ (21 sq ft). Each one is subtracted from your wall area.</span>
+    </div>
+    <div class="field-row">
+      <label>Windows</label>
+      <input type="number" id="windows" value="0" min="0" step="1">
+      <span class="input-suffix" id="winSuffix">× 15 sq ft</span>
+      <span class="field-hint">Average window ≈ 3′ × 5′ (15 sq ft).</span>
+    </div>
+    <div class="field-row">
+      <label>Large openings</label>
+      <input type="number" id="largeOpen" value="" min="0" step="1" placeholder="0">
+      <span class="input-suffix" id="largeSuffix">sq ft</span>
+      <span class="field-hint">Garage doors, picture windows — enter their total area to subtract.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trim &amp; accessories</div>
+    <div class="field-row">
+      <label>Outside corners</label>
+      <input type="number" id="corners" value="4" min="0" step="1">
+      <span class="input-suffix">count</span>
+      <span class="field-hint">A simple rectangular house has 4 outside corners. Corner posts, starter strip, J-channel, and nails are estimated in the results.</span>
+    </div>
   </div>
 
   <div class="card">
@@ -558,9 +606,10 @@
 
     <h3>The formula, step by step</h3>
     <p>
-      1. <strong>Wall area</strong> = height × width, for each wall (add gable triangles as ½ × base × height).<br>
-      2. <strong>Total area</strong> = sum of all walls.<br>
-      3. <strong>With waste</strong> = total × (1 + waste % ÷ 100).<br>
+      1. <strong>Wall area</strong> = height × width for each wall. For triangular gable ends, switch the row
+      to <strong>Gable</strong> and the calculator applies ½ × base × height automatically.<br>
+      2. <strong>Net area</strong> = sum of all walls and gables − openings (doors, windows, garage doors).<br>
+      3. <strong>With waste</strong> = net area × (1 + waste % ÷ 100).<br>
       4. <strong>Squares</strong> = area ÷ 100. <strong>Boxes</strong> = area ÷ box coverage.
     </p>
 
@@ -581,19 +630,22 @@
       </tbody>
     </table>
 
-    <h3>Don't forget trim and accessories</h3>
+    <h3>Trim and accessories — estimated for you</h3>
     <p>
-      The squares above cover the flat wall field only. You'll also need <strong>J-channel, corner posts,
-      starter strip, and soffit/fascia</strong>, which are sold separately by the linear foot. For a home
-      with many windows, doors, and gables, lean toward a <strong>15% waste</strong> allowance — every
-      opening and angle creates offcuts you can't reuse.
+      The squares cover the flat wall field only, so this calculator also estimates the pieces sold
+      separately by the linear foot: <strong>starter strip</strong> (base of each wall),
+      <strong>corner posts</strong> (from your outside-corner count), <strong>J-channel</strong> (around
+      each door and window), and <strong>siding nails</strong> (~1.5 lbs per square). Soffit and fascia
+      depend on roof overhang, so price those separately. For a home with many openings and gables, lean
+      toward a <strong>15% waste</strong> allowance — every opening and angle creates offcuts you can't reuse.
     </p>
 
     <h3>Subtracting openings</h3>
     <p>
-      This calculator uses gross wall area. For large openings like garage doors or picture windows, you can
-      add them as a "negative wall" — just leave one dimension and enter the opening's area mentally, or
-      simply rely on the waste factor to absorb normal-size windows and doors.
+      Enter your door and window counts and the calculator subtracts them at standard sizes — an entry door
+      at 3′ × 7′ (21 sq ft) and an average window at 3′ × 5′ (15 sq ft). For oversized openings like garage
+      doors or picture windows, add their area in the <strong>Large openings</strong> field. If you prefer
+      the pro habit of keeping small windows as a safety margin, just leave the counts at zero.
     </p>
 
     <h3>Siding types compared</h3>
@@ -688,6 +740,22 @@
       <p>Vinyl: 20–40 years. Fiber cement: 25–50 years. Wood: 20–40 years (with maintenance). Metal: 40–50+ years. Brick: 50+ years or indefinite. Choose based on your climate and how long you plan to stay in the home.</p>
     </div>
     
+  <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>
+      <strong>How this calculator works:</strong> wall area = height × width; gable area = ½ × base × height;
+      openings are subtracted at standard sizes (entry door 3′ × 7′ = 21 sq ft, average window 3′ × 5′ = 15 sq ft);
+      squares = net area with waste ÷ 100. Accessory estimates use common installer rules of thumb: starter strip
+      along the base of each wall, one full-height corner post per outside corner, J-channel of ≈17 lin ft per door
+      and ≈16 lin ft per window, and ≈1.5 lbs of nails per square of vinyl siding.
+    </p>
+    <p>
+      <strong>Sources:</strong> installation practices follow the Vinyl Siding Institute (VSI) installation
+      manual (<a href="https://www.vinylsiding.org" target="_blank" rel="noopener">vinylsiding.org</a>).
+      Cost ranges are compiled from published price lists of major U.S. home-improvement retailers and are
+      reviewed periodically; they are estimates, not quotes. Last reviewed:
+      <time datetime="2026-07-13">July 13, 2026</time> by the <a href="/about">Toolchive Team</a>.
+    </p>
+
   <h2>Frequently asked questions</h2>
     <h3>How much siding do I need?</h3>
     <p>Measure the area of each wall (length × height), add them up, add about 10% for waste, then divide by 100 since siding is sold by the square (100 sq ft).</p>
@@ -770,7 +838,13 @@
   <script>
     const WASTE_PRESETS = [10, 15, 20];
     let unit = 'imperial';
-    let walls = [{ h: 9, w: 40 }, { h: 0, w: 0 }];
+    let walls = [{ h: 9, w: 40, t: 'wall' }, { h: 0, w: 0, t: 'wall' }];
+
+    // Standard opening sizes: door 3'×7' = 21 sq ft (≈1.95 m²), window 3'×5' = 15 sq ft (≈1.4 m²)
+    const OPENING = {
+      imperial: { door: 21, win: 15, doorLabel: '× 21 sq ft', winLabel: '× 15 sq ft', areaLabel: 'sq ft' },
+      metric:   { door: 1.95, win: 1.4, doorLabel: '× 1.95 m²', winLabel: '× 1.4 m²', areaLabel: 'm²' }
+    };
 
     function renderWaste() {
       document.getElementById('wastePresets').innerHTML = WASTE_PRESETS.map(w =>
@@ -782,6 +856,10 @@
       const u = unit === 'imperial' ? 'ft' : 'm';
       document.getElementById('wallsList').innerHTML = walls.map((r, i) => `
         <div class="room-row">
+          <select class="wall-type" onchange="updateWall(${i},'t',this.value)" title="Rectangular wall, or triangular gable (½ × base × height)">
+            <option value="wall" ${r.t !== 'gable' ? 'selected' : ''}>Wall</option>
+            <option value="gable" ${r.t === 'gable' ? 'selected' : ''}>Gable</option>
+          </select>
           <input type="number" min="0" step="0.1" value="${r.h || ''}" placeholder="H"
             oninput="updateWall(${i},'h',this.value)">
           <span class="times">×</span>
@@ -793,14 +871,22 @@
       `).join('');
     }
 
-    function addWall() { walls.push({ h: 0, w: 0 }); renderWalls(); calculate(); }
+    function addWall() { walls.push({ h: 0, w: 0, t: 'wall' }); renderWalls(); calculate(); }
     function delWall(i) { walls.splice(i, 1); renderWalls(); calculate(); }
-    function updateWall(i, k, v) { walls[i][k] = Math.max(0, parseFloat(v) || 0); calculate(); }
+    function updateWall(i, k, v) {
+      if (k === 't') { walls[i].t = v; }
+      else { walls[i][k] = Math.max(0, parseFloat(v) || 0); }
+      calculate();
+    }
 
     function setUnit(u) {
       unit = u;
       document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
       document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      const o = OPENING[unit];
+      document.getElementById('doorSuffix').textContent = o.doorLabel;
+      document.getElementById('winSuffix').textContent = o.winLabel;
+      document.getElementById('largeSuffix').textContent = o.areaLabel;
       renderWalls();
       calculate();
     }
@@ -815,17 +901,31 @@
     function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
 
     function calculate() {
-      // total wall area in chosen unit's square measure, then convert to sq ft for squares
-      let area = 0;
-      walls.forEach(r => { area += r.h * r.w; });
+      // Gross area: rectangular walls = h×w, gables = ½×h×w (triangle)
+      let gross = 0;
+      walls.forEach(r => { gross += (r.t === 'gable' ? 0.5 : 1) * r.h * r.w; });
+
+      // Openings subtracted at standard sizes (door 3'×7', window 3'×5') + custom large openings
+      const o = OPENING[unit];
+      const openings = num('doors') * o.door + num('windows') * o.win + num('largeOpen');
+      const net = Math.max(0, gross - openings);
 
       const wastePct = num('waste');
-      const areaWithWaste = area * (1 + wastePct / 100);
+      const areaWithWaste = net * (1 + wastePct / 100);
       const areaSqFt = unit === 'imperial' ? areaWithWaste : areaWithWaste * 10.7639;
 
       const squares = areaSqFt / 100;
       const boxCov = num('boxCov');
       const unitLabel = unit === 'imperial' ? 'sq ft' : 'm²';
+
+      let openingsRow = '';
+      if (openings > 0) {
+        openingsRow = `
+          <div class="result-row">
+            <span class="result-label">Openings subtracted</span>
+            <span class="result-value">−${openings.toFixed(0)} ${unitLabel}</span>
+          </div>`;
+      }
 
       let boxesRow = '', costRow = '';
       if (boxCov > 0) {
@@ -846,25 +946,62 @@
         }
       }
 
+      // Trim & accessory estimates (industry rules of thumb, see Methodology)
+      // Starter strip: runs along the base of rectangular walls = sum of wall widths
+      // Corner posts: one full-height post per outside corner (tallest wall height)
+      // J-channel: perimeter around openings — door ≈ 17 lin ft, window ≈ 16 lin ft
+      // Nails: ≈ 1.5 lbs per square of vinyl siding
+      const lfLabel = unit === 'imperial' ? 'lin ft' : 'm';
+      const toLf = v => unit === 'imperial' ? v : v / 3.28084;
+      let accRows = '';
+      if (net > 0) {
+        const starterLf = walls.filter(r => r.t !== 'gable').reduce((s, r) => s + r.w, 0);
+        const maxH = Math.max(0, ...walls.filter(r => r.t !== 'gable').map(r => r.h));
+        const cornerLf = num('corners') * maxH;
+        const jChannelFt = num('doors') * 17 + num('windows') * 16;
+        const nailsLbs = squares * 1.5;
+        accRows = `
+          <div class="result-row">
+            <span class="result-label">Starter strip</span>
+            <span class="result-value">${starterLf.toFixed(0)} ${lfLabel}</span>
+          </div>
+          ${cornerLf > 0 ? `
+          <div class="result-row">
+            <span class="result-label">Corner posts</span>
+            <span class="result-value">${cornerLf.toFixed(0)} ${lfLabel}</span>
+          </div>` : ''}
+          ${jChannelFt > 0 ? `
+          <div class="result-row">
+            <span class="result-label">J-channel (openings)</span>
+            <span class="result-value">${toLf(jChannelFt).toFixed(0)} ${lfLabel}</span>
+          </div>` : ''}
+          <div class="result-row">
+            <span class="result-label">Siding nails</span>
+            <span class="result-value">~${nailsLbs.toFixed(1)} lbs</span>
+          </div>`;
+      }
+
       document.getElementById('resultsBody').innerHTML = `
         <div class="result-hero">
           <div class="result-hero-value">${squares.toFixed(1)}</div>
           <div class="result-hero-label">🏡 squares of siding (incl. ${wastePct}% waste)</div>
         </div>
         <div class="result-row">
-          <span class="result-label">Total wall area</span>
-          <span class="result-value">${area.toFixed(0)} ${unitLabel}</span>
+          <span class="result-label">Wall + gable area</span>
+          <span class="result-value">${gross.toFixed(0)} ${unitLabel}</span>
         </div>
+        ${openingsRow}
         <div class="result-row">
-          <span class="result-label">Area incl. waste</span>
+          <span class="result-label">Net area incl. waste</span>
           <span class="result-value">${areaWithWaste.toFixed(0)} ${unitLabel}</span>
         </div>
         ${boxesRow}
         ${costRow}
+        ${accRows}
       `;
     }
 
-    ['boxCov','priceBox','waste'].forEach(id =>
+    ['boxCov','priceBox','waste','doors','windows','largeOpen','corners'].forEach(id =>
       document.getElementById(id).addEventListener('input', calculate)
     );
 
