@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <title>Running Pace Calculator — Toolchive</title>
-  <meta name="description" content="Free running pace calculator. Enter any two of distance, time, or pace to find the third — plus projected race finish times.">
+  <meta name="description" content="Free running pace calculator with race presets, min/mi ↔ min/km and mph conversion, Riegel fatigue-adjusted race predictions, training pace zones, and split tables.">
   <link rel="canonical" href="https://toolchive.com/pace-calculator">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolchive.com/pace-calculator">
   <meta property="og:title" content="Running Pace Calculator — Toolchive">
-  <meta property="og:description" content="Free running pace calculator. Enter any two of distance, time, or pace to find the third — plus projected race finish times.">
+  <meta property="og:description" content="Free running pace calculator with race presets, min/mi ↔ min/km and mph conversion, Riegel fatigue-adjusted race predictions, training pace zones, and split tables.">
   <meta property="og:image" content="https://toolchive.com/og.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Running Pace Calculator",
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Running Pace Calculator","description":"Solve pace, time, or distance; race presets; pace and speed conversion; Riegel fatigue-adjusted race predictions; training pace zones; split tables.",
     "url":"https://toolchive.com/pace-calculator","applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
     <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this pace calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "Enter any two of distance, time, and pace, and the pace calculator solves for the third. It then projects your finish times for common races like the 5K, 10K, half marathon, and marathon."}}, {"@type": "Question", "name": "How do I calculate running pace?", "acceptedAnswer": {"@type": "Answer", "text": "Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically."}}, {"@type": "Question", "name": "Can it predict my race finish time?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. From your pace it estimates finish times for the 5K, 10K, half, and full marathon. These assume you hold the same pace, so allow for fatigue over longer distances."}}, {"@type": "Question", "name": "What is a good marathon pace?", "acceptedAnswer": {"@type": "Answer", "text": "A 4-hour marathon is about 9:09 per mile (5:41 per km); a sub-4:00 is a common goal for recreational runners. Elite men run close to 4:41 per mile. Enter your goal finish time and the calculator returns the exact pace you need to hold."}}, {"@type": "Question", "name": "How do I convert min/mile to min/km?", "acceptedAnswer": {"@type": "Answer", "text": "Switch the distance unit toggle between Miles and Kilometers and your pace is recalculated instantly. As a rule of thumb, min/km is roughly min/mile divided by 1.609 — for example 8:00/mile is about 4:58/km."}}]}
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this pace calculator work?", "acceptedAnswer": {"@type": "Answer", "text": "Enter any two of distance, time, and pace, and the pace calculator solves for the third. It then projects your finish times for common races like the 5K, 10K, half marathon, and marathon."}}, {"@type": "Question", "name": "How do I calculate running pace?", "acceptedAnswer": {"@type": "Answer", "text": "Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically."}}, {"@type": "Question", "name": "Can it predict my race finish time?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It uses the Riegel formula (exponent 1.06) to predict fatigue-adjusted finish times for the 5K, 10K, half marathon, and marathon from your current effort — more realistic than assuming an identical pace over any distance."}}, {"@type": "Question", "name": "What is a good marathon pace?", "acceptedAnswer": {"@type": "Answer", "text": "A 4-hour marathon is about 9:09 per mile (5:41 per km); a sub-4:00 is a common goal for recreational runners. Elite men run close to 4:41 per mile. Enter your goal finish time and the calculator returns the exact pace you need to hold."}}, {"@type": "Question", "name": "How do I convert min/mile to min/km?", "acceptedAnswer": {"@type": "Answer", "text": "Switch the distance unit toggle between Miles and Kilometers and your pace is recalculated instantly. As a rule of thumb, min/km is roughly min/mile divided by 1.609 — for example 8:00/mile is about 4:58/km."}}]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HowTo","name":"How to calculate your running pace",
@@ -28,7 +28,7 @@
      {"@type":"HowToStep","position":1,"name":"Choose your unit","text":"Select Miles or Kilometers with the distance unit toggle."},
      {"@type":"HowToStep","position":2,"name":"Enter two values","text":"Type any two of distance, total time, and pace. Leave the value you want to find blank."},
      {"@type":"HowToStep","position":3,"name":"Read your pace","text":"The calculator instantly solves the missing value and shows your pace per mile or km."},
-     {"@type":"HowToStep","position":4,"name":"Check race projections","text":"Review projected finish times for the 5K, 10K, half marathon, and marathon at that pace."}
+     {"@type":"HowToStep","position":4,"name":"Check race predictions","text":"Review fatigue-adjusted (Riegel) finish time predictions for the 5K, 10K, half marathon, and marathon, plus training pace zones and a split table."}
    ]}
   </script>
 <style>
@@ -90,6 +90,11 @@
       color:var(--text-muted); cursor:pointer; transition:all .15s;
     }
     .preset-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .preset-btns { display:flex; gap:8px; flex-wrap:wrap; }
+    .byline { font-size:12.5px; color:var(--text-muted); margin-top:10px; }
+    .splits-table { width:100%; border-collapse:collapse; font-size:13.5px; margin-top:8px; }
+    .splits-table td { padding:5px 8px; border-bottom:0.5px solid var(--border); }
+    .splits-table td:last-child { text-align:right; font-variant-numeric:tabular-nums; }
     select {
       font-size:14px; padding:8px 12px; border-radius:var(--radius);
       border:0.5px solid var(--border); background:var(--bg); color:var(--text);
@@ -158,7 +163,8 @@
   <header>
     <div class="h1-emoji">🏃</div>
     <h1>Running Pace Calculator</h1>
-    <p>Enter any two of distance, time, or pace — and the calculator solves for the third. Plus predicted race finish times.</p>
+    <p>Enter any two of distance, time, or pace — the calculator solves the third, converts it to every unit, predicts fatigue-adjusted race finish times, builds your split table, and gives you training pace zones.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-13">July 13, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
   <div class="card">
@@ -170,6 +176,10 @@
   </div>
   <div class="card">
     <div class="card-title">Enter Any Two Fields</div>
+    <div class="field-row">
+      <label>Race preset</label>
+      <div class="preset-btns" id="racePresets"></div>
+    </div>
     <div class="field-row">
       <label>Distance</label>
       <input type="number" id="distance" min="0" step="0.01" placeholder="e.g. 5">
@@ -208,10 +218,10 @@
     <h3>How to use this pace calculator</h3>
     <ol>
       <li><strong>Pick your unit.</strong> Toggle between Miles and Kilometers at the top.</li>
+      <li><strong>Tap a race preset</strong> (1 Mile, 5K, 10K, Half, Marathon) to fill the distance instantly — or type any custom distance.</li>
       <li><strong>Enter any two fields.</strong> Fill in two of distance, total time, and pace — leave the one you want to find blank.</li>
-      <li><strong>Read your result.</strong> Your pace appears at the top of the results card the moment there's enough to solve.</li>
-      <li><strong>Check race projections.</strong> Scroll to see estimated 5K, 10K, half, and full marathon finish times at that pace.</li>
-      <li><strong>Set a goal.</strong> To find a target pace, enter a race distance and your goal finish time — the tool returns the pace you must hold.</li>
+      <li><strong>Read your results.</strong> You get your pace in both min/mi and min/km, your speed in mph and km/h, fatigue-adjusted race predictions, training pace zones, and a split table.</li>
+      <li><strong>Set a goal.</strong> To find a target pace, enter a race distance and your goal finish time — the tool returns the pace you must hold and the splits to check against your watch.</li>
     </ol>
 
     <h3>Common race distances</h3>
@@ -241,8 +251,20 @@
     <h3>Marathon and half marathon pace goals</h3>
     <p>Popular targets are the sub-2:00 half marathon (about 9:09 per mile) and the sub-4:00 marathon (about 9:09 per mile as well, held for 26.2 miles). A 5:00-per-mile pace is elite territory. Because fatigue builds over distance, most coaches suggest training slightly faster than goal pace on short intervals and slightly slower on long runs.</p>
 
-    <h3>Note on projected times</h3>
-    <p>Projected race times assume you can maintain your current pace over the full distance. In practice, pacing strategy, terrain, heat, and fatigue affect finish times significantly — longer races usually run a little slower per mile than short ones.</p>
+    <h3>Note on predicted times</h3>
+    <p>Race predictions use the <strong>Riegel formula</strong> (T₂ = T₁ × (D₂/D₁)<sup>1.06</sup>), the same fatigue model used by coaches and major running publications — so a longer race is predicted slightly slower per mile than your current effort, not naively extrapolated at even pace. Terrain, heat, and race-day conditions still matter, so treat predictions as a well-informed baseline.</p>
+
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>
+      <strong>Solver:</strong> Time = Distance × Pace; any two values determine the third.
+      <strong>Race predictions:</strong> Riegel endurance model with exponent 1.06 (Peter Riegel,
+      <em>Runner's World</em>, 1977 — "Athletic Records and Human Endurance," also published in
+      <em>American Scientist</em>, 1981). <strong>Training zones:</strong> offsets from your
+      Riegel-equivalent 5K pace — easy +90–120 s/mi, long run +60–90 s/mi, tempo/threshold +25–30 s/mi,
+      1600&nbsp;m intervals −5–10 s/mi — consistent with widely used coaching guidance (Daniels'
+      <em>Running Formula</em>). <strong>Splits:</strong> even-pace cumulative times.
+      Last reviewed: <time datetime="2026-07-13">July 13, 2026</time> by the <a href="/about">Toolchive Team</a>.
+    </p>
   </div>
 
   <div class="ad-slot" id="ad-content" aria-hidden="true"></div>
@@ -294,7 +316,7 @@
     <h3>How do I calculate running pace?</h3>
     <p>Pace is your time divided by distance, such as minutes per mile or per kilometer. Enter a run's distance and total time and the tool returns your pace automatically.</p>
     <h3>Can it predict my race finish time?</h3>
-    <p>Yes. From your pace it estimates finish times for the 5K, 10K, half, and full marathon. These assume you hold the same pace, so allow for fatigue over longer distances.</p>
+    <p>Yes. It uses the Riegel formula (exponent 1.06) to predict fatigue-adjusted finish times for the 5K, 10K, half, and full marathon from your current effort — the same model coaches use, more realistic than assuming you hold an identical pace forever.</p>
     <h3>What is a good marathon pace?</h3>
     <p>A 4-hour marathon is about 9:09 per mile (5:41 per km), a common goal for recreational runners. Elite men hold close to 4:41 per mile. Enter your goal finish time against the marathon distance and the calculator returns the exact pace you need.</p>
     <h3>How do I convert min/mile to min/km?</h3>
@@ -365,22 +387,49 @@
   </footer>
   <script>
     let unit='mi';
+
+    // Race presets: distances in miles and km
+    const RACES=[
+      {name:'1 Mile',mi:1,km:1.60934},
+      {name:'5K',mi:3.10686,km:5},
+      {name:'10K',mi:6.21371,km:10},
+      {name:'Half',mi:13.1094,km:21.0975},
+      {name:'Marathon',mi:26.2188,km:42.195},
+    ];
+
+    function renderPresets(){
+      document.getElementById('racePresets').innerHTML=RACES.map((r,i)=>
+        `<button class="preset-btn" id="preset-${i}" onclick="setRace(${i},this)">${r.name}</button>`
+      ).join('');
+    }
+    function setRace(i,btn){
+      const d=unit==='mi'?RACES[i].mi:RACES[i].km;
+      document.getElementById('distance').value=Number.isInteger(d)?d:d.toFixed(3);
+      document.querySelectorAll('#racePresets .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      calculate();
+    }
+
     function setUnit(u,btn){
       unit=u;
       document.getElementById('btn-mi').classList.toggle('active',u==='mi');
       document.getElementById('btn-km').classList.toggle('active',u==='km');
       document.getElementById('distUnit').textContent=u;
       document.getElementById('paceUnit').textContent='/ '+u;
+      // keep an active race preset in sync when switching units
+      const active=document.querySelector('#racePresets .preset-btn.active');
+      if(active){const i=parseInt(active.id.split('-')[1]);const d=u==='mi'?RACES[i].mi:RACES[i].km;document.getElementById('distance').value=Number.isInteger(d)?d:d.toFixed(3);}
       calculate();
     }
     function fmtTime(sec){
-      const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.round(sec%60);
+      const t=Math.round(sec);
+      const h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;
       if(h>0) return h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
       return m+':'+String(s).padStart(2,'0');
     }
     function fmtPace(secPerUnit){
-      const m=Math.floor(secPerUnit/60),s=Math.round(secPerUnit%60);
-      return m+':'+String(s).padStart(2,'0');
+      const t=Math.round(secPerUnit);
+      return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');
     }
     function numF(id){const v=parseFloat(document.getElementById(id).value); return isNaN(v)?null:v;}
     function calculate(){
@@ -398,17 +447,53 @@
       else if(hasTime&&hasPace&&!dist) solvedDist=totalTimeSec/paceSec;
 
       if(!solvedDist||!solvedTime||!solvedPace){
-        document.getElementById('resultsBody').innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted)">Enter any two fields above.</div>';
+        document.getElementById('resultsBody').innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted)">Enter any two fields above, or tap a race preset and add your time.</div>';
         return;
       }
 
-      const races=[
-        {name:'5K',d:unit==='mi'?3.10686:5},
-        {name:'10K',d:unit==='mi'?6.21371:10},
-        {name:'Half Marathon',d:unit==='mi'?13.1094:21.0975},
-        {name:'Marathon',d:unit==='mi'?26.2188:42.195},
+      // ── Pace conversions & speed ─────────────────────
+      const paceOther=unit==='mi'?solvedPace/1.60934:solvedPace*1.60934; // sec per other unit
+      const otherUnit=unit==='mi'?'km':'mi';
+      const distMi=unit==='mi'?solvedDist:solvedDist/1.60934;
+      const mph=distMi/(solvedTime/3600);
+      const kmh=mph*1.60934;
+
+      // ── Race predictions — Riegel formula T2 = T1 × (D2/D1)^1.06 ──
+      const raceRows=RACES.filter(r=>r.name!=='1 Mile').map(r=>{
+        const d2=unit==='mi'?r.mi:r.km;
+        const t2=solvedTime*Math.pow(d2/solvedDist,1.06);
+        return `<div class="result-row"><span class="result-label">${r.name==='Half'?'Half Marathon':r.name}</span><span class="result-value">${fmtTime(t2)}</span></div>`;
+      }).join('');
+
+      // ── Training pace zones (offsets from equivalent 5K pace; see Methodology) ──
+      const d5k=unit==='mi'?3.10686:5;
+      const t5k=solvedTime*Math.pow(d5k/solvedDist,1.06);
+      const p5k=t5k/d5k; // sec per current unit at 5K effort
+      const off=s=>unit==='mi'?s:s/1.60934; // offsets defined per mile → convert for km
+      const zones=[
+        {name:'Easy / recovery',lo:p5k+off(90),hi:p5k+off(120)},
+        {name:'Long run',lo:p5k+off(60),hi:p5k+off(90)},
+        {name:'Tempo / threshold',lo:p5k+off(25),hi:p5k+off(30)},
+        {name:'Interval (1600m reps)',lo:p5k-off(10),hi:p5k-off(5)},
       ];
-      const raceRows=races.map(r=>`<div class="result-row"><span class="result-label">${r.name}</span><span class="result-value">${fmtTime(r.d*solvedPace)}</span></div>`).join('');
+      const zoneRows=zones.map(z=>`<div class="result-row"><span class="result-label">${z.name}</span><span class="result-value">${fmtPace(z.lo)}–${fmtPace(z.hi)} /${unit}</span></div>`).join('');
+
+      // ── Split table (cumulative time at each whole unit) ──
+      const whole=Math.floor(solvedDist);
+      let splitRows='';
+      if(whole>=1){
+        const step=whole>15?5:1;
+        for(let i=step;i<=whole;i+=step){
+          splitRows+=`<tr><td>${i} ${unit}</td><td>${fmtTime(i*solvedPace)}</td></tr>`;
+        }
+        if(solvedDist>whole||whole%step!==0){
+          splitRows+=`<tr><td>${solvedDist.toFixed(2)} ${unit} (finish)</td><td>${fmtTime(solvedTime)}</td></tr>`;
+        }
+      }
+      const splitsBlock=splitRows?`
+        <div style="margin-top:20px;margin-bottom:4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Split times (even pace)</div>
+        <table class="splits-table"><tbody>${splitRows}</tbody></table>`:'';
+
       document.getElementById('resultsBody').innerHTML=`
         <div class="result-hero">
           <div class="result-hero-value">${fmtPace(solvedPace)}</div>
@@ -416,11 +501,19 @@
         </div>
         <div class="result-row"><span class="result-label">Distance</span><span class="result-value">${solvedDist.toFixed(2)} ${unit}</span></div>
         <div class="result-row"><span class="result-label">Total time</span><span class="result-value">${fmtTime(solvedTime)}</span></div>
-        <div class="result-row"><span class="result-label">Pace per ${unit}</span><span class="result-value">${fmtPace(solvedPace)} / ${unit}</span></div>
-        <div style="margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Projected finish times</div>
-        ${raceRows}`;
+        <div class="result-row"><span class="result-label">Pace per ${otherUnit}</span><span class="result-value">${fmtPace(paceOther)} / ${otherUnit}</span></div>
+        <div class="result-row"><span class="result-label">Speed</span><span class="result-value">${mph.toFixed(1)} mph · ${kmh.toFixed(1)} km/h</span></div>
+        <div style="margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Predicted race times (fatigue-adjusted)</div>
+        ${raceRows}
+        <div style="margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Training pace zones</div>
+        ${zoneRows}
+        ${splitsBlock}`;
     }
     ['distance','tHr','tMin','tSec','pMin','pSec'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+    document.getElementById('distance').addEventListener('input',()=>{
+      document.querySelectorAll('#racePresets .preset-btn').forEach(b=>b.classList.remove('active'));
+    });
+    renderPresets();
     calculate();
   </script>
 </body>
