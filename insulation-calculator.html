@@ -6,14 +6,14 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <title>Insulation Calculator — How Much Insulation Do I Need?</title>
-  <meta name="description" content="Free insulation calculator. Enter your wall, attic, or floor area to find out how many bags, rolls, or batts of insulation you need — with waste factor and total cost.">
+  <meta name="description" content="Free insulation calculator: bags, rolls, or batts by area with waste and cost — plus an R-value calculator for material layers, target R-value, and required thickness.">
   <meta name="keywords" content="insulation calculator, how much insulation do i need, attic insulation calculator, batt insulation calculator, blown in insulation calculator, insulation coverage calculator, insulation cost calculator">
   <link rel="canonical" href="https://toolchive.com/insulation-calculator">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolchive.com/insulation-calculator">
   <meta property="og:title" content="Insulation Calculator — How Much Do I Need?">
-  <meta property="og:description" content="Calculate bags, rolls, or batts of insulation by area and coverage — with waste factor and total cost.">
+  <meta property="og:description" content="Calculate insulation quantity and cost, plus total R-value from material layers or thickness needed for a target R-value.">
   <meta property="og:image" content="https://toolchive.com/og.png">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Insulation Calculator",
-    "description": "Calculate how many bags, rolls, or batts of insulation you need based on the area to cover and the coverage per package.",
+    "description": "Calculate insulation quantity (bags, rolls, batts) and cost by area, plus an R-value calculator: total R-value from material layers, or required thickness for a target R-value.",
     "url": "https://toolchive.com/insulation-calculator",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
@@ -200,6 +200,28 @@
       cursor: pointer;
       transition: all 0.15s;
     }
+
+    .byline { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
+
+    select.r-mat {
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      max-width: 210px;
+    }
+
+    .r-output {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 0.5px solid var(--border);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .r-output strong { font-size: 20px; color: var(--accent); }
 
     .preset-btn.active {
       background: var(--accent);
@@ -439,7 +461,8 @@
 
   <header>
     <h1><span class="h1-emoji">🧣</span> Insulation Calculator</h1>
-    <p>Enter the area you're insulating and the coverage per package to find out how many bags, rolls, or batts you need — with a waste factor and total cost.</p>
+    <p>Work out how many bags, rolls, or batts you need — with waste factor and total cost — plus an R-value calculator that turns material layers into total R-value, or a target R-value into the thickness you need.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-13">July 13, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -516,6 +539,43 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-title">R-value calculator</div>
+    <div class="field-row">
+      <label>Mode</label>
+      <div class="unit-toggle">
+        <button class="unit-btn active" id="btn-rlayers" onclick="setRMode('layers')">Layers → R-value</button>
+        <button class="unit-btn" id="btn-rtarget" onclick="setRMode('target')">Target R → thickness</button>
+      </div>
+    </div>
+    <div id="rLayersMode">
+      <div class="field-row">
+        <label>Layer 1</label>
+        <select class="r-mat" id="rMat1" onchange="calcR()"></select>
+        <input type="number" id="rTh1" value="6" min="0" step="0.5" style="width:80px">
+        <span class="input-suffix">in</span>
+      </div>
+      <div class="field-row">
+        <label>Layer 2 <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <select class="r-mat" id="rMat2" onchange="calcR()"></select>
+        <input type="number" id="rTh2" value="" min="0" step="0.5" placeholder="0" style="width:80px">
+        <span class="input-suffix">in</span>
+      </div>
+    </div>
+    <div id="rTargetMode" style="display:none">
+      <div class="field-row">
+        <label>Target R-value</label>
+        <input type="number" id="rTarget" value="38" min="0" step="1">
+        <span class="field-hint">Attic R-38–R-60 · walls R-13–R-21 · floors R-25–R-30.</span>
+      </div>
+      <div class="field-row">
+        <label>Material</label>
+        <select class="r-mat" id="rMatT" onchange="calcR()"></select>
+      </div>
+    </div>
+    <div class="r-output" id="rOutput"></div>
+  </div>
+
   <div class="results-card" id="resultsCard">
     <div id="resultsBody"></div>
   </div>
@@ -579,9 +639,11 @@
 
     <h3>R-value per inch by material</h3>
     <p>
-      To hit a target R-value, divide it by the material's R-value per inch to find the thickness you need.
-      For example, reaching R-38 with fiberglass batts (R-3.2/inch) takes about 12 inches, while closed-cell
-      spray foam gets there in under 6.
+      To hit a target R-value, divide it by the material's R-value per inch to find the thickness you need —
+      or skip the math and use the <strong>R-value calculator</strong> above: switch it to
+      <em>Target R → thickness</em>, or stack up to two material layers to get the total R-value of an
+      assembly. For example, reaching R-38 with fiberglass batts (R-3.2/inch) takes about 12 inches, while
+      closed-cell spray foam gets there in under 6.
     </p>
     <table class="ref-table">
       <thead>
@@ -589,11 +651,13 @@
       </thead>
       <tbody>
         <tr><td>🧵 Fiberglass batts</td><td>R-3.0 – 3.5</td><td>Walls, open floors</td></tr>
+        <tr><td>🪨 Mineral wool batts</td><td>R-3.0 – 3.4</td><td>Fire &amp; sound resistance</td></tr>
         <tr><td>💨 Blown fiberglass</td><td>~R-2.5</td><td>Attics</td></tr>
         <tr><td>📰 Cellulose (blown)</td><td>~R-3.5</td><td>Attics, retrofits</td></tr>
         <tr><td>🫧 Open-cell spray foam</td><td>~R-3.7</td><td>Walls, sound</td></tr>
         <tr><td>🧊 Closed-cell spray foam</td><td>~R-6.5</td><td>Tight spaces, moisture</td></tr>
-        <tr><td>🟦 Rigid foam board</td><td>R-4 – 6.5</td><td>Basements, exteriors</td></tr>
+        <tr><td>🟦 Rigid foam (XPS)</td><td>~R-5.0</td><td>Basements, exteriors</td></tr>
+        <tr><td>🟪 Rigid foam (polyiso)</td><td>~R-6.0</td><td>Roofs, sheathing</td></tr>
       </tbody>
     </table>
 
@@ -610,6 +674,18 @@
       </tbody>
     </table>
     <p style="font-size:13px">DIY fiberglass and cellulose fall at the lower end; professional spray-foam installs run $2–$5 per sq ft including labor.</p>
+
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>
+      <strong>Quantity:</strong> packages = area × (1 + waste%) ÷ coverage per package, rounded up — coverage
+      comes off the product label at your chosen R-value. <strong>R-value calculator:</strong> total R-value
+      of an assembly = Σ (material R-per-inch × thickness); required thickness = target R ÷ R-per-inch;
+      RSI (metric) = R ÷ 5.678. R-per-inch figures are typical mid-range values consistent with the table
+      above. <strong>Recommended R-values</strong> follow U.S. Department of Energy guidance and IECC climate-zone
+      minimums (<a href="https://www.energy.gov/energysaver/insulation" target="_blank" rel="noopener">energy.gov/energysaver/insulation</a>).
+      Cost ranges are estimates compiled from major U.S. retailer listings, not quotes. Last reviewed:
+      <time datetime="2026-07-13">July 13, 2026</time> by the <a href="/about">Toolchive Team</a>.
+    </p>
   </div>
 
   <div class="ad-slot" id="ad-content-2" aria-hidden="true"></div>
@@ -840,8 +916,64 @@
       document.getElementById(id).addEventListener('input', calculate)
     );
 
+    // ── R-value calculator ─────────────────────────────
+    // R-per-inch values match the reference table below (mid-range, typical aged values)
+    const RMATS = [
+      { name: 'Fiberglass batt', r: 3.2 },
+      { name: 'Mineral wool batt', r: 3.3 },
+      { name: 'Blown fiberglass', r: 2.5 },
+      { name: 'Blown cellulose', r: 3.5 },
+      { name: 'Open-cell spray foam', r: 3.7 },
+      { name: 'Closed-cell spray foam', r: 6.5 },
+      { name: 'Rigid foam (XPS)', r: 5.0 },
+      { name: 'Rigid foam (polyiso)', r: 6.0 },
+    ];
+    let rMode = 'layers';
+
+    function fillMats(id, def) {
+      document.getElementById(id).innerHTML = RMATS.map((m, i) =>
+        `<option value="${i}" ${i === def ? 'selected' : ''}>${m.name} (R-${m.r}/in)</option>`
+      ).join('');
+    }
+
+    function setRMode(m) {
+      rMode = m;
+      document.getElementById('btn-rlayers').classList.toggle('active', m === 'layers');
+      document.getElementById('btn-rtarget').classList.toggle('active', m === 'target');
+      document.getElementById('rLayersMode').style.display = m === 'layers' ? '' : 'none';
+      document.getElementById('rTargetMode').style.display = m === 'target' ? '' : 'none';
+      calcR();
+    }
+
+    function calcR() {
+      const out = document.getElementById('rOutput');
+      if (rMode === 'layers') {
+        const m1 = RMATS[+document.getElementById('rMat1').value];
+        const m2 = RMATS[+document.getElementById('rMat2').value];
+        const t1 = num('rTh1'), t2 = num('rTh2');
+        const total = m1.r * t1 + m2.r * t2;
+        if (total <= 0) { out.innerHTML = 'Enter a layer thickness to see the total R-value.'; return; }
+        const rsi = total / 5.678;
+        out.innerHTML = `Total: <strong>R-${total.toFixed(1)}</strong> &nbsp;(RSI ${rsi.toFixed(2)}) from ${(t1 + t2).toFixed(1)} in of insulation.`;
+      } else {
+        const m = RMATS[+document.getElementById('rMatT').value];
+        const target = num('rTarget');
+        if (target <= 0) { out.innerHTML = 'Enter a target R-value.'; return; }
+        const inches = target / m.r;
+        out.innerHTML = `You need <strong>${inches.toFixed(1)} in</strong> &nbsp;(${(inches * 2.54).toFixed(0)} cm) of ${m.name.toLowerCase()} to reach R-${target}.`;
+      }
+    }
+
+    ['rTh1','rTh2','rTarget'].forEach(id =>
+      document.getElementById(id).addEventListener('input', calcR)
+    );
+
     renderPresets();
+    fillMats('rMat1', 0);
+    fillMats('rMat2', 3);
+    fillMats('rMatT', 0);
     calculate();
+    calcR();
   </script>
 </body>
 </html>
