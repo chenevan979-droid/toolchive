@@ -79,6 +79,7 @@
     header { text-align: center; margin-bottom: 40px; max-width: 600px; }
     header h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
     header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+    .byline { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
 
     .card {
       background: var(--surface);
@@ -348,6 +349,7 @@
   <header>
     <h1><span class="h1-emoji">😴</span> Sleep Calculator</h1>
     <p>Wake up feeling refreshed by timing your alarm to the end of a sleep cycle — not the middle of one.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-14">July 14, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -419,6 +421,23 @@
       This calculator adds 14 minutes to your target time to account for average sleep-onset latency
       (how long it takes to fall asleep). If you fall asleep faster or slower, adjust accordingly.
       Naps also work best at 20 minutes (before deep sleep) or 90 minutes (one full cycle).
+    </p>
+
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>
+      <strong>How this calculator works:</strong> it counts backward or forward in <strong>90-minute
+      sleep cycles</strong> and adds about <strong>14 minutes</strong> of sleep-onset latency (the average
+      time to fall asleep). Waking at the end of a cycle — when sleep is lightest — helps you avoid the
+      grogginess (sleep inertia) of being woken mid-cycle. It highlights the options giving <strong>5–6
+      complete cycles (7.5–9 hours)</strong>, the range recommended for most adults.
+    </p>
+    <p>
+      <strong>Honest caveat:</strong> 90 minutes is an <em>average</em> — real cycles range roughly
+      70–120 minutes and lengthen toward morning, so treat the suggested times as a helpful guide, not a
+      medical prescription. <strong>Sources:</strong> the ~90-minute NREM/REM cycle and the 7–9 hour adult
+      sleep recommendation follow the general scientific consensus reflected by the U.S. CDC and the
+      National Sleep Foundation. If you have ongoing sleep problems, consult a doctor. Last reviewed:
+      <time datetime="2026-07-14">July 14, 2026</time> by the <a href="/about">Toolchive Team</a>.
     </p>
   </div>
 
