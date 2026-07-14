@@ -362,6 +362,7 @@
     .rel-emoji { font-size: 18px; }
       .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
     @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+      .byline { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
   </style>
   <script type="application/ld+json">
   {
@@ -413,6 +414,7 @@
   <header>
     <h1><span class="h1-emoji">🧱</span> Retaining Wall Calculator</h1>
     <p>Enter your wall length and height to find out how many blocks and cap blocks you need — plus base gravel — with a waste factor and total cost.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-14">July 14, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -546,7 +548,12 @@
     </table>
   </div>
 
-  <nav style="width:100%;max-width:640px;margin-top:56px">
+    <div class="about">
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>How this calculator works: it divides the wall face area (length × height) by the face area of one block to get the block count, adds a waste allowance, and accounts for base and cap courses where relevant. Sources: block-count method follows segmental retaining wall (SRW) manufacturer guidance; for walls over about 4 ft or those retaining slopes/surcharges, consult an engineer and local code. Estimates are for planning only. Last reviewed: <time datetime="2026-07-14">July 14, 2026</time> by the <a href="/about">Toolchive Team</a>.</p>
+  </div>
+
+<nav style="width:100%;max-width:640px;margin-top:56px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
     <div class="rel-grid">
       <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>

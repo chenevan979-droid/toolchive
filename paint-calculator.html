@@ -308,6 +308,7 @@
     .rel-emoji { font-size: 18px; }
       .ad-slot{display:block;width:100%;max-width:640px;margin:20px auto;min-height:90px;}
     @media(max-width:767px){.ad-slot{min-height:250px;max-width:300px;}}
+      .byline { font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
   </style>
   <script type="application/ld+json">
   {
@@ -359,6 +360,7 @@
   <header>
     <h1><span class="h1-emoji">🎨</span> Paint Calculator</h1>
     <p>Enter your room size to find out exactly how many gallons of paint you need — walls, ceiling, trim, doors, and multiple coats all accounted for.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-14">July 14, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -471,7 +473,12 @@
     <p>A typical wall — 10 ft wide and 8 ft tall — is <strong>80 sq ft</strong>. At 350–400 sq ft per gallon, a single quart handles one wall with one coat and most of a second coat. For a bold accent-wall color that needs two full coats, one quart is usually enough. If your wall is larger than 12 × 9 ft, step up to a half-gallon.</p>
   </div>
 
-  <nav style="width:100%;max-width:640px;margin-top:56px">
+    <div class="about">
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>How this calculator works: it takes your total wall (and optional ceiling) area, subtracts doors and windows, then divides by the paint's coverage per gallon and multiplies by the number of coats. One gallon typically covers 350–400 sq ft per coat on primed, smooth surfaces; rough or porous surfaces cover less. Sources: the 350–400 sq ft/gallon figure follows published coverage rates from major paint makers (e.g., Sherwin-Williams, Behr). Estimates are for planning only. Last reviewed: <time datetime="2026-07-14">July 14, 2026</time> by the <a href="/about">Toolchive Team</a>.</p>
+  </div>
+
+<nav style="width:100%;max-width:640px;margin-top:56px">
         <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:16px">More free calculators</div>
     <div class="rel-grid">
       <a class="rel-card" href="/tile-calculator"><span class="rel-emoji">🔲</span> Tile</a>
