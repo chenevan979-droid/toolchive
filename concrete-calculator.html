@@ -99,6 +99,12 @@
       line-height: 1.6;
     }
 
+    .byline {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
     .card {
       background: var(--surface);
       border: 0.5px solid var(--border);
@@ -410,6 +416,7 @@
   <header>
     <h1><span class="h1-emoji">🏗️</span> Concrete Calculator</h1>
     <p>Enter your dimensions to find out how many cubic yards or bags of concrete you need — for slabs, footings, columns, and steps.</p>
+    <div class="byline">By the <a href="/about">Toolchive Team</a> · Last updated <time datetime="2026-07-14">July 14, 2026</time> · <a href="#methodology">Methodology &amp; sources</a></div>
   </header>
   <main>
 
@@ -502,6 +509,23 @@
       Dampen the sub-base before pouring so it doesn't pull water from the concrete too fast.
       Work in sections for large slabs, and never add extra water to the mix — it weakens the
       finished concrete significantly. Control joints every 8–12 feet prevent cracking.
+    </p>
+
+    <h2 id="methodology">Methodology &amp; sources</h2>
+    <p>
+      <strong>How this calculator works:</strong> concrete is estimated by volume. Slabs and footings use
+      length × width × thickness; columns use π × radius² × height. All dimensions are converted to feet, and
+      the total cubic feet is divided by 27 to get cubic yards (1 yd³ = 27 ft³, by definition). Bag counts use
+      published dry-mix yields — a 40 lb bag ≈ 0.30 ft³, 60 lb ≈ 0.45 ft³, and 80 lb ≈ 0.60 ft³ — so bags =
+      total cubic feet ÷ bag yield, rounded up. A waste allowance of 5–10% is recommended for spillage and
+      uneven sub-base.
+    </p>
+    <p>
+      <strong>Sources:</strong> bag yields follow the manufacturer figures published by QUIKRETE® and Sakrete®
+      (standard 40/60/80 lb concrete mixes); the cubic-yard conversion and slab-thickness guidance follow common
+      U.S. residential concrete practice. Estimates are for planning only — order confirmation should be made with
+      your ready-mix supplier. Last reviewed: <time datetime="2026-07-14">July 14, 2026</time> by the
+      <a href="/about">Toolchive Team</a>.
     </p>
   </div>
 
