@@ -1,52 +1,36 @@
 # Toolchive 运营
 
-工作目录：网站前端 + 工具页面源码  
-PM：运营平台  
-上一级任务清单：`../toolchive-ops/CURRENT-TASKS.md`
+工作目录：网站前端 + 工具页面源码
+PM：运营平台
+全局交接入口：`../../交接总手册.md` ｜ 运营任务清单：`../toolchive-ops/CURRENT-TASKS.md`
 
 ---
 
-## 🔴 当前优先任务
+## ✅ 已完成（2026-07-10 ~ 07-14）
 
-### GA4 全站装配 + AdSense 内容充实
+1. **GA4 全站装配** — 59/59 页已装 `G-20L9E9M9KL`，后台已验证有数据（07-13 首次周报：周活 7 用户/38 事件）
+2. **AdSense** — 代码 `ca-pub-3907469815607655` 全站已装；**审核已在进行中（"已请求审核"），无需重申**，等 Google 结果
+3. **Top10 高曝光页（占全站 78% 曝光）全部优化** — 4 旗舰页功能升级（gravel/pace/insulation/siding）+ 7 页信任块；详见 `../toolchive-ops/竞品审计-2026-07-13.md` 执行记录
 
-**状态：进行中** (2026-07-10)
+## 🔵 当前状态：观察期（2026-07-15 起，2-4 周）
 
-**关键目标：**
-1. **GA4 装配** — 在所有 HTML 页面 `<head>` 末尾装入追踪代码
-   - 测量ID：`G-20L9E9M9KL`
-   
-2. **AdSense 内容充实** — 优先页面（按 GSC 曝光排序）
-   - pace-calculator (~72 曝光)
-   - gravel-calculator (~64 曝光)
-   - insulation-calculator (21 曝光)
-   - siding-calculator (21 曝光)
-
-   每页充实内容：长尾变体 + How-to + FAQ + 成本表格 + JSON-LD schema（500+ 字）
-
-**完成后：** Commit + push → 通知 PM → 用户检查 GA4 数据 → AdSense 重新申请
-
----
-
-## 📂 快速导航
-
-- **网站源码：** `./` (HTML/CSS/JS)
-- **任务详情：** `../toolchive-ops/CURRENT-TASKS.md`
-- **运营数据：** `../toolchive-ops/`（配置、脚本、数据监控）
-
----
+- **不再做 on-page 优化**（线以下 45 页低曝光，低 ROI，见 `../toolchive-ops/页面杠杆地图.md`）
+- 每周五 GSC 检查，对比基线（3个月 2,020 曝光 / 0 点击 / 排名 78.4），节奏见 `../toolchive-ops/观察期节奏.md`
+- 决策门约 07-29~08-12：旗舰页排名上移 → 评估加码；没动 → 重新诊断
+- 外链只用免费功夫（客座文/HARO），不买付费链接
 
 ## 🔧 本地开发
 
-```bash
-# 启动本地服务器（如配置）
-npm run dev
+- 预览：`python3 -m http.server 8080`（或 .claude/launch.json 的 toolchive-site）
+- 发布：push 到 GitHub main → 自动部署 toolchive.com
+- 项目级工作流命令：`.claude/commands/`（seo-check / deploy-check / adsense-check 等）
 
-# 查看所有工具和页面
-ls -la ./
-```
+## 质量红线
+
+- 文案承诺的功能必须真实存在（L2 一致性）
+- 方法论/来源真实可查，署名用 "Toolchive Team" 不虚构专家
+- 新内容上线前过 `../../通用质量检测框架.md` 六层检查
 
 ---
 
-**更新：** 2026-07-10  
-**PM：** 等待 GA4 + 内容充实完成后的 AdSense 重申
+**更新：** 2026-07-15
