@@ -874,6 +874,17 @@
       calculate();
     }
 
+    let calculatorInteracted=false, calculatorEventTimer;
+    document.addEventListener('input',()=>{calculatorInteracted=true},{capture:true});
+    document.addEventListener('click',e=>{if(e.target.closest('button,.material-card')) calculatorInteracted=true},{capture:true});
+    function trackCalculatorComplete(){
+      if(!calculatorInteracted) return;
+      clearTimeout(calculatorEventTimer);
+      calculatorEventTimer=setTimeout(()=>{
+        if(typeof gtag==='function') gtag('event','calculator_complete',{calculator_name:'gravel',unit_system:unit,shape:shape});
+      },1200);
+    }
+
     function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
 
     function calculate() {
@@ -956,6 +967,7 @@
         </div>
         ${costRow}
       `;
+      if(areaSqFt>0 && depthFt>0) trackCalculatorComplete();
     }
 
     ['length','width','diameter','triBase','triHeight','totalArea','depth','price','compaction','wastePct','customDensity'].forEach(id =>

@@ -396,6 +396,16 @@
       {name:'Half',mi:13.1094,km:21.0975},
       {name:'Marathon',mi:26.2188,km:42.195},
     ];
+    let calculatorInteracted=false, calculatorEventTimer;
+    document.addEventListener('input',()=>{calculatorInteracted=true},{capture:true});
+    document.addEventListener('click',e=>{if(e.target.closest('button')) calculatorInteracted=true},{capture:true});
+    function trackCalculatorComplete(){
+      if(!calculatorInteracted) return;
+      clearTimeout(calculatorEventTimer);
+      calculatorEventTimer=setTimeout(()=>{
+        if(typeof gtag==='function') gtag('event','calculator_complete',{calculator_name:'pace',unit_system:unit});
+      },1200);
+    }
 
     function renderPresets(){
       document.getElementById('racePresets').innerHTML=RACES.map((r,i)=>
@@ -508,6 +518,7 @@
         <div style="margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Training pace zones</div>
         ${zoneRows}
         ${splitsBlock}`;
+      trackCalculatorComplete();
     }
     ['distance','tHr','tMin','tSec','pMin','pSec'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
     document.getElementById('distance').addEventListener('input',()=>{

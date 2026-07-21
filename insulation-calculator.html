@@ -859,6 +859,17 @@
       calculate();
     }
 
+    let calculatorInteracted=false, calculatorEventTimer;
+    document.addEventListener('input',()=>{calculatorInteracted=true},{capture:true});
+    document.addEventListener('click',e=>{if(e.target.closest('button')) calculatorInteracted=true},{capture:true});
+    function trackCalculatorComplete(){
+      if(!calculatorInteracted) return;
+      clearTimeout(calculatorEventTimer);
+      calculatorEventTimer=setTimeout(()=>{
+        if(typeof gtag==='function') gtag('event','calculator_complete',{calculator_name:'insulation',unit_system:unit,calculation_mode:mode});
+      },1200);
+    }
+
     function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
 
     function calculate() {
@@ -910,6 +921,7 @@
         </div>
         ${costRow}
       `;
+      if(areaSqFt>0 && coverage>0) trackCalculatorComplete();
     }
 
     ['totalArea','dimL','dimW','coverage','price','waste'].forEach(id =>

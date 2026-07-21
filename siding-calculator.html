@@ -898,6 +898,17 @@
       calculate();
     }
 
+    let calculatorInteracted=false, calculatorEventTimer;
+    document.addEventListener('input',()=>{calculatorInteracted=true},{capture:true});
+    document.addEventListener('click',e=>{if(e.target.closest('button')) calculatorInteracted=true},{capture:true});
+    function trackCalculatorComplete(){
+      if(!calculatorInteracted) return;
+      clearTimeout(calculatorEventTimer);
+      calculatorEventTimer=setTimeout(()=>{
+        if(typeof gtag==='function') gtag('event','calculator_complete',{calculator_name:'siding',unit_system:unit});
+      },1200);
+    }
+
     function num(id) { return Math.max(0, parseFloat(document.getElementById(id).value) || 0); }
 
     function calculate() {
@@ -999,6 +1010,7 @@
         ${costRow}
         ${accRows}
       `;
+      if(net>0) trackCalculatorComplete();
     }
 
     ['boxCov','priceBox','waste','doors','windows','largeOpen','corners'].forEach(id =>
