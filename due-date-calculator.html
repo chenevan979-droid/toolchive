@@ -312,13 +312,15 @@
     }
 
     var msPerDay = 86400000;
-    var gestationalDaysFromToday = Math.floor((today.getTime() - lmpDate.getTime()) / msPerDay);
+    var calendarDay = function(d) { return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); };
+    var gestationalDaysFromToday = Math.round((calendarDay(today) - calendarDay(lmpDate)) / msPerDay);
     var currentWeek = Math.floor(gestationalDaysFromToday / 7);
     var currentDay = gestationalDaysFromToday % 7;
-    var daysRemaining = Math.ceil((edd.getTime() - today.getTime()) / msPerDay);
+    var daysRemaining = Math.round((calendarDay(edd) - calendarDay(today)) / msPerDay);
 
     var trimester;
-    if (currentWeek <= 12) trimester = '1st trimester';
+    if (gestationalDaysFromToday < 0) trimester = 'Not yet started';
+    else if (currentWeek <= 12) trimester = '1st trimester';
     else if (currentWeek <= 27) trimester = '2nd trimester';
     else trimester = '3rd trimester';
 
@@ -326,7 +328,7 @@
     var anatomyScan = addDays(lmpDate, 140);
     var fullTerm = addDays(lmpDate, 259);
 
-    var weekLabel = currentWeek > 0 ? 'Week ' + currentWeek + ' + ' + currentDay + ' day' + (currentDay !== 1 ? 's' : '') : 'Not yet started';
+    var weekLabel = gestationalDaysFromToday >= 0 ? 'Week ' + currentWeek + ' + ' + currentDay + ' day' + (currentDay !== 1 ? 's' : '') : 'Not yet started';
 
     var html = '<div class="result-hero">';
     html += '<div class="result-hero-value">' + fmtDate(edd) + '</div>';
@@ -335,10 +337,10 @@
 
     html += '<div class="result-row"><span class="result-label">Current week of pregnancy</span><span class="result-value">' + weekLabel + '</span></div>';
     html += '<div class="result-row"><span class="result-label">Trimester</span><span class="result-value">' + trimester + '</span></div>';
-    html += '<div class="result-row"><span class="result-label">Days remaining</span><span class="result-value">' + (daysRemaining > 0 ? daysRemaining + ' days' : 'Past due date') + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Days remaining</span><span class="result-value">' + (daysRemaining > 0 ? daysRemaining + ' days' : daysRemaining === 0 ? 'Due today' : 'Past due date') + '</span></div>';
     html += '<div class="result-row"><span class="result-label">1st trimester ends</span><span class="result-value">' + fmtShort(firstTrimEnd) + '</span></div>';
     html += '<div class="result-row"><span class="result-label">Anatomy scan (~20 wks)</span><span class="result-value">' + fmtShort(anatomyScan) + '</span></div>';
-    html += '<div class="result-row"><span class="result-label">Full term (37 wks)</span><span class="result-value">' + fmtShort(fullTerm) + '</span></div>';
+    html += '<div class="result-row"><span class="result-label">Early term (37 wks)</span><span class="result-value">' + fmtShort(fullTerm) + '</span></div>';
     html += '<div class="notice">Estimated due date is calculated using Naegele\'s rule and may differ from your doctor\'s dating based on ultrasound measurements. Only your healthcare provider can confirm your due date.</div>';
 
     document.getElementById('resultsBody').innerHTML = html;

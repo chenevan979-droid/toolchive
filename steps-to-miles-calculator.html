@@ -241,7 +241,8 @@ function setUnit(u) {
   if (u === currentUnit) return;
   if (u === 'metric') {
     var ft = parseFloat(document.getElementById('heightFt').value) || 5;
-    var inches = parseFloat(document.getElementById('heightIn').value) || 7;
+    var inches = parseFloat(document.getElementById('heightIn').value);
+    if (!Number.isFinite(inches)) inches = 7;
     var totalIn = ft * 12 + inches;
     document.getElementById('heightCm').value = Math.round(totalIn * 2.54);
     var lbs = parseFloat(document.getElementById('weight').value) || 160;
@@ -278,7 +279,8 @@ function calc() {
 
   if (currentUnit === 'imperial') {
     var ft = parseFloat(document.getElementById('heightFt').value) || 5;
-    var ins = parseFloat(document.getElementById('heightIn').value) || 7;
+    var ins = parseFloat(document.getElementById('heightIn').value);
+    if (!Number.isFinite(ins)) ins = 7;
     heightInches = ft * 12 + ins;
     strideFt = heightInches * 0.413 / 12;
     strideCm = strideFt * 30.48;
